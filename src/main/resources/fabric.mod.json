@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "earthbounds",
+  "version": "${version}",
+  "name": "Earthbounds",
+  "description": "",
+  "authors": [
+    "Klyser8"
+  ],
+  "contact": {
+    "Discord": "Klyser8#9052"
+  },
+  "license": "MIT",
+  "icon": "assets/trinkets/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.github.klyser8.earthbounds.client.EarthboundsClient"
+    ],
+    "main": [
+      "com.github.klyser8.earthbounds.Earthbounds"
+    ]
+  },
+  "mixins": [
+    "earthbounds.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.11",
+    "fabric": "*",
+    "minecraft": "1.18.1"
+  }
+}
