@@ -1,6 +1,8 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
 import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
@@ -9,25 +11,29 @@ import net.minecraft.block.Blocks;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class EarthboundItems {
 
     public static final Item DEBUG_ITEM = new Item(new FabricItemSettings().rarity(Rarity.EPIC)) {
         @Override
         public ActionResult useOnBlock(ItemUsageContext context) {
-            BlockPos origin = context.getBlockPos();
+            System.out.println(context.getWorld().getEntitiesByType(EarthboundEntities.RUBRO, Box.of(Vec3d.ofCenter(context.getBlockPos()),
+                    2, 2, 2), rubroEntity -> rubroEntity.getPower() >= 0));
+            return super.useOnBlock(context);
+            /*BlockPos origin = context.getBlockPos();
             World world = context.getWorld();
             int xLength = 12;
             int yDepth = -8;
@@ -35,8 +41,8 @@ public class EarthboundItems {
             if (!world.isClient) {
                 for (int y = -yDepth; y > yDepth; y--) {
                     int absY = Math.abs(y);
-                    int modX = xLength - world.random.nextInt(3) - absY /*/ (Math.abs(y - 1))*/;
-                    int modZ = zLength - world.random.nextInt(3) - absY/*/ (Math.abs(y - 1))*/;
+                    int modX = xLength - world.random.nextInt(3) - absY *//*//* (Math.abs(y - 1))*//*;
+                    int modZ = zLength - world.random.nextInt(3) - absY*//*//* (Math.abs(y - 1))*//*;
                     for (int x = Math.round(-(modX / 2.0f)) + world.random.nextInt(6) - 2; x < Math.round(modX / 2.0f) + world.random.nextInt(6) - 2; x++) {
                         for (int z = Math.round(-(modZ / 2.0f)) + world.random.nextInt(6) - 2; z < Math.round(modZ / 2.0f) + world.random.nextInt(6) - 2; z++) {
                             BlockPos.Mutable mutable = origin.mutableCopy().add(x, y, z).mutableCopy();
@@ -58,8 +64,7 @@ public class EarthboundItems {
                     }
                 }
                 createHole(world, origin, (int) (xLength / 1.5), -(yDepth + 2));
-            }
-            return super.useOnBlock(context);
+            }*/
         }
 
         private void createHole(World world, BlockPos origin, int radius, int height) {
@@ -133,5 +138,18 @@ public class EarthboundItems {
                 new Identifier(Earthbounds.MOD_ID, "carboranea_spawn_egg"), CARBORANEA_SPAWN_EGG);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
+
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
+                new BlockItem(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "gilded_redstone_fossil"),
+                new BlockItem(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_redstone_fossil"),
+                new BlockItem(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
+                new BlockItem(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
     }
 }

@@ -6,14 +6,20 @@ import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
 import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.RubroEntityRenderer;
+import com.github.klyser8.earthbounds.mixin.SpawnRestrictionsAccessor;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.Heightmap;
+import net.minecraft.world.biome.Biome;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
@@ -26,8 +32,18 @@ public class EarthboundEntities {
 
     public static final EntityType<RubroEntity> RUBRO = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "rubro"),
+            FabricEntityTypeBuilder.createMob()
+                    .spawnGroup(SpawnGroup.CREATURE)
+                    .entityFactory(RubroEntity::new)
+                    .dimensions(EntityDimensions.changing(1.0f, 0.8f))
+                    .spawnRestriction(SpawnRestriction.Location.ON_GROUND,
+                            Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubroEntity::checkMobSpawn)
+                    .build());
+    /*
+    public static final EntityType<RubroEntity> RUBRO = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "rubro"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, RubroEntity::new)
-                    .dimensions(EntityDimensions.fixed(1f, 1f)).build());
+                    .dimensions(EntityDimensions.fixed(0.8f, 1f)).build());*/
 
     public static final EntityType<CoalChunkEntity> COAL_CHUNK = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "coal_chunk"),
@@ -39,12 +55,22 @@ public class EarthboundEntities {
         EntityRendererRegistry.register(RUBRO, RubroEntityRenderer::new);
         EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
         createEntityAttributes();
+
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.UNDERGROUND, Biome.Category.MOUNTAIN),
+                SpawnGroup.CREATURE, EarthboundEntities.RUBRO, 100, 1, 3);
+//        registerEntitySpawnRestrictions();
+    }
+
+    private static void registerEntitySpawnRestrictions() {
+        SpawnRestrictionsAccessor.invokeRegister(RUBRO, SpawnRestriction.Location.ON_GROUND,
+                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubroEntity::checkMobSpawn);
     }
 
     private static void createEntityAttributes() {
         FabricDefaultAttributeRegistry.register(CARBORANEA, CarboraneaEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(RUBRO, RubroEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(COAL_CHUNK, CoalChunkEntity.createAttributes());
+
     }
 
 }

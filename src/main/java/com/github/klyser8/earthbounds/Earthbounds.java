@@ -1,9 +1,6 @@
 package com.github.klyser8.earthbounds;
 
-import com.github.klyser8.earthbounds.registry.EarthboundEntities;
-import com.github.klyser8.earthbounds.registry.EarthboundItems;
-import com.github.klyser8.earthbounds.registry.EarthboundParticles;
-import com.github.klyser8.earthbounds.registry.EarthboundSounds;
+import com.github.klyser8.earthbounds.registry.*;
 import com.github.klyser8.earthbounds.registry.features.EarthboundFeatures;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +29,7 @@ public class Earthbounds implements ModInitializer {
         EarthboundItems.register();
         EarthboundSounds.register();
         EarthboundParticles.register();
+        EarthboundBlocks.register();
         LOGGER.info("Hello Fabric world!");
     }
 

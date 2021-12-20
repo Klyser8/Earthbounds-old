@@ -1,8 +1,11 @@
 package com.github.klyser8.earthbounds.entity.model;
 
+import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
+import com.github.klyser8.earthbounds.entity.Earthen;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
+import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.provider.data.EntityModelData;
@@ -11,6 +14,19 @@ public class RubroEntityModel extends EarthboundMobModel<RubroEntity> {
 
     public RubroEntityModel() {
         super(EarthboundEntities.RUBRO);
+    }
+
+    /**
+     * Rubros may have a deepslate variant.
+     */
+    @Override
+    public Identifier getTextureLocation(RubroEntity entity) {
+        String prefix = "";
+        if (entity.isDeepslate()) {
+            prefix = "deepslate_";
+        }
+        return new Identifier(Earthbounds.MOD_ID, "textures/entity/" + entityKey + "/" +
+                prefix + entityKey + ".png");
     }
 
     /**

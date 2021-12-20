@@ -4,7 +4,8 @@
   "package": "com.github.klyser8.earthbounds.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "AbstractFurnaceBlockEntityAccessor"
+    "AbstractFurnaceBlockEntityAccessor",
+    "SpawnRestrictionsAccessor"
   ],
   "client": [
   ],

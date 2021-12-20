@@ -173,7 +173,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
 
     private <E extends IAnimatable> PlayState shakingPredicate(AnimationEvent<E> event) {
         if (dataTracker.get(ANIMATION_SHAKE_TIME) > 0) {
-            System.out.println(dataTracker.get(ANIMATION_SHAKE_TIME) );
             dataTracker.set(ANIMATION_SHAKE_TIME, dataTracker.get(ANIMATION_SHAKE_TIME) - 1);
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("shake", true));

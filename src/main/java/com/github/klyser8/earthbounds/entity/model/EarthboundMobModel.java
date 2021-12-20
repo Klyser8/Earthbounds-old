@@ -29,7 +29,7 @@ public class EarthboundMobModel<T extends Earthen> extends AnimatedGeoModel<T> {
 
     @Override
     public Identifier getTextureLocation(Earthen object) {
-        return new Identifier(Earthbounds.MOD_ID, "textures/entity/" + entityKey + ".png");
+        return new Identifier(Earthbounds.MOD_ID, "textures/entity/" + entityKey + "/" + entityKey + ".png");
     }
 
     @Override
