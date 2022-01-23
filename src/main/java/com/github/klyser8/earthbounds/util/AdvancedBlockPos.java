@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class AdvancedBlockPos {
 
-    private BlockPos pos;
-    private BlockPos north, east, south, west, up, down;
+    private final BlockPos pos;
+    private final BlockPos north, east, south, west, up, down;
 
     public AdvancedBlockPos(BlockPos pos) {
         this.pos = pos;
@@ -25,38 +25,38 @@ public class AdvancedBlockPos {
     }
 
     /**
-     * Returns all the adjacent block positions to the main block (as a list).
+     * Returns all the adjacent block positions to the main block (as an array).
      */
-    public List<BlockPos> getAllFaces() {
-        return List.of(north, east, south, west, up, down);
+    public BlockPos[] getAllFaces() {
+        return new BlockPos[]{north, east, south, west, up, down};
     }
 
     public BlockPos getPos() {
-        return pos;
+        return new BlockPos(pos);
     }
 
 
     public BlockPos north() {
-        return north;
+        return new BlockPos(north);
     }
 
     public BlockPos east() {
-        return east;
+        return new BlockPos(east);
     }
 
     public BlockPos south() {
-        return south;
+        return new BlockPos(south);
     }
 
     public BlockPos west() {
-        return west;
+        return new BlockPos(west);
     }
 
     public BlockPos up() {
-        return up;
+        return new BlockPos(up);
     }
 
     public BlockPos down() {
-        return down;
+        return new BlockPos(down);
     }
 }

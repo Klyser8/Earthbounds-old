@@ -1,8 +1,6 @@
 package com.github.klyser8.earthbounds.entity.model;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
-import com.github.klyser8.earthbounds.entity.Earthen;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
 import net.minecraft.util.Identifier;
@@ -38,7 +36,7 @@ public class RubroEntityModel extends EarthboundMobModel<RubroEntity> {
         IBone head = this.getAnimationProcessor().getBone("head");
         EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
         if (head != null) {
-            head.setRotationX(extraData.headPitch * ((float) Math.PI / 300F));
+            head.setRotationX(extraData.headPitch * ((float) Math.PI / 150F));
             head.setRotationY(extraData.netHeadYaw * ((float) Math.PI / 270F));
         }
 

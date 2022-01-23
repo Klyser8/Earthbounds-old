@@ -2,15 +2,11 @@ package com.github.klyser8.earthbounds.entity.renderer;
 
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
-import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
-import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 

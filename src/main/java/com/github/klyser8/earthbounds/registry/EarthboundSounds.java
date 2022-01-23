@@ -26,6 +26,17 @@ public class EarthboundSounds {
     public static final SoundEvent CARBORANEA_BUCKET_FILL = new SoundEvent(
             new Identifier(MOD_ID, "entity.carboranea.bucket_fill"));
 
+    public static final SoundEvent RUBRO_AMBIENT = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.ambient"));
+    public static final SoundEvent RUBRO_CREAK = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.creak"));
+    public static final SoundEvent RUBRO_ACTIVE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.active"));
+    public static final SoundEvent RUBRO_CHARGE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.charge"));
+    public static final SoundEvent RUBRO_HURT = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.hurt"));
+
     public static void register() {
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_AMBIENT.getId(), CARBORANEA_AMBIENT);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_SHAKE.getId(), CARBORANEA_SHAKE);
@@ -36,5 +47,10 @@ public class EarthboundSounds {
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_DEATH.getId(), CARBORANEA_DEATH);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_BUCKET_FILL.getId(), CARBORANEA_BUCKET_FILL);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_BUCKET_EMPTY.getId(), CARBORANEA_BUCKET_EMPTY);
+
+        Registry.register(Registry.SOUND_EVENT, RUBRO_AMBIENT.getId(), RUBRO_AMBIENT);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_CREAK.getId(), RUBRO_CREAK);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_ACTIVE.getId(), RUBRO_ACTIVE);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_HURT.getId(), RUBRO_HURT);
     }
 }

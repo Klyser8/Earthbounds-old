@@ -16,6 +16,8 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
@@ -25,25 +27,19 @@ import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
 public class EarthboundEntities {
 
-    public static final EntityType<CarboraneaEntity> CARBORANEA = Registry.register(Registry.ENTITY_TYPE,
-            new Identifier(MOD_ID, "carboranea"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, CarboraneaEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.5f, 0.4f)).build());
+    public static final EntityType<CarboraneaEntity> CARBORANEA = FabricEntityTypeBuilder
+            .create(SpawnGroup.CREATURE, CarboraneaEntity::new)
+            .dimensions(EntityDimensions.fixed(0.5f, 0.4f))
+            .build();
 
-    public static final EntityType<RubroEntity> RUBRO = Registry.register(Registry.ENTITY_TYPE,
-            new Identifier(MOD_ID, "rubro"),
+    public static final EntityType<RubroEntity> RUBRO =
             FabricEntityTypeBuilder.createMob()
                     .spawnGroup(SpawnGroup.CREATURE)
                     .entityFactory(RubroEntity::new)
-                    .dimensions(EntityDimensions.changing(1.0f, 0.8f))
+                    .dimensions(EntityDimensions.changing(0.95f, 0.8f))
                     .spawnRestriction(SpawnRestriction.Location.ON_GROUND,
                             Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubroEntity::checkMobSpawn)
-                    .build());
-    /*
-    public static final EntityType<RubroEntity> RUBRO = Registry.register(Registry.ENTITY_TYPE,
-            new Identifier(MOD_ID, "rubro"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, RubroEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.8f, 1f)).build());*/
+                    .build();
 
     public static final EntityType<CoalChunkEntity> COAL_CHUNK = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "coal_chunk"),
@@ -51,6 +47,10 @@ public class EarthboundEntities {
                     .dimensions(EntityDimensions.fixed(0.2f, 0.2f)).build());
 
     public static void register() {
+        Registry.register(Registry.ENTITY_TYPE,
+                new Identifier(MOD_ID, "carboranea"), CARBORANEA);
+        Registry.register(Registry.ENTITY_TYPE,
+                new Identifier(MOD_ID, "rubro"), RUBRO);
         EntityRendererRegistry.register(CARBORANEA, CarboraneaEntityRenderer::new);
         EntityRendererRegistry.register(RUBRO, RubroEntityRenderer::new);
         EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
