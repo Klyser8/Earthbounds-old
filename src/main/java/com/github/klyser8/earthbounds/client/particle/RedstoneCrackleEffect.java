@@ -3,36 +3,41 @@ package com.github.klyser8.earthbounds.client.particle;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.AbstractDustParticleEffect;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.BlockPos;
 
-public class RuneParticleEffect extends AnimatedParticle {
+public class RedstoneCrackleEffect extends AnimatedParticle {
 
-    public RuneParticleEffect(ClientWorld world, double x, double y, double z,
-                              double velX, double velY, double velZ,
-                              SpriteProvider spriteProvider) {
+    public RedstoneCrackleEffect(ClientWorld world, double x, double y, double z,
+                                 double velX, double velY, double velZ,
+                                 SpriteProvider spriteProvider) {
         super(world, x, y, z, spriteProvider, 0);
         this.velocityX = velX;
         this.velocityY = velY;
         this.velocityZ = velZ;
-        this.scale = 0.1f;
+        this.scale = 0.15f;
         this.setSpriteForAge(spriteProvider);
         this.collidesWithWorld = false;
-        this.maxAge = 14 + this.random.nextInt(4);
+        this.maxAge = 10 + this.random.nextInt(2);
         colorGreen = 0;
         colorBlue = 0;
-        colorRed = 1;
+        colorRed = 0.8f;
     }
 
     @Override
     public ParticleTextureSheet getType() {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+    }
+
+    @Override
+    public int getBrightness(float tint) {
+        BlockPos blockPos = new BlockPos(this.x, this.y, this.z);
+        if (this.world.isChunkLoaded(blockPos)) {
+            return WorldRenderer.getLightmapCoordinates(this.world, blockPos);
+        }
+        return 0;
     }
 
     @Environment(EnvType.CLIENT)
@@ -45,7 +50,8 @@ public class RuneParticleEffect extends AnimatedParticle {
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld,
                                        double d, double e, double f, double g, double h, double i) {
-            return new RuneParticleEffect(clientWorld, d, e, f, g, h, i, this.spriteProvider);
+            return new RedstoneCrackleEffect(clientWorld, d, e, f, g, h, i,
+                    this.spriteProvider);
         }
     }
 

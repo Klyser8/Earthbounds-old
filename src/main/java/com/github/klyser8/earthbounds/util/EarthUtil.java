@@ -1,6 +1,7 @@
 package com.github.klyser8.earthbounds.util;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
@@ -12,6 +13,7 @@ public class EarthUtil {
 
     /**
      * Checks whether the entity has blocked the most recent instance of damage or not.
+     * @deprecated should simply use {@link LivingEntity#blockedByShield(DamageSource)}
      */
     public static boolean hasBlockedMostRecentDamage(LivingEntity entity) {
         return entity.getDamageTracker().getMostRecentDamage() != null
@@ -77,7 +79,6 @@ public class EarthUtil {
      */
     public static boolean isEntityLookingAtEntity(LivingEntity looker, LivingEntity lookedAt) {
         Vec3d lookerRotation = looker.getRotationVec(1.0f).normalize();
-        //TODO Looking detection should be fixed!
         lookerRotation = new Vec3d(lookerRotation.x, lookerRotation.y, lookerRotation.z);
         Vec3d vec = new Vec3d(
                 lookedAt.getX() - looker.getX(),
@@ -90,6 +91,16 @@ public class EarthUtil {
             return looker.canSee(lookedAt);
         }
         return false;
+    }
+
+    /**
+     * Calculates the jump height of an entity given the jump velocity.
+     *
+     * @param jumpVelocity the entity's jump velocity
+     * @return the jump height in blocks.
+     */
+    public static float calculateJumpHeight(float jumpVelocity) {
+        return jumpVelocity * 2.25f;
     }
 
 }

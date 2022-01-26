@@ -22,6 +22,6 @@ public interface AbstractFurnaceBlockEntityAccessor {
     int getBurnTime();
 
     @Accessor("burnTime")
-    public void setBurnTime(int burnTime);
+    void setBurnTime(int burnTime);
 
 }

@@ -1,6 +1,8 @@
 package com.github.klyser8.earthbounds.client;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.registry.EarthboundEntities;
+import com.github.klyser8.earthbounds.registry.EarthboundParticles;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -16,5 +18,7 @@ public class EarthboundsClient implements ClientModInitializer {
      */
     @Override
     public void onInitializeClient() {
+        EarthboundEntities.registerRenderers();
+        EarthboundParticles.registerFactories();
     }
 }

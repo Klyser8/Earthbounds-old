@@ -4,12 +4,16 @@ import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeature;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeatureConfig;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.Feature;
+
+import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
 public class EarthboundFeatures {
 
@@ -18,11 +22,11 @@ public class EarthboundFeatures {
     public static void setupAndRegister() {
         EarthboundPlacedFeatures placedFeatures = new EarthboundPlacedFeatures();
         EarthboundConfiguredFeatures configuredFeatures = new EarthboundConfiguredFeatures();
-        Registry.register(Registry.FEATURE, new Identifier(Earthbounds.MOD_ID, "coal_den"), COAL_DEN);
+        Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "coal_den"), COAL_DEN);
         configuredFeatures.register();
         placedFeatures.register();
 
-        BiomeModifications.create(new Identifier(Earthbounds.MOD_ID, "add_small_coal_den")).add(
+        BiomeModifications.create(new Identifier(MOD_ID, "add_small_coal_den")).add(
                 ModificationPhase.ADDITIONS,
                 (context) -> {
                     Biome.Category category = context.getBiome().getCategory();
@@ -31,6 +35,20 @@ public class EarthboundFeatures {
                 },
                 (biomeSelectionContext, biomeModificationContext) -> biomeModificationContext.getGenerationSettings().
                         addBuiltInFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, EarthboundPlacedFeatures.SMALL_COAL_DEN));
+
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                        new Identifier(MOD_ID, "overworld_redstone_fossil")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                        new Identifier(MOD_ID, "overworld_gilded_redstone_fossil")));
+
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                        new Identifier(MOD_ID, "overworld_deepslate_redstone_fossil")));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+                RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                        new Identifier(MOD_ID, "overworld_deepslate_gilded_redstone_fossil")));
     }
 
 }

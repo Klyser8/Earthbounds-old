@@ -106,9 +106,11 @@ public class CoalChunkEntity extends MobEntity implements Conductive, IAnimatabl
         if (getCurrentHeat() > MAX_HEAT / 8) {
             List<Entity> entities = world.getOtherEntities(this, calculateBoundingBox());
             for (Entity entity : entities) {
-                if (entity.isFireImmune() || entity instanceof CoalChunkEntity) continue;
-                entity.setFireTicks(20);
-                entity.damage(DamageSource.ON_FIRE, getCurrentHeat() / 100);
+                if (entity.isFireImmune()
+                        || entity instanceof CoalChunkEntity
+                        || !(entity instanceof LivingEntity living)) continue;
+                living.setOnFireFor(1);
+                living.damage(DamageSource.IN_FIRE, getCurrentHeat() / 100);
             }
         }
         for (double x = -0.5; x < 1.5; x++) {

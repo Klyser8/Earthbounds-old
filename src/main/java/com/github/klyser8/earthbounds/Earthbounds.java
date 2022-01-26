@@ -3,6 +3,10 @@ package com.github.klyser8.earthbounds;
 import com.github.klyser8.earthbounds.registry.*;
 import com.github.klyser8.earthbounds.registry.features.EarthboundFeatures;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.world.biome.Biome;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
@@ -30,7 +34,7 @@ public class Earthbounds implements ModInitializer {
         EarthboundSounds.register();
         EarthboundParticles.register();
         EarthboundBlocks.register();
-        LOGGER.info("Hello Fabric world!");
+        EarthboundEnchantments.register();
     }
 
 }

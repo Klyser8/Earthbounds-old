@@ -236,8 +236,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
     /**
      * Heat should always stay between 0 and {@link CarboraneaEntity#MAX_HEAT}
      * @param period how often the heat should be updated
-     *
-     * @return
      */
     @Override
     public float updateHeat(int period) {
@@ -323,6 +321,11 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
     @Override
     protected SoundEvent getAmbientSound() {
         return isBaby() ? null : EarthboundSounds.CARBORANEA_AMBIENT;
+    }
+
+    @Override
+    public EntityGroup getGroup() {
+        return EarthboundEntityGroup.EARTHEN;
     }
 
     @Override
@@ -491,9 +494,7 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
 
         @Override
         public boolean canStart() {
-            boolean t = super.canStart();
-            return t;
-//                System.out.println("X: " + targetX + ", Y: " + targetY + ", Z: " + targetZ + ", Heat source: " + Conductive.isPosHeatSource(world, new BlockPos(targetX, targetY, targetZ)));
+            return super.canStart();
         }
 
         @Override

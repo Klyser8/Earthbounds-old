@@ -22,6 +22,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.decorator.HeightmapPlacementModifier;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
@@ -34,11 +35,11 @@ public class EarthboundEntities {
 
     public static final EntityType<RubroEntity> RUBRO =
             FabricEntityTypeBuilder.createMob()
-                    .spawnGroup(SpawnGroup.CREATURE)
+                    .spawnGroup(SpawnGroup.AMBIENT)
                     .entityFactory(RubroEntity::new)
                     .dimensions(EntityDimensions.changing(0.95f, 0.8f))
-                    .spawnRestriction(SpawnRestriction.Location.ON_GROUND,
-                            Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubroEntity::checkMobSpawn)
+                    .spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                            RubroEntity::checkMobSpawn)
                     .build();
 
     public static final EntityType<CoalChunkEntity> COAL_CHUNK = Registry.register(Registry.ENTITY_TYPE,
@@ -51,21 +52,21 @@ public class EarthboundEntities {
                 new Identifier(MOD_ID, "carboranea"), CARBORANEA);
         Registry.register(Registry.ENTITY_TYPE,
                 new Identifier(MOD_ID, "rubro"), RUBRO);
-        EntityRendererRegistry.register(CARBORANEA, CarboraneaEntityRenderer::new);
-        EntityRendererRegistry.register(RUBRO, RubroEntityRenderer::new);
-        EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
+
         createEntityAttributes();
 
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.UNDERGROUND, Biome.Category.MOUNTAIN),
-                SpawnGroup.CREATURE, EarthboundEntities.RUBRO, 100, 1, 3);
+        BiomeModifications.addSpawn(BiomeSelectors.all(),
+                SpawnGroup.AMBIENT, EarthboundEntities.RUBRO, 36, 1, 2);
 //        registerEntitySpawnRestrictions();
     }
 
-    private static void registerEntitySpawnRestrictions() {
-        SpawnRestrictionsAccessor.invokeRegister(RUBRO, SpawnRestriction.Location.ON_GROUND,
-                Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RubroEntity::checkMobSpawn);
+    public static void registerRenderers() {
+        EntityRendererRegistry.register(CARBORANEA, CarboraneaEntityRenderer::new);
+        EntityRendererRegistry.register(RUBRO, RubroEntityRenderer::new);
+        EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static void createEntityAttributes() {
         FabricDefaultAttributeRegistry.register(CARBORANEA, CarboraneaEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(RUBRO, RubroEntity.createAttributes());

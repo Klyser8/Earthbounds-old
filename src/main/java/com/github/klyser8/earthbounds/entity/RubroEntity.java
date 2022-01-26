@@ -13,6 +13,7 @@ import com.github.klyser8.earthbounds.util.EarthUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.RedstoneOreBlock;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -55,7 +56,6 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.ParticleKeyFrameEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
@@ -64,7 +64,7 @@ import java.util.*;
 
 import static com.github.klyser8.earthbounds.util.EarthMath.dirBetweenVecs;
 
-public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen {
+public class RubroEntity extends PathAwareEntity implements Earthen {
 
     public static final int POWER_LIMIT = 200;
     private static final int TAIL_SPIN_ANIMATION_DURATION = 36; //in ticks
@@ -101,8 +101,6 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
     private static final TrackedData<Boolean> STANDING = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.BOOLEAN);
 
-    private RubroActiveSoundInstance activeSoundInstance = null;
-
     private static final int STATE_NONE = 0;
     private static final int STATE_DIGGING = 1;
     private static final int STATE_POUNCING = 2;
@@ -116,15 +114,15 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         factory = new AnimationFactory(this);
         this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
         this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
-        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
-        this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0F);
+        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
+        this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0F);
     }
 
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
                                  @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        if (getY() > -60 && getY() < 15) {
+        if (getY() < 0) {
             setDeepslate(true);
         }
         if (isDeepslate()) {
@@ -152,11 +150,11 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
 
     @Override
     protected void initGoals() {
-        goalSelector.add(0, new MoveToRedstoneGoal(300, 100));
+        goalSelector.add(0, new MoveToRedstoneGoal(60));
         goalSelector.add(1, new RubroAttackGoal());
         goalSelector.add(2, new RubroEscapeTargetGoal());
         goalSelector.add(3, new EscapeAttackerGoal(this, 1.2f));
-        goalSelector.add(4, new WanderAroundGoal(this, 1.0f));
+        goalSelector.add(4, new WanderAroundFarGoal(this, 1.0f));
         goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 10.0f));
         goalSelector.add(6, new LookAroundGoal(this) {
             @Override
@@ -185,27 +183,27 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("deepslate")) {
-            setDeepslate(nbt.getBoolean("deepslate"));
+        if (nbt.contains("Deepslate")) {
+            setDeepslate(nbt.getBoolean("Deepslate"));
         }
-        if (nbt.contains("fromFossil")) {
-            setFromFossil(nbt.getBoolean("fromFossil"));
+        if (nbt.contains("FromFossil")) {
+            setFromFossil(nbt.getBoolean("FromFossil"));
         }
-        if (nbt.contains("goldSkull")) {
-            setGoldSkull(nbt.getBoolean("goldSkull"));
+        if (nbt.contains("GoldSkull")) {
+            setGoldSkull(nbt.getBoolean("GoldSkull"));
         }
-        if (nbt.contains("power")) {
-            updatePower(nbt.getInt("power"));
+        if (nbt.contains("Power")) {
+            updatePower(nbt.getInt("Power"));
         }
     }
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("deepslate", isDeepslate());
-        nbt.putBoolean("fromFossil", isFromFossil());
-        nbt.putBoolean("goldSkull", hasGoldSkull());
-        nbt.putInt("power", getPower());
+        nbt.putBoolean("Deepslate", isDeepslate());
+        nbt.putBoolean("FromFossil", isFromFossil());
+        nbt.putBoolean("GoldSkull", hasGoldSkull());
+        nbt.putInt("Power", getPower());
     }
 
     /**
@@ -213,6 +211,7 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
      */
     @SuppressWarnings("ConstantConditions")
     private void createDeepslateAttributes() {
+        getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(6);
         getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(25);
         getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.23);
         getAttributeInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(15);
@@ -224,9 +223,9 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
     protected void initDataTracker() {
         super.initDataTracker();
         dataTracker.startTracking(MAX_POWER, 100 + random.nextInt(10) * 10);
-        dataTracker.startTracking(HAS_GOLD_SKULL, random.nextFloat() < 0.1f);
+        dataTracker.startTracking(HAS_GOLD_SKULL, false);
         dataTracker.startTracking(FROM_FOSSIL, false);
-        dataTracker.startTracking(DEEPSLATE, random.nextBoolean());
+        dataTracker.startTracking(DEEPSLATE, false);
         dataTracker.startTracking(POWER, 0);
         dataTracker.startTracking(CURRENT_ORE, ItemStack.EMPTY);
         dataTracker.startTracking(BLOCK_TARGET_POS, getBlockPos());
@@ -289,10 +288,6 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
                 "move", 10, this::movementPredicate));
     }
 
-    private <T extends IAnimatable> void particleListener(ParticleKeyFrameEvent<T> event) {
-//        world.addParticle(new DustParticleEffect(new Vec3f(0.5f, 0.5f, 0.5f), 1.0f));
-    }
-
     @Override
     public EntityDimensions getDimensions(EntityPose pose) {
         float height = super.getDimensions(pose).height;
@@ -315,7 +310,8 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
 
     @Override
     protected float getJumpVelocity() {
-        return (0.42f + getPower() / 4000.0f) * this.getJumpVelocityMultiplier();
+        float materialMultiplier = isDeepslate() ? 0.0f : 0.05f;
+        return (0.42f + getPower() / 4000.0f) * this.getJumpVelocityMultiplier() + materialMultiplier;
     }
 
     @Override
@@ -365,8 +361,9 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
     @Override
     public void tick() {
         super.tick();
-        if (getTarget() != null) {
-            setGlowing(EarthUtil.isEntityLookingAtEntity(getTarget(), this));
+        if (!world.isClient && age % 5 == 0 && getPower() > getMaxPower() * 0.4) {
+            ((ServerWorld) world).spawnParticles(EarthboundParticles.REDSTONE_CRACKLE, getParticleX(0.5),
+                    getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
         }
         if (age % 20 == 0) {
             calculateDimensions();
@@ -375,8 +372,8 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             }
         }
         for (BlockPos pos : ignoredBlocks.keySet()) {
-            //A rubro can dig up the same redstone ore block once every 5 minutes.
-            if (age - ignoredBlocks.get(pos) > 6000) {
+            //A rubro can dig up the same redstone ore block once every 30 seconds.
+            if (age - ignoredBlocks.get(pos) > 600) {
                 ignoredBlocks.remove(pos);
                 break;
             }
@@ -385,11 +382,9 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
 
     @Override
     public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
-        System.out.println("Power: " + getPower());
         ActionResult result = super.interactAt(player, hitPos, hand);
-        if (world.isClient) return result;
-        ItemStack mainStack = player.getMainHandStack();
-        ItemStack offStack = player.getOffHandStack();
+        if (world.isClient) return ActionResult.FAIL;
+        ItemStack mainStack = player.getStackInHand(hand);
         if (hand == Hand.MAIN_HAND && getPower() < getMaxPower()) {
             int pow = 0;
             if (mainStack.isOf(Items.REDSTONE)) {
@@ -402,28 +397,17 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
                     mainStack.decrement(1);
                 }
                 updatePower(getPower() + pow);
-            }
-            return result;
-        }
-        return result;
-    }
-
-    @Override
-    public boolean canSpawn(WorldView world) {
-        /*for (int x = -5; x < 5; x++) {
-            for (int y = -5; y < 5; y++) {
-                for (int z = -5; z < 5; z++) {
-                    if (isBlockPowering(world.getBlockState(new BlockPos(
-                            getX() + x, getY() + y, getZ() + z)).getBlock())) {
-                        return super.canSpawn(world);
-                    }
+                if (!world.isClient) {
+                    world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_EAT,
+                            SoundCategory.NEUTRAL, 0.35f + pow / 20f, 0.9f + random.nextFloat() / 5.0f);
+                    world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_CHARGE,
+                            SoundCategory.NEUTRAL, 0.35f + pow / 20f, 0.9f + random.nextFloat() / 5.0f);
                 }
+                playPowerupParticles();
+                return ActionResult.SUCCESS;
             }
-        }*/
-//        if (getY() > -60 && getY() < 15) {
-        return super.canSpawn(world);
-//        }
-//        return false;
+        }
+        return ActionResult.FAIL;
     }
 
     @Override
@@ -461,6 +445,17 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         return EarthboundSounds.RUBRO_HURT;
     }
 
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return EarthboundSounds.RUBRO_DEATH;
+    }
+
+    @Override
+    public EntityGroup getGroup() {
+        return EarthboundEntityGroup.EARTHEN;
+    }
+
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         if (random.nextDouble() < 0.1) {
@@ -479,7 +474,6 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         if (!world.isClient) {
             this.playSound(EarthboundSounds.RUBRO_CREAK, 0.5f, 0.8f + random.nextFloat() / 2.5f);
             if (getPower() > getMaxPower() * 0.4 && random.nextDouble() < 0.1) {
-                System.out.println("YO");
                 ItemEntity item = new ItemEntity(world, getX(), getY() + 0.5, getZ(), Items.REDSTONE.getDefaultStack());
                 item.setStack(Items.REDSTONE.getDefaultStack());
                 item.setToDefaultPickupDelay();
@@ -490,22 +484,48 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         return super.damage(source, amount);
     }
 
+    /**
+     * Checks if the rubro is in the condition to spawn in a given location.
+     *
+     * @param type The type of the entity
+     * @param world The world which the entity may spawn in
+     * @param spawnReason the reason of the spawn
+     * @param pos the spawn position
+     * @return whether the mob is allowed to spawn at the location.
+     */
     public static boolean checkMobSpawn(EntityType<? extends MobEntity> type, WorldAccess world,
                                         SpawnReason spawnReason, BlockPos pos, Random random) {
-//        System.out.println(pos.getY());
-//        System.out.println("spawnReason = " + spawnReason);
-        if (spawnReason == SpawnReason.NATURAL && pos.getY() > -60 && pos.getY() < 15) {
-//            System.out.println("pos = " + pos);
-            return canMobSpawn(type, world, spawnReason, pos, random);
+        if ((spawnReason == SpawnReason.NATURAL || spawnReason == SpawnReason.CHUNK_GENERATION)
+                && pos.getY() > -60 && pos.getY() < 25) {
+
+            for (int x = -10; x < 10; x++) {
+                for (int y = -5; y < 5; y++) {
+                    for (int z = -10; z < 10; z++) {
+                        AdvancedBlockPos redstonePos = new AdvancedBlockPos(
+                                new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z));
+                        //Block is required to be both powering and have one face exposed to air.
+                        if (isBlockPowering(world.getBlockState(redstonePos.getPos()).getBlock())) {
+                            boolean isExposedToAir = false;
+                            for (BlockPos loopPos : redstonePos.getAllFaces()) {
+                                //Block exposed to air may not be below.
+                                if (loopPos.equals(redstonePos.down())) {
+                                    continue;
+                                }
+                                if (world.getBlockState(loopPos).isAir()) {
+                                    isExposedToAir = true;
+                                    break;
+                                }
+                            }
+                            return RubroEntity.canMobSpawn(type, world, spawnReason, pos, random) && isExposedToAir;
+                        }
+                    }
+                }
+            }
         }
         return false;
     }
 
-    @Override
-    public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
-//        System.out.println("pos = ");
-        return super.canSpawn(world, spawnReason);
-    }
+
 
     /**
      * Checks if the current block can power up a Rubro.
@@ -513,12 +533,19 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
      * @param block the block to check
      * @return if the block is powering
      */
-    private boolean isBlockPowering(Block block) {
+    private static boolean isBlockPowering(Block block) {
         return block.equals(Blocks.REDSTONE_ORE) || block.equals(Blocks.DEEPSLATE_REDSTONE_ORE) ||
                 block.equals(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK) ||
                 block.equals(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK) ||
                 block.equals(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK) ||
                 block.equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
+    }
+
+    private void playPowerupParticles() {
+        for (int i = 0; i < 10; i++) {
+            ((ServerWorld) world).spawnParticles(DustParticleEffect.DEFAULT, getParticleX(0.5),
+                    getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
+        }
     }
 
     @Override
@@ -570,12 +597,13 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
      */
     @SuppressWarnings("ConstantConditions")
     public void updatePower(int power) {
+        System.out.println("Damage: " + getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
         dataTracker.set(POWER, Math.max(power, 0));
         EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         instance.removeModifier(POWER_DAMAGE_BOOST_ID);
         instance.addTemporaryModifier(
                 new EntityAttributeModifier(POWER_DAMAGE_BOOST_ID, "power_damage_boost",
-                        1 + getPower() / 150.0, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+                        1 + getPower() / 100.0, EntityAttributeModifier.Operation.MULTIPLY_BASE));
 
         instance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         instance.removeModifier(POWER_SPEED_BOOST_ID);
@@ -623,10 +651,10 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         private int digTicks;
         private final int cooldown;
 
-        public MoveToRedstoneGoal(int cooldown, int digTicks) {
+        public MoveToRedstoneGoal(int cooldown) {
             setControls(EnumSet.of(Control.MOVE, Control.LOOK));
             this.cooldown = cooldown;
-            this.digTicks = digTicks;
+            this.digTicks = 100 + random.nextInt(60);
             this.startDigTicks = digTicks;
             pathDestination = null;
             lastAttemptTime = world.getTime() - cooldown + 10;
@@ -635,26 +663,38 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         /**
          * Whether the goal can start or not.
          * For the goal to start:
-         * - At least {@link #cooldown} must have passed since the last attempt.
-         * - The rubro must not be following a path
-         * - The rubro's state must be: {@link #STATE_NONE}
-         * - the Rubro looks for a valid powering block. If it's found, the goal starts.
-         * - If the rubro's power is below 40% of its max, it will start the goal. Otherwise...
-         * - It will perform a random check. The higher the power, the lower the chance of success
+         * - The entity's state must be {@link #STATE_NONE}
+         * - If the rubro is healthy:
+         *   1. Goal must not be on cooldown
+         *   2. Rubro must not be already on a path
+         *   3. Rubro must be below 40% power OR succeed a random check which is
+         *      more likely to fail the more power is stored
+         * - If unhealthy, it may skip the 3 checks above.
+         * - The rubro must find a valid powering block
+         * - The rubro must not have dug the block before
          * @return true if the goal can start
          */
         @Override
         public boolean canStart() {
-            if (world.getTime() - lastAttemptTime < cooldown) {
+            boolean isHealthy = getHealth() > getMaxHealth() / 3;
+            boolean canStart = true;
+            if (getEntityState() != STATE_NONE) {
+                return false;
+            }
+            //Cooldown, current goal and current power are ignored when low on HP.
+            if (isHealthy && EarthUtil.isOnCooldown(world.getTime(), lastAttemptTime, cooldown)) {
                 return false;
             }
             lastAttemptTime = world.getTime();
-            if (getNavigation().isFollowingPath()) {
-                return false;
+            if (isHealthy) {
+                if (getNavigation().isFollowingPath()) {
+                    return false;
+                }
+                if (getPower() > getMaxPower() * 0.4) {
+                    canStart = random.nextInt(getPower() / 5) == 0;
+                }
             }
-            if (getPower() > getMaxPower() * 0.4
-                    && random.nextInt(getPower()) != 0
-                    && getHealth() > getMaxHealth() / 3) {
+            if (!canStart) {
                 return false;
             }
             AdvancedBlockPos advPos = findValidPoweringBlock();
@@ -664,19 +704,8 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             if (ignoredBlocks.containsKey(advPos.getPos())) {
                 return false;
             }
-            boolean start = false;
-            if (getEntityState() == STATE_NONE) {
-                if (getPower() < getMaxPower() * 0.4) {
-                    start = true;
-                } else {
-                    start = random.nextInt(getPower()) == 0;
-                }
-            }
-            if (start) {
-                pathDestination = advPos.getPos();
-                return true;
-            }
-            return false;
+            pathDestination = advPos.getPos();
+            return true;
         }
 
         /**
@@ -774,6 +803,11 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
                 yLevel -= 10;
             }
             getLookControl().lookAt(getBlockTargetPos().getX() + 0.5, yLevel, getBlockTargetPos().getZ() + 0.5);
+            //Lights up redstone ore when being dug
+            if (world.getBlockState(getBlockTargetPos()).getBlock() instanceof RedstoneOreBlock redstone) {
+                redstone.onSteppedOn(world, getBlockTargetPos(),
+                        world.getBlockState(getBlockTargetPos()), RubroEntity.this);
+            }
             setBodyYaw(getHeadYaw());
             if (digTicks % 4 - Math.round(getPower() / 100.0) == 0) {
                 if (!world.isClient) {
@@ -793,7 +827,7 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             if (digTicks % 15 == 0) {
                 if (!world.isClient) {
                     world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_CHARGE,
-                            SoundCategory.NEUTRAL, 0.25f, 0.9f + random.nextFloat() / 5.0f);
+                            SoundCategory.HOSTILE, 0.25f, 0.9f + random.nextFloat() / 5.0f);
                 }
                 playPowerupParticles();
             }
@@ -880,20 +914,19 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             Vec3d particleLoc = getEyePos();
             Vec3d dir = dirBetweenVecs(particleLoc,
                     Vec3d.ofCenter(getBlockTargetPos().mutableCopy().setY((int) getEyeY())));
-            particleLoc = particleLoc.add(dir.multiply(0.8, -0.6, 0.8));
+            double xMult = 0.6;
+            double yMult = -0.6;
+            double zMult = 0.6;
+            if (!isStanding()) {
+                yMult = getY() >= 0 ? 3.5 : -0.6;
+            }
+            particleLoc = particleLoc.add(dir.multiply(xMult, yMult, zMult));
             ((ServerWorld)world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK,
                             world.getBlockState(getBlockTargetPos())),
                     particleLoc.x,
                     particleLoc.y,
                     particleLoc.z,
                     10, 0, 0, 0, 0);
-        }
-
-        private void playPowerupParticles() {
-            for (int i = 0; i < 10; i++) {
-                ((ServerWorld) world).spawnParticles(/*DustParticleEffect.DEFAULT*/EarthboundParticles.RUNE, getParticleX(0.5),
-                        getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
-            }
         }
     }
 
@@ -908,9 +941,9 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         //whether the rubro has airstruck yet or not during a pounce
         private boolean hasAirStruck = false;
         //the pounce's cooldown
-        private final int spinCooldown = 100;
+        private final int spinCooldown;
         //the pounce's cooldown
-        private final int pounceCooldown = 120;
+        private final int pounceCooldown;
         //how many ticks the entity can be idle before the goal is stopped
         private final int maxIdleTime = 30;
         //how many ticks are left till the spin is over
@@ -920,16 +953,25 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
         //the default minimum leap distance
         private final double defaultMinLeapDistance = 3.0;
         //the default maximum leap distance
-        private final double defaultMaxLeapDistance = 4.0;
+        private final double defaultMaxLeapDistance;
 
         public RubroAttackGoal() {
             setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
             lastPounceTime = world.getTime() - calculatePounceCooldown() + 30;
             lastPounceTime = world.getTime();
+            if (isDeepslate()) {
+                this.spinCooldown = 70;
+                this.pounceCooldown = 70;
+                this.defaultMaxLeapDistance = 4.0;
+            } else {
+                this.spinCooldown = 50;
+                this.pounceCooldown = 50;
+                this.defaultMaxLeapDistance = 6.0;
+            }
         }
 
         /**
-         * - This goal can only be attempted once every 100 ticks.
+         * - This goal can only be attempted once every 20 ticks.
          * - If the Rubro's power is lower than 40% of the max power,
          *   returns false.
          * - It checks that the rubro has a target, and it is not dead.
@@ -954,7 +996,8 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             if (getEntityState() != STATE_NONE) {
                 return false;
             }
-            if (world.getTime() - lastPounceTime < pounceCooldown) {
+            if (EarthUtil.isOnCooldown(world.getTime(), lastPounceTime, pounceCooldown)
+                    || EarthUtil.isOnCooldown(world.getTime(), lastSpinTime, spinCooldown) ) {
                 return false;
             }
             return true;
@@ -994,7 +1037,9 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             if (target.isSpectator() || (target instanceof PlayerEntity && ((PlayerEntity)target).isCreative())) {
                 return false;
             }
-            if (idleTime >= maxIdleTime && getEntityState() != STATE_POUNCING && getEntityState() != STATE_SPINNING) {
+            if (idleTime >= maxIdleTime
+                    && getEntityState() != STATE_POUNCING
+                    && getEntityState() != STATE_SPINNING) {
                 return false;
             }
             //If the spin attack is on cooldown, it means it has been executed at least once.
@@ -1046,54 +1091,54 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             LivingEntity target = getTarget();
             updateIdleTime();
             double eyeToFootDistance = getEyePos().distanceTo(getTarget().getPos());
-            if (isPounceOnCooldown() && isOnGround() && getEntityState() == STATE_POUNCING) {
-                setEntityState(STATE_NONE);
-                hasAirStruck = false;
-            }
             setSprinting(eyeToFootDistance > calculateMaxLeapDistance() && !getNavigation().isIdle());
-            //If the rubro is spinning, the tail spin time should decrease by 1 each tick.
             if (target == null) {
                 return;
             }
             if (isOnGround()) {
                 lookAtEntity(getTarget(), 30.0f, 30.0f);
             }
+            //If the pounce is on cooldown, the rubro is on the ground and has a pouncing state... It is done pouncing.
+            //Logic required to be before the pounce in order to work. Weird.
+            if (EarthUtil.isOnCooldown(world.getTime(), lastPounceTime, pounceCooldown)
+                    && isOnGround() && getEntityState() == STATE_POUNCING) {
+                setEntityState(STATE_NONE);
+            }
             //Pounces the target if rubro's not doing anything, is at leap distance and is not on cooldown.
+            //Additionally, it may only pounce if the spin attack is not on cooldown too.
             if (getEntityState() == STATE_NONE
                     && eyeToFootDistance <= calculateMaxLeapDistance()
                     && eyeToFootDistance >= defaultMinLeapDistance
                     && canSee(target)
-                    && !isPounceOnCooldown() &&
-                    EarthUtil.isEntityLookingAtEntity(RubroEntity.this, getTarget())) {
+                    && !EarthUtil.isOnCooldown(world.getTime(), lastPounceTime, pounceCooldown)
+                    && !EarthUtil.isOnCooldown(world.getTime(), lastSpinTime, spinCooldown)
+                    && EarthUtil.isEntityLookingAtEntity(RubroEntity.this, getTarget())) {
                 pounce();
             }
             //If the rubro is pouncing, strikes the target when close.
             if (getEntityState() == STATE_POUNCING) {
                 if (getEyePos().distanceTo(target.getEyePos()) <= 1.5 && !hasAirStruck) {
-                    System.out.println("STRIKE");
                     airStrike();
                 }
             }
-            if (getEntityState() == STATE_NONE || getEntityState() == STATE_SPINNING) {
-                //Rubro may ignore the default cooldown if it just pounced its target!
-                if ((EarthUtil.isOnCooldown(world.getTime(), lastSpinTime, spinCooldown) &&
-                        (EarthUtil.isOnCooldown(world.getTime(), lastPounceTime, pounceCooldown))
-                        || Math.abs(getTarget().getY() - getY()) > 2)) {
-                    return;
-                }
-                //If the rubro is too far to spin, it should move to the target. Otherwise, spin away!
-                if (eyeToFootDistance < defaultMinLeapDistance) {
-                    //If the rubro's state is none, it means the spin has not begun yet Start it!
-                    if (getEntityState() == STATE_NONE) {
-                        setEntityState(STATE_SPINNING);
-                        tailSpinTime = TAIL_SPIN_ANIMATION_DURATION + 1;
-                    }
-                    attemptTailSpin();
+            //if the rubro has a null state, and has air struck + is on ground OR
+            //is closer than X to player and is not on cooldown, try tail spinning.
+            if (getEntityState() == STATE_NONE
+                    && ((hasAirStruck && isOnGround()) || (eyeToFootDistance <= defaultMinLeapDistance && !EarthUtil.isOnCooldown(world.getTime(), lastSpinTime, spinCooldown)))) {
+                //Will attempt the tail spin if it is close enough to the target. Otherwise, it will get closer to it.
+                if (eyeToFootDistance <= defaultMinLeapDistance) {
+                    setEntityState(STATE_SPINNING);
+                    tailSpinTime = TAIL_SPIN_ANIMATION_DURATION + 1;
                 } else {
                     getNavigation().startMovingTo(getTarget(), 1.0);
                 }
             }
-            System.out.println("Tail Spin: " + tailSpinTime);
+            if (getEntityState() == STATE_SPINNING) {
+                if (tailSpinTime > 0) {
+                    tailSpinTime--;
+                }
+                attemptTailSpin();
+            }
         }
 
         /**
@@ -1103,13 +1148,17 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
          */
         protected void pounce() {
             setEntityState(STATE_POUNCING);
-            Vec3d targetPos = getTarget().isOnGround() ? getTarget().getEyePos() : getTarget().getPos();
+            Vec3d targetPos = getTarget().getEyePos().add(0, 1, 0);
+//            Vec3d targetPos = getTarget().isOnGround() ? getTarget().getEyePos() : getTarget().getPos();
             double hyp = getEyePos().distanceTo(targetPos);
             double opp = targetPos.y - getEyeY();
             float sin = (float) Math.sin(opp / hyp);
             float forceMultiplier = 1.22407623745f - sin;
-            leap(dirBetweenVecs(getPos(), getTarget().isOnGround() ? getTarget().getEyePos() : getTarget().getPos()),
-                    1.3f + getPower() / 500.0f, (1.3f + getPower() / 500.0f) * forceMultiplier);
+            //Deepslate rubros leap slower
+            float materialMultiplier = isDeepslate() ? 1.0f : 1.15f;
+            leap(dirBetweenVecs(getPos(), targetPos),
+                    (1.3f + getPower() / 500.0f) * materialMultiplier,
+                    ((1.3f + getPower() / 500.0f) * forceMultiplier) * materialMultiplier);
             setCollides(false);
             lastPounceTime = world.getTime();
             getNavigation().stop();
@@ -1127,7 +1176,7 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
                     return new TranslatableText(string, entity.getDisplayName(), this.source.getDisplayName());
                 }
             };
-            float damage = (float) getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+            float damage = (float) getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.2f;
             //If the target is a player, deal default damage. Otherwise, double it!
             target.damage(source, target instanceof PlayerEntity ? damage : damage * 2);
             hasAirStruck = true;
@@ -1138,32 +1187,37 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
                 target.setVelocity(getVelocity());
             }
             //If the entity blocked the attack, bounce back the rubro
-            if (EarthUtil.hasBlockedMostRecentDamage(target)) {
+            if (target.blockedByShield(source)) {
+                System.out.println("Damage blocked: " + damage);
                 setVelocity(getVelocity().negate());
             }
         }
 
         protected void attemptTailSpin() {
             if (tailSpinTime > 0) {
-                tailSpinTime--;
                 //Different times at which damage should be dealt (done to match the animation)
                 int firstSpinHalfway = (int) (TAIL_SPIN_ANIMATION_DURATION / 3.4);
                 int secondSpinHalfway = (int) (TAIL_SPIN_ANIMATION_DURATION / 1.3);
                 //Times at which the two spins begin. Used in case the rubro needs to jump before spinning
                 int firstSpinBegin = TAIL_SPIN_ANIMATION_DURATION;
                 int secondSpinBegin = TAIL_SPIN_ANIMATION_DURATION / 2;
+                boolean isOutOfReach = Math.abs(getY() - getTarget().getY()) > 0.5;
+                Vec3d dir = dirBetweenVecs(getPos(), getTarget().getPos());
                 //If the rubro is on the ground and the target entity is 1+ block above it, then it shoudld jump before
                 //doing the tail spin attack
-                if (isOnGround() && Math.abs(getY() - getTarget().getY()) > 1 && getTarget().getY() > getY()) {
+                if (isOnGround()
+                        && (Math.abs(getY() - getTarget().getY()) > EarthUtil.calculateJumpHeight(getJumpVelocity())
+                            || isOutOfReach)
+                        && getTarget().getY() > getY()) {
                     if (tailSpinTime == firstSpinBegin || tailSpinTime == secondSpinBegin) {
-                        System.out.println("JUMP");
+                        leap(dir, 1f, 0);
                         jump();
                     }
                 }
                 if (tailSpinTime == firstSpinHalfway || tailSpinTime == secondSpinHalfway) {
-                    System.out.println("half");
-                    Vec3d dir = dirBetweenVecs(getPos(), getTarget().getPos());
-                    leap(dir, 0.75f, 0);
+                    if (isOnGround()) {
+                        leap(dir, 1f, 0);
+                    }
                     //Damage entities in a box around the rubro (except for itself)
                     for (LivingEntity entity : world.getEntitiesByClass(LivingEntity.class, Box.of(getPos(),
                                     defaultMinLeapDistance, 1, defaultMinLeapDistance),
@@ -1211,10 +1265,6 @@ public class RubroEntity extends PathAwareEntity implements IAnimatable, Earthen
             } else {
                 idleTime = 0;
             }
-        }
-
-        private boolean isPounceOnCooldown() {
-            return world.getTime() - lastPounceTime < calculatePounceCooldown();
         }
     }
 
