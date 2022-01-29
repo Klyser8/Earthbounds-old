@@ -2,6 +2,7 @@ package com.github.klyser8.earthbounds.entity;
 
 import com.github.klyser8.earthbounds.entity.goal.EscapeAttackerGoal;
 import com.github.klyser8.earthbounds.entity.goal.EscapeTargetGoal;
+import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
 import com.github.klyser8.earthbounds.registry.EarthboundBlocks;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
 import com.github.klyser8.earthbounds.registry.EarthboundParticles;
@@ -74,6 +75,9 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     private static final UUID POWER_FOLLOW_RANGE_ID = UUID.fromString("e31be277-eefe-4a00-b333-5ff68773f0a3");
 
     private final AnimationFactory factory;
+
+    private static final TrackedData<Integer> LAST_DAMAGER_ID = DataTracker.registerData(RubroEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> MAX_POWER = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.INTEGER);
     //Whether the Rubro has a golden skull or not
@@ -88,6 +92,9 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     //How much power the Rubro has left
     private static final TrackedData<Integer> POWER = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.INTEGER);
+    //Whether the rubro is 85% filled with power or not. Used for advancements.
+    private static final TrackedData<Boolean> IS_FULLY_CHARGED = DataTracker.registerData(RubroEntity.class,
+            TrackedDataHandlerRegistry.BOOLEAN);
     //The current ore the Rubro is hunting for
     private static final TrackedData<ItemStack> CURRENT_ORE = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.ITEM_STACK);
@@ -195,6 +202,9 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
         if (nbt.contains("Power")) {
             updatePower(nbt.getInt("Power"));
         }
+        if (nbt.contains("IsFullyCharged")) {
+            setFullyCharged(nbt.getBoolean("IsFullyCharged"));
+        }
     }
 
     @Override
@@ -204,6 +214,8 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
         nbt.putBoolean("FromFossil", isFromFossil());
         nbt.putBoolean("GoldSkull", hasGoldSkull());
         nbt.putInt("Power", getPower());
+        nbt.putInt("MaxPower", getMaxPower());
+        nbt.putBoolean("IsFullyCharged", isFullyCharged());
     }
 
     /**
@@ -211,7 +223,7 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
      */
     @SuppressWarnings("ConstantConditions")
     private void createDeepslateAttributes() {
-        getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(6);
+        getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(4.5);
         getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(25);
         getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.23);
         getAttributeInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(15);
@@ -222,11 +234,13 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
+        dataTracker.startTracking(LAST_DAMAGER_ID, getId());
         dataTracker.startTracking(MAX_POWER, 100 + random.nextInt(10) * 10);
         dataTracker.startTracking(HAS_GOLD_SKULL, false);
         dataTracker.startTracking(FROM_FOSSIL, false);
         dataTracker.startTracking(DEEPSLATE, false);
         dataTracker.startTracking(POWER, 0);
+        dataTracker.startTracking(IS_FULLY_CHARGED, false);
         dataTracker.startTracking(CURRENT_ORE, ItemStack.EMPTY);
         dataTracker.startTracking(BLOCK_TARGET_POS, getBlockPos());
         dataTracker.startTracking(CURRENT_ENTITY_STATE, 0);
@@ -263,11 +277,13 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
 
     private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
         if (isStanding()) {
+            event.getController().transitionLengthTicks = 10;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("stand", true));
             return PlayState.CONTINUE;
         }
         if (event.isMoving()) {
+            event.getController().transitionLengthTicks = 3;
             if (isSprinting() || getMovementSpeed() > 0.3) {
                 event.getController().setAnimation(
                         new AnimationBuilder().addAnimation("sprint", true));
@@ -362,8 +378,7 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     public void tick() {
         super.tick();
         if (!world.isClient && age % 5 == 0 && getPower() > getMaxPower() * 0.4) {
-            ((ServerWorld) world).spawnParticles(EarthboundParticles.REDSTONE_CRACKLE, getParticleX(0.5),
-                    getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
+            playCrackleParticles(random.nextInt(3) + 1);
         }
         if (age % 20 == 0) {
             calculateDimensions();
@@ -403,7 +418,7 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                     world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_CHARGE,
                             SoundCategory.NEUTRAL, 0.35f + pow / 20f, 0.9f + random.nextFloat() / 5.0f);
                 }
-                playPowerupParticles();
+                playRedstoneParticles(10);
                 return ActionResult.SUCCESS;
             }
         }
@@ -470,16 +485,28 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
      */
     @Override
     public boolean damage(DamageSource source, float amount) {
-        updatePower(getPower() - 1);
+        int powerLost = 0;
+        if (getLastDamager() != null && source.getSource() != null && !getLastDamager().equals(source.getSource())) {
+            setLastDamager(source.getSource());
+        }
+        powerLost +=1;
+        if (!Earthen.isDamagePickaxe(source)) {
+            amount = Earthen.handleNonPickaxeDamage(source, this, amount);
+        }
         if (!world.isClient) {
-            this.playSound(EarthboundSounds.RUBRO_CREAK, 0.5f, 0.8f + random.nextFloat() / 2.5f);
-            if (getPower() > getMaxPower() * 0.4 && random.nextDouble() < 0.1) {
-                ItemEntity item = new ItemEntity(world, getX(), getY() + 0.5, getZ(), Items.REDSTONE.getDefaultStack());
-                item.setStack(Items.REDSTONE.getDefaultStack());
-                item.setToDefaultPickupDelay();
-                updatePower(getPower() - 20);
-                world.spawnEntity(item);
+            if (getPower() > getMaxPower() * 0.4 && random.nextDouble() < amount / 30.0) {
+                powerLost += 20;
+                playRedstoneParticles(30);
+                if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+                    ItemEntity item = new ItemEntity(world, getX(), getY() + 0.5, getZ(), Items.REDSTONE.getDefaultStack());
+                    item.setStack(Items.REDSTONE.getDefaultStack());
+                    item.setToDefaultPickupDelay();
+                    world.spawnEntity(item);
+                }
             }
+            this.playSound(EarthboundSounds.RUBRO_CREAK, 0.5f, 0.8f + random.nextFloat() / 2.5f);
+            playRedstoneParticles(5);
+            updatePower(getPower() - powerLost);
         }
         return super.damage(source, amount);
     }
@@ -497,7 +524,9 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                                         SpawnReason spawnReason, BlockPos pos, Random random) {
         if ((spawnReason == SpawnReason.NATURAL || spawnReason == SpawnReason.CHUNK_GENERATION)
                 && pos.getY() > -60 && pos.getY() < 25) {
-
+            if (world.getLightLevel(pos) > 8) {
+                return false;
+            }
             for (int x = -10; x < 10; x++) {
                 for (int y = -5; y < 5; y++) {
                     for (int z = -10; z < 10; z++) {
@@ -541,9 +570,16 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                 block.equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
     }
 
-    private void playPowerupParticles() {
-        for (int i = 0; i < 10; i++) {
+    private void playRedstoneParticles(int amount) {
+        for (int i = 0; i < amount; i++) {
             ((ServerWorld) world).spawnParticles(DustParticleEffect.DEFAULT, getParticleX(0.5),
+                    getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
+        }
+    }
+
+    private void playCrackleParticles(int amount) {
+        for (int i = 0; i < amount; i++) {
+            ((ServerWorld) world).spawnParticles(EarthboundParticles.REDSTONE_CRACKLE, getParticleX(0.5),
                     getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
         }
     }
@@ -597,13 +633,17 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
      */
     @SuppressWarnings("ConstantConditions")
     public void updatePower(int power) {
-        System.out.println("Damage: " + getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).getValue());
         dataTracker.set(POWER, Math.max(power, 0));
+        if (getPower() >= getMaxPower() * 0.85 && !isFullyCharged()) {
+            setFullyCharged(true);
+        } else if (isFullyCharged() && getPower() < getMaxPower()) {
+            setFullyCharged(false);
+        }
         EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         instance.removeModifier(POWER_DAMAGE_BOOST_ID);
         instance.addTemporaryModifier(
                 new EntityAttributeModifier(POWER_DAMAGE_BOOST_ID, "power_damage_boost",
-                        1 + getPower() / 100.0, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+                        1 + getPower() / 150.0, EntityAttributeModifier.Operation.MULTIPLY_BASE));
 
         instance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         instance.removeModifier(POWER_SPEED_BOOST_ID);
@@ -641,6 +681,24 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
 
     public void setStanding(boolean standing) {
         dataTracker.set(STANDING, standing);
+    }
+
+    @Override
+    public Entity getLastDamager() {
+        return world.getEntityById(dataTracker.get(LAST_DAMAGER_ID));
+    }
+
+    @Override
+    public void setLastDamager(Entity entity) {
+        dataTracker.set(LAST_DAMAGER_ID, entity.getId());
+    }
+
+    public boolean isFullyCharged() {
+        return dataTracker.get(IS_FULLY_CHARGED);
+    }
+
+    public void setFullyCharged(boolean isMaxPower) {
+        dataTracker.set(IS_FULLY_CHARGED, isMaxPower);
     }
 
     class MoveToRedstoneGoal extends Goal {
@@ -829,7 +887,7 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                     world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_CHARGE,
                             SoundCategory.HOSTILE, 0.25f, 0.9f + random.nextFloat() / 5.0f);
                 }
-                playPowerupParticles();
+                playRedstoneParticles(10);
             }
             digTicks--;
         }
@@ -1117,6 +1175,7 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
             }
             //If the rubro is pouncing, strikes the target when close.
             if (getEntityState() == STATE_POUNCING) {
+                playRedstoneParticles(3);
                 if (getEyePos().distanceTo(target.getEyePos()) <= 1.5 && !hasAirStruck) {
                     airStrike();
                 }
@@ -1149,7 +1208,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
         protected void pounce() {
             setEntityState(STATE_POUNCING);
             Vec3d targetPos = getTarget().getEyePos().add(0, 1, 0);
-//            Vec3d targetPos = getTarget().isOnGround() ? getTarget().getEyePos() : getTarget().getPos();
             double hyp = getEyePos().distanceTo(targetPos);
             double opp = targetPos.y - getEyeY();
             float sin = (float) Math.sin(opp / hyp);
@@ -1163,7 +1221,10 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
             lastPounceTime = world.getTime();
             getNavigation().stop();
             setBodyYaw(getHeadYaw());
-
+            if (!world.isClient) {
+                world.playSound(null, getBlockPos(), SoundEvents.ENTITY_GOAT_LONG_JUMP,
+                        SoundCategory.HOSTILE, 0.5f, 1.4f + random.nextFloat() / 5.0f);
+            }
         }
 
         @SuppressWarnings("ConstantConditions")
@@ -1176,20 +1237,29 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                     return new TranslatableText(string, entity.getDisplayName(), this.source.getDisplayName());
                 }
             };
-            float damage = (float) getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 1.2f;
+            float damage = (float) getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.75f;
             //If the target is a player, deal default damage. Otherwise, double it!
             target.damage(source, target instanceof PlayerEntity ? damage : damage * 2);
             hasAirStruck = true;
             //Apply knockback to the target hit
             if (target.isOnGround()) {
-                target.setVelocity(getVelocity().multiply(1.5, 1, 1.5).add(0, 0.1, 0));
+                //Y velocity needs to be between 0.2 and 0.5. Otherwise, the target is barely knocked back
+                double yVel = getVelocity().getY();
+                if (yVel <= 0.2 || yVel > 0.5) {
+                    yVel = 0.3;
+                }
+                target.setVelocity(getVelocity().add(0.2, yVel, 0.2).multiply(1.5, 1, 1.5));
             } else {
                 target.setVelocity(getVelocity());
             }
             //If the entity blocked the attack, bounce back the rubro
             if (target.blockedByShield(source)) {
-                System.out.println("Damage blocked: " + damage);
                 setVelocity(getVelocity().negate());
+            } else {
+                if (!world.isClient) {
+                    world.playSound(null, new BlockPos(getEyePos()), SoundEvents.ENTITY_GOAT_RAM_IMPACT,
+                            SoundCategory.HOSTILE, 0.5f, 1.4f + random.nextFloat() / 5.0f);
+                }
             }
         }
 
@@ -1205,16 +1275,20 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                 Vec3d dir = dirBetweenVecs(getPos(), getTarget().getPos());
                 //If the rubro is on the ground and the target entity is 1+ block above it, then it shoudld jump before
                 //doing the tail spin attack
-                if (isOnGround()
-                        && (Math.abs(getY() - getTarget().getY()) > EarthUtil.calculateJumpHeight(getJumpVelocity())
+                if (tailSpinTime == firstSpinBegin || tailSpinTime == secondSpinBegin) {
+                    if (isOnGround()
+                            && (Math.abs(getY() - getTarget().getY()) > EarthUtil.calculateJumpHeight(getJumpVelocity())
                             || isOutOfReach)
-                        && getTarget().getY() > getY()) {
-                    if (tailSpinTime == firstSpinBegin || tailSpinTime == secondSpinBegin) {
+                            && getTarget().getY() > getY()) {
                         leap(dir, 1f, 0);
                         jump();
                     }
-                }
-                if (tailSpinTime == firstSpinHalfway || tailSpinTime == secondSpinHalfway) {
+                } else if (tailSpinTime == firstSpinBegin - 3 || tailSpinTime == secondSpinBegin - 3) {
+                    if (!world.isClient) {
+                        world.playSound(null, new BlockPos(getEyePos()), SoundEvents.ENTITY_HORSE_GALLOP,
+                                SoundCategory.HOSTILE, 0.25f, 1.7f + random.nextFloat() / 5.0f);
+                    }
+                } else if (tailSpinTime == firstSpinHalfway || tailSpinTime == secondSpinHalfway) {
                     if (isOnGround()) {
                         leap(dir, 1f, 0);
                     }
@@ -1310,18 +1384,18 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     }
 
     /**
-     * Targets players which do not have redstone in their hotbar.
-     * This target goal is executed only if the rubro's power is 40% or more of its max.
+     * Targets players which are not holding redstone in their hand, or that have broken a redstone ore block in the
+     * recent 3 minutes.
+     * This target goal is started only if the rubro's power is 40% or more of its max.
      */
     class RedstoneTargetGoal extends ActiveTargetGoal<PlayerEntity> {
 
         public RedstoneTargetGoal() {
-
             super(RubroEntity.this, PlayerEntity.class, 10, false, true,
-                    entity -> entity instanceof PlayerEntity player &&
-                    (!EarthUtil.playerHotbarContains(player, Set.of(
-                            Items.REDSTONE.getDefaultStack(),
-                            Items.REDSTONE_BLOCK.getDefaultStack()))));
+                    entity -> (!entity.isHolding(Items.REDSTONE) && !entity.isHolding(Items.REDSTONE_BLOCK))
+                            || (entity instanceof PlayerEntity player
+                            && PlayerBlockBreakEventHandler.getRedstoneBreakTimes().containsKey(player)
+                            && world.getTime() - PlayerBlockBreakEventHandler.getRedstoneBreakTimes().get(player)<3600));
         }
 
         @Override

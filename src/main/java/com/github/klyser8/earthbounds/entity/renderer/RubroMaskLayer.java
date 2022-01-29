@@ -35,4 +35,6 @@ public class RubroMaskLayer extends GeoLayerRenderer<RubroEntity> {
                 OverlayTexture.packUv(0, OverlayTexture.getV(entity.hurtTime > 0)),
                 1f, 1f, 1f, 1f);
     }
+
+
 }

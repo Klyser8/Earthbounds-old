@@ -1,11 +1,15 @@
 package com.github.klyser8.earthbounds;
 
+import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
 import com.github.klyser8.earthbounds.registry.*;
 import com.github.klyser8.earthbounds.registry.features.EarthboundFeatures;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.util.ActionResult;
 import net.minecraft.world.biome.Biome;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +39,12 @@ public class Earthbounds implements ModInitializer {
         EarthboundParticles.register();
         EarthboundBlocks.register();
         EarthboundEnchantments.register();
+
+        initEvents();
+    }
+
+    private void initEvents() {
+        PlayerBlockBreakEventHandler.init();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import net.minecraft.client.gui.hud.SubtitlesHud;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

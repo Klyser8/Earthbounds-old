@@ -28,6 +28,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class EarthboundItems {
             if (player == null) {
                 return ActionResult.FAIL;
             }
+            Earthbounds.LOGGER.log(Level.DEBUG, "Light level: " +
+                    context.getWorld().getLightLevel(context.getBlockPos().add(0, 1, 0)));
             World world = player.getWorld();
             ItemStack stack = player.getStackInHand(Hand.OFF_HAND);
             if (!world.isClient) {
@@ -60,16 +63,16 @@ public class EarthboundItems {
                         }
                     }
                     if (matchList.isEmpty()) {
-                        System.out.println("Nothing found!");
+                        Earthbounds.LOGGER.log(Level.DEBUG, "Nothing found!");
                     } else {
                         for (BlockPos pos : matchList) {
-                            System.out.println("Found at location: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ());
+                            Earthbounds.LOGGER.log(Level.DEBUG, "Found at location: "
+                                    + pos.getX() + ", " + pos.getY() + ", " + pos.getZ());
                         }
                     }
 
                 }
             }
-            System.out.println();
             return ActionResult.SUCCESS;
         }
 
@@ -93,10 +96,11 @@ public class EarthboundItems {
 
         @Override
         public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+            if (entity.isDead()) return ActionResult.FAIL;
             entity.damage(DamageSource.MAGIC, 1024);
             user.sendMessage(Text.of("Annihilation!"), true);
             user.playSound(SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 0.5f, 2.0f);
-            return super.useOnEntity(stack, user, entity, hand);
+            return ActionResult.SUCCESS;
         }
     };
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,

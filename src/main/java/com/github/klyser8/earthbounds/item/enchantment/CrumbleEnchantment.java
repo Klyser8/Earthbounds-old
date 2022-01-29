@@ -42,7 +42,7 @@ public class CrumbleEnchantment extends Enchantment {
      */
     public boolean canAccept(Enchantment other) {
         return !(other instanceof EfficiencyEnchantment) && !(other instanceof SilkTouchEnchantment) &&
-                !(other instanceof CrumbleEnchantment);
+                super.canAccept(other);
     }
 
     @Override

@@ -3,12 +3,13 @@
   "id": "earthbounds",
   "version": "${version}",
   "name": "Earthbounds",
-  "description": "",
+  "description": "Enhance Minecraft's world with the addition of unique, vanilla inspired, complex mobs.",
   "authors": [
     "Klyser8"
   ],
   "contact": {
-    "Discord": "Klyser8#9052"
+    "Discord": "Klyser8#9052",
+    "Curseforge": "Klyser8_"
   },
   "license": "MIT",
   "icon": "assets/trinkets/icon.png",
@@ -27,6 +28,7 @@
   "depends": {
     "fabricloader": ">=0.12.12",
     "fabric": "*",
-    "minecraft": "1.18.1"
+    "minecraft": "1.18.1",
+    "geckolib3": ">=3.0.30"
   }
 }

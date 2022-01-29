@@ -58,6 +58,9 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
 
     private final int maxCoals; //How many coals this entity can have present at a time
 
+    private static final TrackedData<Integer> LAST_DAMAGER_ID = DataTracker.registerData(CarboraneaEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
+
     private static final TrackedData<Float> HEAT = DataTracker.registerData(CarboraneaEntity.class,
             TrackedDataHandlerRegistry.FLOAT);
     private static final TrackedData<Boolean> FROM_BUCKET = DataTracker.registerData(CarboraneaEntity.class,
@@ -109,6 +112,7 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
+        dataTracker.startTracking(LAST_DAMAGER_ID, getId());
         dataTracker.startTracking(HEAT, 0.0f);
         dataTracker.startTracking(FROM_BUCKET, false);
         dataTracker.startTracking(SHOULD_MATE_SITTING, false);
@@ -353,6 +357,17 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
         }
     }
 
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (getLastDamager() != null && source.getSource() != null && !getLastDamager().equals(source.getSource())) {
+            setLastDamager(source.getSource());
+        }
+        if (!Earthen.isDamagePickaxe(source)) {
+            amount = Earthen.handleNonPickaxeDamage(source, this, amount);
+        }
+        return super.damage(source, amount);
+    }
+
     /**
      * Checks whether the entity comes from a bucket or not.
      */
@@ -472,6 +487,17 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
         }
         return Optional.empty();
     }
+
+    @Override
+    public Entity getLastDamager() {
+        return world.getEntityById(dataTracker.get(LAST_DAMAGER_ID));
+    }
+
+    @Override
+    public void setLastDamager(Entity entity) {
+        dataTracker.set(LAST_DAMAGER_ID, entity.getId());
+    }
+
 
     /**
      * Creates the entity's attributes.

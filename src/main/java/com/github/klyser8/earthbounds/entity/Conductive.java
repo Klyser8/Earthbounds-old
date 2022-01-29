@@ -36,7 +36,7 @@ public interface Conductive {
             if (biome == null) {
                 change -= 0.5f;
             } else {
-                change += (biome.getTemperature() - 1.2) / 2.0f; //Lowest temperature is 0.15 (0.0015), highest is 2 (0.02).
+                change += (biome.getTemperature() - 1.2) / 3.0f; //Lowest temperature is 0.15 (0.0015), highest is 2 (0.02).
                 if (biome.getCategory() == Biome.Category.NETHER) {
                     change += 0.75;
                 }

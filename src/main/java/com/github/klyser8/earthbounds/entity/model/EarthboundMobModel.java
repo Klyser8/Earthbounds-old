@@ -36,4 +36,6 @@ public class EarthboundMobModel<T extends Earthen> extends AnimatedGeoModel<T> {
     public Identifier getAnimationFileLocation(Earthen animatable) {
         return new Identifier(Earthbounds.MOD_ID, "animations/" + Earthbounds.MOD_ID + "." + entityKey + ".json");
     }
+
+
 }

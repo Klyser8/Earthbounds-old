@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-public class RubroEntityRenderer extends GeoEntityRenderer<RubroEntity> {
+public class RubroEntityRenderer extends EarthenEntityRenderer<RubroEntity> {
 
     public RubroEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new RubroEntityModel());

@@ -6,7 +6,8 @@
   "mixins": [
     "AbstractFurnaceBlockEntityAccessor",
     "AvoidCrumbleMiningMixin",
-    "SpawnRestrictionsAccessor"
+    "SpawnRestrictionsAccessor",
+    "StopAttackSoundAgainstEarthenMixin"
   ],
   "client": [
   ],
