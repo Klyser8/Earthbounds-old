@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.entity;
 
+import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.entity.goal.EscapeAttackerGoal;
 import com.github.klyser8.earthbounds.entity.goal.EscapeTargetGoal;
 import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
@@ -52,6 +53,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.*;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -816,6 +818,8 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
          * Whether the goal should continue or not. If the Rubro has been recently attacked,
          * the goal should stop right away.
          *
+         * Null check required as of this issue: https://github.com/Klyser8/Earthbounds/issues/2.
+         *
          * @return true if it should continue
          */
         @Override
@@ -827,9 +831,15 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                 if (getEntityState() == STATE_NONE && !getNavigation().isIdle()) {
                     return true;
                 }
-                if (getEntityState() == STATE_DIGGING
-                        && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
-                    return true;
+                if (getBlockTargetPos() == null) {
+                    Earthbounds.LOGGER.log(Level.ERROR,
+                            "Rubro Entity: " + getUuidAsString() + " attempted scraping a redstone ore" +
+                                    " which was null! Happened at location: " + getPos());
+                } else {
+                    if (getEntityState() == STATE_DIGGING
+                            && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
+                        return true;
+                    }
                 }
             }
             return false;
