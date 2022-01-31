@@ -1,10 +1,12 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.entity.CoalChunkEntity;
+import com.github.klyser8.earthbounds.entity.PertilyoEntity;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
 import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
+import com.github.klyser8.earthbounds.entity.renderer.PertilyoEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.RubroEntityRenderer;
 import com.github.klyser8.earthbounds.mixin.SpawnRestrictionsAccessor;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -42,6 +44,15 @@ public class EarthboundEntities {
                             RubroEntity::checkMobSpawn)
                     .build();
 
+    public static final EntityType<PertilyoEntity> PERTILYO =
+            FabricEntityTypeBuilder.createMob()
+                    .spawnGroup(SpawnGroup.AMBIENT)
+                    .entityFactory(PertilyoEntity::new)
+                    .dimensions(EntityDimensions.changing(0.75f, 1.2f))
+                    /*.spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                            RubroEntity::checkMobSpawn)*/
+                    .build();
+
     public static final EntityType<CoalChunkEntity> COAL_CHUNK = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "coal_chunk"),
             FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, CoalChunkEntity::new)
@@ -52,6 +63,8 @@ public class EarthboundEntities {
                 new Identifier(MOD_ID, "carboranea"), CARBORANEA);
         Registry.register(Registry.ENTITY_TYPE,
                 new Identifier(MOD_ID, "rubro"), RUBRO);
+        Registry.register(Registry.ENTITY_TYPE,
+                new Identifier(MOD_ID, "pertilyo"), PERTILYO);
 
         createEntityAttributes();
 
@@ -63,6 +76,7 @@ public class EarthboundEntities {
     public static void registerRenderers() {
         EntityRendererRegistry.register(CARBORANEA, CarboraneaEntityRenderer::new);
         EntityRendererRegistry.register(RUBRO, RubroEntityRenderer::new);
+        EntityRendererRegistry.register(PERTILYO, PertilyoEntityRenderer::new);
         EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
     }
 
@@ -70,6 +84,7 @@ public class EarthboundEntities {
     private static void createEntityAttributes() {
         FabricDefaultAttributeRegistry.register(CARBORANEA, CarboraneaEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(RUBRO, RubroEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(PERTILYO, PertilyoEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(COAL_CHUNK, CoalChunkEntity.createAttributes());
 
     }

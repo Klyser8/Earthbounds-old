@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.entity;
 
+import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.entity.goal.EscapeAttackerGoal;
 import com.github.klyser8.earthbounds.entity.goal.EscapeTargetGoal;
 import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
@@ -52,6 +53,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.*;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -65,7 +67,7 @@ import java.util.*;
 
 import static com.github.klyser8.earthbounds.util.EarthMath.dirBetweenVecs;
 
-public class RubroEntity extends PathAwareEntity implements Earthen {
+public class RubroEntity extends PathAwareEarthenEntity {
 
     public static final int POWER_LIMIT = 200;
     private static final int TAIL_SPIN_ANIMATION_DURATION = 36; //in ticks
@@ -74,10 +76,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     private static final UUID POWER_SPEED_BOOST_ID = UUID.fromString("8391a50c-b8d5-44ee-bf77-84e519dbf5b2");
     private static final UUID POWER_FOLLOW_RANGE_ID = UUID.fromString("e31be277-eefe-4a00-b333-5ff68773f0a3");
 
-    private final AnimationFactory factory;
-
-    private static final TrackedData<Integer> LAST_DAMAGER_ID = DataTracker.registerData(RubroEntity.class,
-            TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> MAX_POWER = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.INTEGER);
     //Whether the Rubro has a golden skull or not
@@ -118,7 +116,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
 
     public RubroEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        factory = new AnimationFactory(this);
         this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
         this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
@@ -234,7 +231,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        dataTracker.startTracking(LAST_DAMAGER_ID, getId());
         dataTracker.startTracking(MAX_POWER, 100 + random.nextInt(10) * 10);
         dataTracker.startTracking(HAS_GOLD_SKULL, false);
         dataTracker.startTracking(FROM_FOSSIL, false);
@@ -430,13 +426,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
         return super.getSafeFallDistance() * 3;
     }
 
-    @Override
-    public boolean isInvulnerableTo(DamageSource damageSource) {
-        return super.isInvulnerableTo(damageSource)
-                || damageSource.equals(DamageSource.ON_FIRE)
-                || damageSource.equals(DamageSource.IN_FIRE);
-    }
-
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
@@ -464,11 +453,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     @Override
     protected SoundEvent getDeathSound() {
         return EarthboundSounds.RUBRO_DEATH;
-    }
-
-    @Override
-    public EntityGroup getGroup() {
-        return EarthboundEntityGroup.EARTHEN;
     }
 
     @Override
@@ -584,11 +568,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
         }
     }
 
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
-    }
-
     public int getMaxPower() {
         return dataTracker.get(MAX_POWER);
     }
@@ -681,16 +660,6 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
 
     public void setStanding(boolean standing) {
         dataTracker.set(STANDING, standing);
-    }
-
-    @Override
-    public Entity getLastDamager() {
-        return world.getEntityById(dataTracker.get(LAST_DAMAGER_ID));
-    }
-
-    @Override
-    public void setLastDamager(Entity entity) {
-        dataTracker.set(LAST_DAMAGER_ID, entity.getId());
     }
 
     public boolean isFullyCharged() {
@@ -816,6 +785,8 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
          * Whether the goal should continue or not. If the Rubro has been recently attacked,
          * the goal should stop right away.
          *
+         * Null check required as of this issue: https://github.com/Klyser8/Earthbounds/issues/2.
+         *
          * @return true if it should continue
          */
         @Override
@@ -827,9 +798,15 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                 if (getEntityState() == STATE_NONE && !getNavigation().isIdle()) {
                     return true;
                 }
-                if (getEntityState() == STATE_DIGGING
-                        && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
-                    return true;
+                if (getBlockTargetPos() == null) {
+                    Earthbounds.LOGGER.log(Level.ERROR,
+                            "Rubro Entity: " + getUuidAsString() + " attempted scraping a redstone ore" +
+                                    " which was null! Happened at location: " + getPos());
+                } else {
+                    if (getEntityState() == STATE_DIGGING
+                            && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
+                        return true;
+                    }
                 }
             }
             return false;
