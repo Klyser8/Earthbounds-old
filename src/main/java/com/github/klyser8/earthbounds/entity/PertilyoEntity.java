@@ -1,9 +1,11 @@
 package com.github.klyser8.earthbounds.entity;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -12,9 +14,15 @@ import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
+
+    private static final TrackedData<Integer> ENERGY = DataTracker.registerData(PertilyoEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> MAX_ENERGY = DataTracker.registerData(PertilyoEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> SECONDS_SINCE_DEOX = DataTracker.registerData(PertilyoEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
 
     public PertilyoEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -34,6 +42,14 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
     }
 
     @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        dataTracker.startTracking(ENERGY, 0);
+        dataTracker.startTracking(MAX_ENERGY, 10);
+        dataTracker.startTracking(SECONDS_SINCE_DEOX, 0);
+    }
+
+    @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this,
                 "move", 10, this::movementPredicate));
@@ -47,5 +63,36 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
             return PlayState.CONTINUE;
 //        }
 //        return PlayState.STOP;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (age % 20 == 0) {
+            setSecondsSinceDeox(getSecondsSinceDeox() + 1);
+        }
+    }
+
+    public int getEnergy() {
+        return dataTracker.get(ENERGY);
+    }
+
+    public void setEnergy(int energy) {
+        dataTracker.set(ENERGY, Math.max(0, energy));
+    }
+
+    public int getMaxEnergy() {
+        return dataTracker.get(MAX_ENERGY);
+    }
+
+    /**
+     * Seconds since last de-oxidation happened. This can only happen through being struck by lightning.
+     */
+    public int getSecondsSinceDeox() {
+        return dataTracker.get(SECONDS_SINCE_DEOX);
+    }
+
+    public void setSecondsSinceDeox(int time) {
+        dataTracker.set(SECONDS_SINCE_DEOX, time);
     }
 }

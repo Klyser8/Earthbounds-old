@@ -1,6 +1,7 @@
 package com.github.klyser8.earthbounds.entity.model;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.entity.Earthen;
 import com.github.klyser8.earthbounds.entity.PertilyoEntity;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
@@ -13,6 +14,25 @@ public class PertilyoEntityModel extends EarthboundMobModel<PertilyoEntity> {
 
     public PertilyoEntityModel() {
         super(EarthboundEntities.PERTILYO);
+    }
+
+    /**
+     * Pertilyo oxidizes further and further every 5 minutes
+     */
+    @Override
+    public Identifier getTextureLocation(PertilyoEntity entity) {
+        String suffix = "";
+        if (entity.getSecondsSinceDeox() < 300) {
+            suffix = "_0";
+        } else if (entity.getSecondsSinceDeox() < 600) {
+            suffix = "_1";
+        } else if (entity.getSecondsSinceDeox() < 900) {
+            suffix = "_2";
+        } else {
+            suffix = "_3";
+        }
+        return new Identifier(Earthbounds.MOD_ID, "textures/entity/" + entityKey + "/" +
+                entityKey + suffix + ".png");
     }
 
     /**

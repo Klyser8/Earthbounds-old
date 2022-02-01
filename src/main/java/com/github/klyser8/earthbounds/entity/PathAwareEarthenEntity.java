@@ -16,7 +16,7 @@ public abstract class PathAwareEarthenEntity extends PathAwareEntity implements 
 
     private final AnimationFactory factory;
 
-    private static final TrackedData<Integer> LAST_DAMAGER_ID = DataTracker.registerData(RubroEntity.class,
+    private static final TrackedData<Integer> LAST_DAMAGER_ID = DataTracker.registerData(PathAwareEarthenEntity.class,
             TrackedDataHandlerRegistry.INTEGER);
 
     protected PathAwareEarthenEntity(EntityType<? extends PathAwareEntity> entityType, World world) {

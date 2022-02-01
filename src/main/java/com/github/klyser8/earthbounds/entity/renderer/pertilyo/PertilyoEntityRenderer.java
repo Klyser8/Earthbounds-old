@@ -1,9 +1,10 @@
-package com.github.klyser8.earthbounds.entity.renderer;
+package com.github.klyser8.earthbounds.entity.renderer.pertilyo;
 
 import com.github.klyser8.earthbounds.entity.PertilyoEntity;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.model.PertilyoEntityModel;
 import com.github.klyser8.earthbounds.entity.model.RubroEntityModel;
+import com.github.klyser8.earthbounds.entity.renderer.EarthenEntityRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,6 +17,7 @@ public class PertilyoEntityRenderer extends EarthenEntityRenderer<PertilyoEntity
 
     public PertilyoEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new PertilyoEntityModel());
+        addLayer(new PertilyoLightLayer(this));
     }
 
     @Override

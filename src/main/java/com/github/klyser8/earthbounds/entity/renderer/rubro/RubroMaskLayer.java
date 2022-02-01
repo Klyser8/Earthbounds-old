@@ -1,4 +1,4 @@
-package com.github.klyser8.earthbounds.entity.renderer;
+package com.github.klyser8.earthbounds.entity.renderer.rubro;
 
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.entity.RubroEntity;

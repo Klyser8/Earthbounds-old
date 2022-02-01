@@ -6,9 +6,8 @@ import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
 import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
-import com.github.klyser8.earthbounds.entity.renderer.PertilyoEntityRenderer;
-import com.github.klyser8.earthbounds.entity.renderer.RubroEntityRenderer;
-import com.github.klyser8.earthbounds.mixin.SpawnRestrictionsAccessor;
+import com.github.klyser8.earthbounds.entity.renderer.pertilyo.PertilyoEntityRenderer;
+import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -18,13 +17,9 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.decorator.HeightmapPlacementModifier;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
