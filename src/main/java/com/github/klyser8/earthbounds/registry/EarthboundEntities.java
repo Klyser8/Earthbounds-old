@@ -43,7 +43,7 @@ public class EarthboundEntities {
             FabricEntityTypeBuilder.createMob()
                     .spawnGroup(SpawnGroup.AMBIENT)
                     .entityFactory(PertilyoEntity::new)
-                    .dimensions(EntityDimensions.changing(0.75f, 1.2f))
+                    .dimensions(EntityDimensions.changing(0.66f, 1.0f))
                     /*.spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
                             RubroEntity::checkMobSpawn)*/
                     .build();
