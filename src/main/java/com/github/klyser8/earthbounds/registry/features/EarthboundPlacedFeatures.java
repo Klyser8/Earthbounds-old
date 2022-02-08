@@ -42,7 +42,7 @@ public class EarthboundPlacedFeatures {
                  EarthboundConfiguredFeatures.OVERWORLD_REDSTONE_FOSSIL.withPlacement(
                          CountPlacementModifier.of(1),
                          SquarePlacementModifier.of(),
-                         RarityFilterPlacementModifier.of(2),
+                         RarityFilterPlacementModifier.of(4),
                          HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))));
 
         OVERWORLD_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE = Registry.register(BuiltinRegistries.PLACED_FEATURE,
@@ -50,7 +50,7 @@ public class EarthboundPlacedFeatures {
                 EarthboundConfiguredFeatures.OVERWORLD_GILDED_REDSTONE_FOSSIL.withPlacement(
                         CountPlacementModifier.of(1),
                         SquarePlacementModifier.of(),
-                        RarityFilterPlacementModifier.of(10),
+                        RarityFilterPlacementModifier.of(20),
                         HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))));
 
          OVERWORLD_DEEPSLATE_REDSTONE_FOSSIL_CONFIGURED_FEATURE = Registry.register(BuiltinRegistries.PLACED_FEATURE,
@@ -58,7 +58,7 @@ public class EarthboundPlacedFeatures {
                  EarthboundConfiguredFeatures.OVERWORLD_DEEPSLATE_REDSTONE_FOSSIL.withPlacement(
                          CountPlacementModifier.of(1),
                          SquarePlacementModifier.of(),
-                         RarityFilterPlacementModifier.of(2),
+                         RarityFilterPlacementModifier.of(4),
                          HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))));
 
 
@@ -67,7 +67,7 @@ public class EarthboundPlacedFeatures {
                  EarthboundConfiguredFeatures.OVERWORLD_DEEPSLATE_GILDED_REDSTONE_FOSSIL.withPlacement(
                          CountPlacementModifier.of(1),
                          SquarePlacementModifier.of(),
-                         RarityFilterPlacementModifier.of(10),
+                         RarityFilterPlacementModifier.of(20),
                          HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))));
     }
 }

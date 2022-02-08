@@ -21,9 +21,9 @@ public class RedstoneCrackleEffect extends AnimatedParticle {
         this.setSpriteForAge(spriteProvider);
         this.collidesWithWorld = false;
         this.maxAge = 10 + this.random.nextInt(2);
-        colorGreen = 0;
-        colorBlue = 0;
-        colorRed = 0.8f;
+        green = 0;
+        blue = 0;
+        red = 0.8f;
     }
 
     @Override

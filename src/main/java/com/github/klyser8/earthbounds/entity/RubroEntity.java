@@ -178,7 +178,7 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return DefaultAttributeContainer.builder()
+        return LivingEntity.createLivingAttributes()
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
@@ -508,8 +508,8 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
             }
             this.playSound(EarthboundSounds.RUBRO_CREAK, 0.5f, 0.8f + random.nextFloat() / 2.5f);
             playRedstoneParticles(5);
-            updatePower(getPower() - powerLost);
         }
+        updatePower(getPower() - powerLost);
         return super.damage(source, amount);
     }
 
