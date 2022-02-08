@@ -25,6 +25,7 @@ public class EarthUtil {
      * Checks whether the entity has blocked the most recent instance of damage or not.
      * @deprecated should simply use {@link LivingEntity#blockedByShield(DamageSource)}
      */
+    @Deprecated
     public static boolean hasBlockedMostRecentDamage(LivingEntity entity) {
         return entity.getDamageTracker().getMostRecentDamage() != null
                 && entity.getDamageTracker().getMostRecentDamage().getDamageSource() != null
