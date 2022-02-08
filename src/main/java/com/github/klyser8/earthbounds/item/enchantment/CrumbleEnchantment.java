@@ -2,10 +2,7 @@ package com.github.klyser8.earthbounds.item.enchantment;
 
 import com.github.klyser8.earthbounds.entity.EarthboundEntityGroup;
 import com.github.klyser8.earthbounds.entity.Earthen;
-import net.minecraft.enchantment.EfficiencyEnchantment;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.enchantment.SilkTouchEnchantment;
+import net.minecraft.enchantment.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
@@ -41,7 +38,7 @@ public class CrumbleEnchantment extends Enchantment {
      * The enchantment clashes with efficiency and silk touch.
      */
     public boolean canAccept(Enchantment other) {
-        return !(other instanceof EfficiencyEnchantment) && !(other instanceof SilkTouchEnchantment) &&
+        return !(other instanceof LuckEnchantment) && !(other instanceof SilkTouchEnchantment) &&
                 super.canAccept(other);
     }
 

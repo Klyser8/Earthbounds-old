@@ -25,6 +25,7 @@
   "mixins": [
     "earthbounds.mixins.json"
   ],
+  "accessWidener": "earth.accesswidener",
   "depends": {
     "fabricloader": ">=0.12.12",
     "fabric": "*",

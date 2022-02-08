@@ -6,8 +6,11 @@
   "mixins": [
     "AbstractFurnaceBlockEntityAccessor",
     "AvoidCrumbleMiningMixin",
+    "BrewingRecipeRegistryAccessor",
+    "VFXPosMixin",
     "SpawnRestrictionsAccessor",
-    "StopAttackSoundAgainstEarthenMixin"
+    "StopAttackSoundAgainstEarthenMixin",
+    "VelocityAffectingPosMixin"
   ],
   "client": [
   ],

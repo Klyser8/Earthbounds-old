@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.mixin;
 
+import com.github.klyser8.earthbounds.MixinCallbacks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,11 +24,7 @@ public abstract class AvoidCrumbleMiningMixin extends MiningToolItem {
 
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        NbtList list = miner.getMainHandStack().getEnchantments();
-        if (list.isEmpty()) return true;
-        for (NbtElement element : list) {
-            if (element.toString().contains("crumble") && miner.isCreative()) return false;
-        }
-        return true;
+        return MixinCallbacks.canMine(miner);
     }
+
 }

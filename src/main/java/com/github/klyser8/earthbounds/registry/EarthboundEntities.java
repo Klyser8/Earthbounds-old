@@ -1,10 +1,7 @@
 package com.github.klyser8.earthbounds.registry;
 
-import com.github.klyser8.earthbounds.entity.CoalChunkEntity;
-import com.github.klyser8.earthbounds.entity.PertilyoEntity;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.*;
 import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
-import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.pertilyo.PertilyoEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
@@ -50,8 +47,13 @@ public class EarthboundEntities {
 
     public static final EntityType<CoalChunkEntity> COAL_CHUNK = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "coal_chunk"),
-            FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, CoalChunkEntity::new)
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, CoalChunkEntity::new)
                     .dimensions(EntityDimensions.fixed(0.2f, 0.2f)).build());
+    public static final EntityType<GlowGreaseDropEntity> GLOW_GREASE = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "glow_grease"),
+            FabricEntityTypeBuilder.<GlowGreaseDropEntity>create(SpawnGroup.MISC, GlowGreaseDropEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.2f, 0.2f))
+                    .trackRangeBlocks(4).trackedUpdateRate(10).build());
 
     public static void register() {
         Registry.register(Registry.ENTITY_TYPE,

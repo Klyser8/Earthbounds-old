@@ -37,6 +37,12 @@ public class EarthboundSounds {
             new Identifier(MOD_ID, "entity.rubro.charge"));
     public static final SoundEvent RUBRO_EAT = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.eat"));
+    public static final SoundEvent RUBRO_POUNCE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.pounce"));
+    public static final SoundEvent RUBRO_POUNCE_STRIKE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.pounce_strike"));
+    public static final SoundEvent RUBRO_JUMP = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.jump"));
     public static final SoundEvent RUBRO_HURT = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.hurt"));
     public static final SoundEvent RUBRO_DEATH = new SoundEvent(
@@ -58,6 +64,9 @@ public class EarthboundSounds {
         Registry.register(Registry.SOUND_EVENT, RUBRO_ACTIVE.getId(), RUBRO_ACTIVE);
         Registry.register(Registry.SOUND_EVENT, RUBRO_CHARGE.getId(), RUBRO_CHARGE);
         Registry.register(Registry.SOUND_EVENT, RUBRO_EAT.getId(), RUBRO_EAT);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_POUNCE.getId(), RUBRO_POUNCE);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_POUNCE_STRIKE.getId(), RUBRO_POUNCE_STRIKE);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_JUMP.getId(), RUBRO_JUMP);
         Registry.register(Registry.SOUND_EVENT, RUBRO_HURT.getId(), RUBRO_HURT);
         Registry.register(Registry.SOUND_EVENT, RUBRO_DEATH.getId(), RUBRO_DEATH);
     }

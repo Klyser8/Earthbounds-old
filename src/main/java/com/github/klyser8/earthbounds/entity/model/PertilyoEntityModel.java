@@ -22,14 +22,11 @@ public class PertilyoEntityModel extends EarthboundMobModel<PertilyoEntity> {
     @Override
     public Identifier getTextureLocation(PertilyoEntity entity) {
         String suffix = "";
-        if (entity.getSecondsSinceDeox() < 300) {
-            suffix = "_0";
-        } else if (entity.getSecondsSinceDeox() < 600) {
-            suffix = "_1";
-        } else if (entity.getSecondsSinceDeox() < 900) {
-            suffix = "_2";
-        } else {
-            suffix = "_3";
+        switch (entity.getOxidizationLevel()) {
+            case UNAFFECTED -> suffix = "_0";
+            case EXPOSED -> suffix = "_1";
+            case WEATHERED -> suffix = "_2";
+            case OXIDIZED -> suffix = "_3";
         }
         return new Identifier(Earthbounds.MOD_ID, "textures/entity/" + entityKey + "/" +
                 entityKey + suffix + ".png");

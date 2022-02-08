@@ -1,15 +1,25 @@
 package com.github.klyser8.earthbounds.util;
 
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.source.BiomeSource;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class EarthUtil {
+
+    public static final List<Vec3i> blockConnections = createConnections();
 
     /**
      * Checks whether the entity has blocked the most recent instance of damage or not.
@@ -101,6 +111,95 @@ public class EarthUtil {
      */
     public static float calculateJumpHeight(float jumpVelocity) {
         return jumpVelocity * 2.25f;
+    }
+
+
+    /**
+     * Source: lilypuree#0239 (Discord)
+     *
+     * Searches X amount of times for a block with a state fulfilling the given predicate.
+     * The search will be outward starting from the root position.
+     *
+     *
+     *
+     * @param rootPos the start position of the search
+     * @param predicate the condition the blockstate must succeed
+     * @return the BlockPos fulfilling the predicate given, or null if the search fails.
+     */
+    @Deprecated
+    public static BlockPos search(BlockPos rootPos, int diameter, Predicate<BlockPos> predicate) {
+        Set<Long> visited = new LongOpenHashSet();
+        LinkedList<BlockPos> queue = new LinkedList<>();
+        visited.add(rootPos.asLong());
+        queue.add(rootPos);
+        int attempt = 0;
+        while (queue.size() != 0 && Math.pow((2 * diameter + 1), 3) - 1 != attempt) {
+            BlockPos currentBlockPos = queue.poll();
+            if (predicate.test(currentBlockPos)) {
+                return currentBlockPos;
+            }
+            for (Vec3i v : blockConnections) {
+                BlockPos nextBlockPos = currentBlockPos.add(v);
+                if (!visited.contains(nextBlockPos.asLong())) {
+                    visited.add(nextBlockPos.asLong());
+                    queue.add(nextBlockPos);
+                }
+            }
+            attempt++;
+        }
+        return null;
+    }
+
+    /**
+     * Source: lilypuree#0239 (Discord)
+     *
+     * Searches X amount of times for a block with a state fulfilling the given predicate.
+     * The search will be outward starting from the root position.
+     *
+     * @param rootPos the start position of the search
+     * @param world the world to do the search in
+     * @param blocks how many blocks to check before the search fails
+     * @param predicate the condition the blockstate must succeed
+     * @return the BlockPos fulfilling the predicate given, or null if the search fails.
+     *//*
+    public static BlockPos search(BlockPos rootPos, int blocks, Predicate<BlockPos> predicate) {
+        Set<Long> visited = new LongOpenHashSet();
+        LinkedList<BlockPos> queue = new LinkedList<>();
+        visited.add(rootPos.asLong());
+        queue.add(rootPos);
+        int attempt = 0;
+        while (queue.size() != 0 && attempt < blocks) {
+            BlockPos currentBlockPos = queue.poll();
+            if (predicate.test(currentBlockPos)) {
+                System.out.println("Searches: " + attempt);
+                return currentBlockPos;
+            }
+            for (Vec3i v : blockConnections) {
+                BlockPos nextBlockPos = currentBlockPos.add(v);
+                if (!visited.contains(nextBlockPos.asLong())) {
+                    visited.add(nextBlockPos.asLong());
+                    queue.add(nextBlockPos);
+                }
+            }
+            attempt++;
+        }
+        System.out.println("Searches: " + attempt);
+        return null;
+    }
+*/
+    private static List<Vec3i> createConnections() {
+        List<Vec3i> connections = new LinkedList<>();
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+                    connections.add(new Vec3i(x, y, z));
+                }
+            }
+        }
+        return connections;
     }
 
 }

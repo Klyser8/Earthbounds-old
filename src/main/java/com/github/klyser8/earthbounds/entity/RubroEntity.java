@@ -98,17 +98,13 @@ public class RubroEntity extends PathAwareEarthenEntity {
     //The current target block pos of the entity
     private static final TrackedData<BlockPos> BLOCK_TARGET_POS = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.BLOCK_POS);
-    //Holds the ID of its current flag.
-    private static final TrackedData<Byte> RUBRO_FLAGS = DataTracker.registerData(RubroEntity.class,
-            TrackedDataHandlerRegistry.BYTE);
     //Whether the Rubro is standing or not.
     private static final TrackedData<Boolean> STANDING = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.BOOLEAN);
 
-    private static final byte EMPTY_FLAG = 0;
-    private static final byte DIGGING_FLAG = 1;
-    private static final byte POUNCING_FLAG = 2;
-    private static final byte SPINNING_FLAG = 3;
+    private static final byte DIGGING_STATE = 1;
+    private static final byte POUNCING_STATE = 2;
+    private static final byte SPINNING_STATE = 3;
 
     private boolean collides = true;
     private final Map<BlockPos, Integer> ignoredBlocks = new HashMap<>();
@@ -162,7 +158,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
         goalSelector.add(6, new LookAroundGoal(this) {
             @Override
             public boolean canStart() {
-                return super.canStart() && getCurrentFlag() == EMPTY_FLAG;
+                return super.canStart() && getAnimationState() == DEFAULT_STATE;
             }
         });
         targetSelector.add(0, new RevengeGoal(this, RubroEntity.class));
@@ -238,30 +234,29 @@ public class RubroEntity extends PathAwareEarthenEntity {
         dataTracker.startTracking(IS_FULLY_CHARGED, false);
         dataTracker.startTracking(CURRENT_ORE, ItemStack.EMPTY);
         dataTracker.startTracking(BLOCK_TARGET_POS, getBlockPos());
-        dataTracker.startTracking(RUBRO_FLAGS, (byte) 0);
         dataTracker.startTracking(STANDING, false);
     }
 
     private <E extends IAnimatable> PlayState statePredicate(AnimationEvent<E> event) {
-        if (getCurrentFlag() == POUNCING_FLAG) {
+        if (getAnimationState() == POUNCING_STATE) {
             event.getController().transitionLengthTicks = 3;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("leap", true));
             return PlayState.CONTINUE;
         }
-        if (getCurrentFlag() == DIGGING_FLAG) {
+        if (getAnimationState() == DIGGING_STATE) {
             event.getController().transitionLengthTicks = 5;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("dig", true));
             return PlayState.CONTINUE;
         }
-        if (getCurrentFlag() == SPINNING_FLAG && isAlive()) {
+        if (getAnimationState() == SPINNING_STATE && isAlive()) {
             event.getController().transitionLengthTicks = 1;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("tail_spin", true));
             return PlayState.CONTINUE;
         }
-        if (getCurrentFlag() == EMPTY_FLAG) {
+        if (getAnimationState() == DEFAULT_STATE) {
             event.getController().transitionLengthTicks = 10;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("idle", true));
@@ -356,10 +351,6 @@ public class RubroEntity extends PathAwareEarthenEntity {
         this.collides = collides;
     }
 
-    protected void leap(Vec3d direction, float hMultiplier, float vMultiplier) {
-        addVelocity(direction.x * hMultiplier, direction.y * vMultiplier, direction.z * hMultiplier);
-    }
-
     /**
      * Plays a moving sound constantly from the moment the mob spawns, until it dies.
      */
@@ -381,11 +372,13 @@ public class RubroEntity extends PathAwareEarthenEntity {
                 updatePower(getPower() - 1);
             }
         }
-        for (BlockPos pos : ignoredBlocks.keySet()) {
-            //A rubro can dig up the same redstone ore block once every 30 seconds.
-            if (age - ignoredBlocks.get(pos) > 600) {
-                ignoredBlocks.remove(pos);
-                break;
+        if (age % 100 == 0) {
+            for (BlockPos pos : ignoredBlocks.keySet()) {
+                //A rubro can dig up the same redstone ore block once every 30 seconds.
+                if (age - ignoredBlocks.get(pos) > 600) {
+                    ignoredBlocks.remove(pos);
+                    break;
+                }
             }
         }
     }
@@ -645,14 +638,6 @@ public class RubroEntity extends PathAwareEarthenEntity {
         dataTracker.set(BLOCK_TARGET_POS, pos);
     }
 
-    public int getCurrentFlag() {
-        return dataTracker.get(RUBRO_FLAGS);
-    }
-
-    public void setCurrentFlag(byte id) {
-        dataTracker.set(RUBRO_FLAGS, id);
-    }
-
     public boolean isStanding() {
         return dataTracker.get(STANDING);
     }
@@ -689,7 +674,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
         /**
          * Whether the goal can start or not.
          * For the goal to start:
-         * - The entity's state must be {@link #EMPTY_FLAG}
+         * - The entity's state must be {@link #DEFAULT_STATE}
          * - If the rubro is healthy:
          *   1. Goal must not be on cooldown
          *   2. Rubro must not be already on a path
@@ -704,7 +689,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
         public boolean canStart() {
             boolean isHealthy = getHealth() > getMaxHealth() / 3;
             boolean canStart = true;
-            if (getCurrentFlag() != EMPTY_FLAG) {
+            if (getAnimationState() != DEFAULT_STATE) {
                 return false;
             }
             //Cooldown, current goal and current power are ignored when low on HP.
@@ -765,17 +750,17 @@ public class RubroEntity extends PathAwareEarthenEntity {
                             getBlockTargetPos().getY(), getBlockTargetPos().getZ() + 0.5);
                     if (distance > 1.0) {
                         Vec3d vec = EarthMath.dirBetweenVecs(getEyePos(), Vec3d.ofCenter(face).add(0, 1, 0));
-                        leap(vec, 0.5f, 0.25f);
+                        dash(vec, 0.5f, 0.25f);
                     }
                     pathDestination = null;
                     if (getEyePos().getY() < getBlockTargetPos().getY() &&
                             Math.abs(getEyePos().getY() - getBlockTargetPos().getY()) > 0.13) {
                         setStanding(true);
                     }
-                    setCurrentFlag(DIGGING_FLAG);
+                    setAnimationState(DIGGING_STATE);
                 }
             }
-            if (getCurrentFlag() == DIGGING_FLAG) {
+            if (getAnimationState() == DIGGING_STATE) {
                 dig();
             }
         }
@@ -794,7 +779,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                 return false;
             }
             if (getPower() < getMaxPower() && digTicks > 0) {
-                if (getCurrentFlag() == EMPTY_FLAG && !getNavigation().isIdle()) {
+                if (getAnimationState() == DEFAULT_STATE && !getNavigation().isIdle()) {
                     return true;
                 }
                 if (getBlockTargetPos() == null) {
@@ -802,7 +787,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                             "Rubro Entity: " + getUuidAsString() + " attempted scraping a redstone ore" +
                                     " which was null! Happened at location: " + getPos());
                 } else {
-                    if (getCurrentFlag() == DIGGING_FLAG
+                    if (getAnimationState() == DIGGING_STATE
                             && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
                         return true;
                     }
@@ -825,7 +810,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
             if (isStanding()) {
                 setStanding(false);
             }
-            setCurrentFlag(EMPTY_FLAG);
+            setAnimationState(DEFAULT_STATE);
             digTicks = startDigTicks;
             ignoredBlocks.putIfAbsent(getBlockTargetPos(), age);
             super.stop();
@@ -1027,7 +1012,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
             if (getTarget().isDead()) {
                  return false;
             }
-            if (getCurrentFlag() != EMPTY_FLAG) {
+            if (getAnimationState() != DEFAULT_STATE) {
                 return false;
             }
             if (EarthUtil.isOnCooldown(world.getTime(), lastPounceTime, pounceCooldown)
@@ -1072,8 +1057,8 @@ public class RubroEntity extends PathAwareEarthenEntity {
                 return false;
             }
             if (idleTime >= maxIdleTime
-                    && getCurrentFlag() != POUNCING_FLAG
-                    && getCurrentFlag() != SPINNING_FLAG) {
+                    && getAnimationState() != POUNCING_STATE
+                    && getAnimationState() != SPINNING_STATE) {
                 return false;
             }
             //If the spin attack is on cooldown, it means it has been executed at least once.
@@ -1098,7 +1083,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
             if (hasAirStruck) {
                 hasAirStruck = false;
             }
-            setCurrentFlag(EMPTY_FLAG);
+            setAnimationState(DEFAULT_STATE);
         }
 
         @Override
@@ -1135,12 +1120,12 @@ public class RubroEntity extends PathAwareEarthenEntity {
             //If the pounce is on cooldown, the rubro is on the ground and has a pouncing state... It is done pouncing.
             //Logic required to be before the pounce in order to work. Weird.
             if (EarthUtil.isOnCooldown(world.getTime(), lastPounceTime, pounceCooldown)
-                    && isOnGround() && getCurrentFlag() == POUNCING_FLAG) {
-                setCurrentFlag(EMPTY_FLAG);
+                    && isOnGround() && getAnimationState() == POUNCING_STATE) {
+                setAnimationState(DEFAULT_STATE);
             }
             //Pounces the target if rubro's not doing anything, is at leap distance and is not on cooldown.
             //Additionally, it may only pounce if the spin attack is not on cooldown too.
-            if (getCurrentFlag() == EMPTY_FLAG
+            if (getAnimationState() == DEFAULT_STATE
                     && eyeToFootDistance <= calculateMaxLeapDistance()
                     && eyeToFootDistance >= defaultMinLeapDistance
                     && canSee(target)
@@ -1150,7 +1135,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                 pounce();
             }
             //If the rubro is pouncing, strikes the target when close.
-            if (getCurrentFlag() == POUNCING_FLAG) {
+            if (getAnimationState() == POUNCING_STATE) {
                 playRedstoneParticles(3);
                 if (getEyePos().distanceTo(target.getEyePos()) <= 1.5 && !hasAirStruck) {
                     airStrike();
@@ -1158,17 +1143,17 @@ public class RubroEntity extends PathAwareEarthenEntity {
             }
             //if the rubro has a null state, and has air struck + is on ground OR
             //is closer than X to player and is not on cooldown, try tail spinning.
-            if (getCurrentFlag() == EMPTY_FLAG
+            if (getAnimationState() == DEFAULT_STATE
                     && ((hasAirStruck && isOnGround()) || (eyeToFootDistance <= defaultMinLeapDistance && !EarthUtil.isOnCooldown(world.getTime(), lastSpinTime, spinCooldown)))) {
                 //Will attempt the tail spin if it is close enough to the target. Otherwise, it will get closer to it.
                 if (eyeToFootDistance <= defaultMinLeapDistance) {
-                    setCurrentFlag(SPINNING_FLAG);
+                    setAnimationState(SPINNING_STATE);
                     tailSpinTime = TAIL_SPIN_ANIMATION_DURATION + 1;
                 } else {
                     getNavigation().startMovingTo(getTarget(), 1.0);
                 }
             }
-            if (getCurrentFlag() == SPINNING_FLAG) {
+            if (getAnimationState() == SPINNING_STATE) {
                 if (tailSpinTime > 0) {
                     tailSpinTime--;
                 }
@@ -1182,7 +1167,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
          * ground or not.
          */
         protected void pounce() {
-            setCurrentFlag(POUNCING_FLAG);
+            setAnimationState(POUNCING_STATE);
             Vec3d targetPos = getTarget().getEyePos().add(0, 1, 0);
             double hyp = getEyePos().distanceTo(targetPos);
             double opp = targetPos.y - getEyeY();
@@ -1190,7 +1175,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
             float forceMultiplier = 1.22407623745f - sin;
             //Deepslate rubros leap slower
             float materialMultiplier = isDeepslate() ? 1.0f : 1.15f;
-            leap(dirBetweenVecs(getPos(), targetPos),
+            dash(dirBetweenVecs(getPos(), targetPos),
                     (1.3f + getPower() / 500.0f) * materialMultiplier,
                     ((1.3f + getPower() / 500.0f) * forceMultiplier) * materialMultiplier);
             setCollides(false);
@@ -1198,7 +1183,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
             getNavigation().stop();
             setBodyYaw(getHeadYaw());
             if (!world.isClient) {
-                world.playSound(null, getBlockPos(), SoundEvents.ENTITY_GOAT_LONG_JUMP,
+                world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_POUNCE,
                         SoundCategory.HOSTILE, 0.5f, 1.4f + random.nextFloat() / 5.0f);
             }
         }
@@ -1233,7 +1218,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                 setVelocity(getVelocity().negate());
             } else {
                 if (!world.isClient) {
-                    world.playSound(null, new BlockPos(getEyePos()), SoundEvents.ENTITY_GOAT_RAM_IMPACT,
+                    world.playSound(null, new BlockPos(getEyePos()), EarthboundSounds.RUBRO_POUNCE_STRIKE,
                             SoundCategory.HOSTILE, 0.5f, 1.4f + random.nextFloat() / 5.0f);
                 }
             }
@@ -1256,7 +1241,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                             && (Math.abs(getY() - getTarget().getY()) > EarthUtil.calculateJumpHeight(getJumpVelocity())
                             || isOutOfReach)
                             && getTarget().getY() > getY()) {
-                        leap(dir, 1f, 0);
+                        dash(dir, 1f, 0);
                         jump();
                     }
                 } else if (tailSpinTime == firstSpinBegin - 3 || tailSpinTime == secondSpinBegin - 3) {
@@ -1266,7 +1251,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                     }
                 } else if (tailSpinTime == firstSpinHalfway || tailSpinTime == secondSpinHalfway) {
                     if (isOnGround()) {
-                        leap(dir, 1f, 0);
+                        dash(dir, 1f, 0);
                     }
                     //Damage entities in a box around the rubro (except for itself)
                     for (LivingEntity entity : world.getEntitiesByClass(LivingEntity.class, Box.of(getPos(),
@@ -1290,7 +1275,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                     }
                 }
             } else {
-                setCurrentFlag(EMPTY_FLAG);
+                setAnimationState(DEFAULT_STATE);
                 lastSpinTime = world.getTime();
             }
         }

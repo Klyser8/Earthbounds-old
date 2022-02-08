@@ -1,31 +1,21 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.block.RedstoneFossilBlock;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.item.FlingingPotionItem;
+import com.github.klyser8.earthbounds.item.GlowGreaseItem;
 import com.github.klyser8.earthbounds.item.RedstoneFossilBlockItem;
-import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
-import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
@@ -76,6 +66,16 @@ public class EarthboundItems {
             return ActionResult.SUCCESS;
         }
 
+        @Override
+        public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+            if (!world.isClient) {
+                BlockPos torchPos = BlockPos.findClosest(user.getBlockPos(),12, 12,
+                        pos -> world.getBlockState(pos).getBlock() instanceof TorchBlock).orElse(null);
+                System.out.println(torchPos);
+            }
+            return super.use(world, user, hand);
+        }
+
         public BlockPos getFaceExposedToAir(World world, BlockPos pos) {
             if (world.getBlockState(pos.mutableCopy().up()).isAir()) {
                 return pos.up();
@@ -105,21 +105,34 @@ public class EarthboundItems {
     };
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(ItemGroup.MISC));
+    public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(ItemGroup.BREWING)));
+    public static final Item AMETHYST_DUST = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(ItemGroup.MISC));
     public static final Item RUBRO_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.RUBRO, 3618630,
             14417920, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item PERTILYO_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.PERTILYO, 15105367,
+            7287328, new Item.Settings().group(ItemGroup.MISC));
 
     public static void register() {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
         Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "flinging_potion"), FLINGING_POTION);
+        Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "amethyst_dust"), AMETHYST_DUST);
+        Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "glow_grease"), GLOW_GREASE);
+
+        Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_spawn_egg"), CARBORANEA_SPAWN_EGG);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "rubro_spawn_egg"), RUBRO_SPAWN_EGG);
-
+        Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "pertilyo_spawn_egg"), PERTILYO_SPAWN_EGG);
 
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK,
