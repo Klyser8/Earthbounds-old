@@ -168,7 +168,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return DefaultAttributeContainer.builder()
+        return LivingEntity.createLivingAttributes()
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)

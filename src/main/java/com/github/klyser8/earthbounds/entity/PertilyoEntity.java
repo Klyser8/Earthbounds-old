@@ -6,10 +6,7 @@ import com.github.klyser8.earthbounds.util.EarthUtil;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.AboveGroundTargeting;
 import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.control.FlightMoveControl;
@@ -75,7 +72,7 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return DefaultAttributeContainer.builder()
+        return LivingEntity.createLivingAttributes()
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 1.0D)
