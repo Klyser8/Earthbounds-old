@@ -16,6 +16,7 @@ import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.fabricmc.fabric.impl.networking.ClientSidePacketRegistryImpl;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.potion.PotionUtil;
@@ -44,6 +45,7 @@ public class EarthboundsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(EarthboundBlocks.GLOW_GREASE_SPLAT, RenderLayer.getTranslucent());
 
         EntityRendererRegistry.register(EarthboundEntities.GLOW_GREASE, GlowGreaseDropEntityRenderer::new);
+        EntityRendererRegistry.register(EarthboundEntities.FLINGING_POTION, FlyingItemEntityRenderer::new);
         receiveEntityPacket();
     }
 

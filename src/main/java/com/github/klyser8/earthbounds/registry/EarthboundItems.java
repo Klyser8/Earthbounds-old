@@ -1,12 +1,15 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.item.FlingingPotionItem;
+import com.github.klyser8.earthbounds.item.flingshot.FlingingPotionItem;
+import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import com.github.klyser8.earthbounds.item.GlowGreaseItem;
 import com.github.klyser8.earthbounds.item.RedstoneFossilBlockItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -108,6 +111,7 @@ public class EarthboundItems {
     public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(ItemGroup.BREWING)));
     public static final Item AMETHYST_DUST = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
     public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(ItemGroup.DECORATIONS));
+    public static final Item FLINGSHOT = new FlingshotItem(new Item.Settings().group(ItemGroup.COMBAT).maxDamage(320));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(ItemGroup.MISC));
@@ -126,6 +130,8 @@ public class EarthboundItems {
                 new Identifier(Earthbounds.MOD_ID, "amethyst_dust"), AMETHYST_DUST);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "glow_grease"), GLOW_GREASE);
+        Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "flingshot"), FLINGSHOT);
 
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_spawn_egg"), CARBORANEA_SPAWN_EGG);
@@ -146,5 +152,25 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK,
                         new FabricItemSettings().rarity(Rarity.RARE)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+
+        registerModelPredicates();
+    }
+
+    private static void registerModelPredicates() {
+        Identifier pullingIdentifier = new Identifier(Earthbounds.MOD_ID, "pull");
+        FabricModelPredicateProviderRegistry.register(FLINGSHOT, pullingIdentifier, (stack, world, entity, seed) -> {
+            if (entity == null) {
+                return 0;
+            }
+            if (entity.getActiveItem() != stack) {
+                return 0;
+            }
+            if (EnchantmentHelper.get(stack).containsKey(EarthboundEnchantments.AUTOMATION)) {
+                return (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft())
+                        % FlingshotItem.CHARGE_TIME / FlingshotItem.CHARGE_TIME;
+            } else {
+                return (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft()) / FlingshotItem.CHARGE_TIME;
+            }
+        });
     }
 }

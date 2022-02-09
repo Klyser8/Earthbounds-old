@@ -16,4 +16,14 @@ public interface BrewingRecipeRegistryAccessor {
     static void invokeRegisterItemRecipe(Item input, Item ingredient, Item output) {
         throw new AssertionError();
     }
+
+    @Invoker("registerPotionType")
+    static void invokeRegisterPotionType(Item item) {
+        throw new AssertionError();
+    }
+
+    @Invoker("registerPotionRecipe")
+    static void invokeRegisterPotionRecipe(Potion input, Item item, Potion output) {
+        throw new AssertionError();
+    }
 }

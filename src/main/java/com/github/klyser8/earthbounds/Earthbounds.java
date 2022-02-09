@@ -35,16 +35,11 @@ public class Earthbounds implements ModInitializer {
         EarthboundBlocks.register();
         EarthboundEnchantments.register();
 
-        registerPotionRecipes();
+        EarthboundPotions.register();
         initEvents();
     }
 
     private void initEvents() {
         PlayerBlockBreakEventHandler.init();
-    }
-
-    private void registerPotionRecipes() {
-        BrewingRecipeRegistryAccessor.invokeRegisterItemRecipe(
-                Items.POTION, EarthboundItems.AMETHYST_DUST, EarthboundItems.FLINGING_POTION);
     }
 }

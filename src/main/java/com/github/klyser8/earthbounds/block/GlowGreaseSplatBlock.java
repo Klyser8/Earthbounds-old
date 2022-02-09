@@ -47,27 +47,4 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
         return state.getFluidState().isEmpty();
     }
-
-    @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return super.canPlaceAt(state, world, pos) && world.getBlockState(pos).getFluidState().isEmpty();
-                /*&& !world.getBlockState(pos).getFluidState().isIn(FluidTags.WATER)
-                && !world.getBlockState(pos).getFluidState().isIn(FluidTags.LAVA);*/
-    }
-
-    @Override
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
-//        entity.setVelocity(entity.getVelocity().multiply(0.5f));
-        super.onSteppedOn(world, pos, state, entity);
-    }
-
-    @Override
-    public boolean canReplace(BlockState state, ItemPlacementContext context) {
-/*        BlockState posState =
-        System.out.println(posState.getBlock());
-        if (!posState.getFluidState().isEmpty()) {
-            return true;
-        }*/
-        return super.canReplace(state, context);
-    }
 }

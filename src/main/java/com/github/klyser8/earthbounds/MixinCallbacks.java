@@ -2,10 +2,14 @@ package com.github.klyser8.earthbounds;
 
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.entity.Earthen;
+import com.github.klyser8.earthbounds.registry.EarthboundEnchantments;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.NbtElement;
@@ -22,6 +26,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class MixinCallbacks {
 
     public static void stopAttackSoundAgainstEarthens(ItemStack stackInHand, Entity target, World instance, double posX,
@@ -29,7 +36,7 @@ public class MixinCallbacks {
                                                       SoundCategory soundCategory, float volume, float pitch) {
         if (target instanceof Earthen) {
             if (!(stackInHand.getItem() instanceof PickaxeItem)) {
-                soundEvent = SoundEvents.ENTITY_IRON_GOLEM_HURT;
+                soundEvent = SoundEvents.ENTITY_IRON_GOLEM_HURT; //TODO replace this sound with a custom one
                 volume = 0.5f;
                 pitch = 2.0f;
             }
@@ -68,6 +75,22 @@ public class MixinCallbacks {
             }
         }
         return true;
+    }
+
+    public static void canEnchant(ItemStack stack, List<EnchantmentLevelEntry> list,  Enchantment enchantment) {
+        if (enchantment == EarthboundEnchantments.FORCE
+                && !EarthboundEnchantments.FORCE.isAcceptableItem(stack) && !list.isEmpty()) {
+            list.remove(list.size() - 1);
+        } else if (enchantment == EarthboundEnchantments.PRECISION
+                && !EarthboundEnchantments.PRECISION.isAcceptableItem(stack) && !list.isEmpty()) {
+            list.remove(list.size() - 1);
+        } else if (enchantment == EarthboundEnchantments.AUTOMATION
+                && !EarthboundEnchantments.PRECISION.isAcceptableItem(stack) && !list.isEmpty()) {
+            list.remove(list.size() - 1);
+        } else if (enchantment == EarthboundEnchantments.VERSATILITY
+                && !EarthboundEnchantments.PRECISION.isAcceptableItem(stack) && !list.isEmpty()) {
+            list.remove(list.size() - 1);
+        }
     }
 
 }

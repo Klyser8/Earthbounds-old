@@ -52,8 +52,13 @@ public class EarthboundEntities {
     public static final EntityType<GlowGreaseDropEntity> GLOW_GREASE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "glow_grease"),
             FabricEntityTypeBuilder.<GlowGreaseDropEntity>create(SpawnGroup.MISC, GlowGreaseDropEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.2f, 0.2f))
-                    .trackRangeBlocks(4).trackedUpdateRate(10).build());
+                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
+    public static final EntityType<FlingingPotionEntity> FLINGING_POTION = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "flinging_potion"),
+            FabricEntityTypeBuilder.<FlingingPotionEntity>create(SpawnGroup.MISC, FlingingPotionEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
 
     public static void register() {
         Registry.register(Registry.ENTITY_TYPE,
@@ -62,12 +67,10 @@ public class EarthboundEntities {
                 new Identifier(MOD_ID, "rubro"), RUBRO);
         Registry.register(Registry.ENTITY_TYPE,
                 new Identifier(MOD_ID, "pertilyo"), PERTILYO);
-
         createEntityAttributes();
 
         BiomeModifications.addSpawn(BiomeSelectors.all(),
                 SpawnGroup.AMBIENT, EarthboundEntities.RUBRO, 36, 1, 2);
-//        registerEntitySpawnRestrictions();
     }
 
     public static void registerRenderers() {

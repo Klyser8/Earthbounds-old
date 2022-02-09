@@ -7,10 +7,12 @@
     "AbstractFurnaceBlockEntityAccessor",
     "AvoidCrumbleMiningMixin",
     "BrewingRecipeRegistryAccessor",
-    "VFXPosMixin",
+    "EnchantmentHelperMixin",
+    "NauseaStatusEffectColorMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin",
-    "VelocityAffectingPosMixin"
+    "VelocityAffectingPosMixin",
+    "VFXPosMixin"
   ],
   "client": [
   ],

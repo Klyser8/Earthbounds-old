@@ -26,11 +26,10 @@ public class GlowGreaseDropEntityRenderer extends EntityRenderer<GlowGreaseDropE
                        VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
         matrixStack.multiply(this.dispatcher.getRotation());
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f));
         if (glowGreaseEntity.wasShotAtAngle()) {
             matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f));
             matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f));
-            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f));
+            matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(115.0f));
         }
         this.itemRenderer.renderItem(glowGreaseEntity.getStack(), ModelTransformation.Mode.GROUND, i,
                 OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumerProvider, glowGreaseEntity.getId());

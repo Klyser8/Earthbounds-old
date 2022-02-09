@@ -20,6 +20,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
@@ -35,9 +36,6 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
             GlowGreaseDropEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
     private static final TrackedData<Boolean> SHOT_AT_ANGLE = DataTracker.registerData(
             GlowGreaseDropEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
-    @Nullable
-    private LivingEntity shooter;
 
     public GlowGreaseDropEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
@@ -62,16 +60,39 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
         this.dataTracker.set(SHOT_AT_ANGLE, shotAtAngle);
     }
 
-    public GlowGreaseDropEntity(World world, ItemStack stack, Entity entity, double x, double y, double z,
+    public GlowGreaseDropEntity(World world, ItemStack stack, Entity owner, double x, double y, double z,
                                 boolean shotAtAngle) {
         this(world, stack, x, y, z, shotAtAngle);
-        this.setOwner(entity);
+        this.setOwner(owner);
     }
 
     @Override
     protected void initDataTracker() {
+        super.initDataTracker();
         this.dataTracker.startTracking(ITEM, ItemStack.EMPTY);
         this.dataTracker.startTracking(SHOT_AT_ANGLE, false);
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        ItemStack itemStack = this.dataTracker.get(ITEM);
+        if (!itemStack.isEmpty()) {
+            nbt.put("GlowGreaseItem", itemStack.writeNbt(new NbtCompound()));
+        }
+        nbt.putBoolean("ShotAtAngle", this.dataTracker.get(SHOT_AT_ANGLE));
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        ItemStack itemStack = ItemStack.fromNbt(nbt.getCompound("GlowGreaseItem"));
+        if (!itemStack.isEmpty()) {
+            this.dataTracker.set(ITEM, itemStack);
+        }
+        if (nbt.contains("ShotAtAngle")) {
+            this.dataTracker.set(SHOT_AT_ANGLE, nbt.getBoolean("ShotAtAngle"));
+        }
     }
 
     @Override
@@ -82,12 +103,12 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        if (world.isClient) {
+        /*if (world.isClient) {
             return;
         }
         entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this), 0);
         playHitSound();
-        remove(RemovalReason.KILLED);
+        remove(RemovalReason.KILLED);*/
     }
 
     private void playHitSound() {
@@ -99,17 +120,19 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
-        BlockPos blockPos = new BlockPos(blockHitResult.getBlockPos());
-        world.getBlockState(blockPos).onEntityCollision(world, blockPos, this);
+        BlockPos hitPos = new BlockPos(blockHitResult.getBlockPos());
+        BlockPos placePos = hitPos.up();
         if (!world.isClient()) {
-            remove(RemovalReason.KILLED);
+            discard();
             GlowGreaseSplatBlock glowGreaseBlock = EarthboundBlocks.GLOW_GREASE_SPLAT;
             BlockState state = glowGreaseBlock.getPlacementState(new AutomaticItemPlacementContext(
-                    world, blockPos.up(), blockHitResult.getSide(),
+                    world, placePos, blockHitResult.getSide(),
                     EarthboundItems.GLOW_GREASE.getDefaultStack(), blockHitResult.getSide()));
             if (state == null) return;
-            world.setBlockState(blockPos.up(), state);
-            playHitSound();
+            if (glowGreaseBlock.canPlaceAt(state, world, hitPos)) {
+                world.setBlockState(placePos, state);
+                playHitSound();
+            }
         }
     }
 
@@ -140,6 +163,16 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
 
     public boolean wasShotAtAngle() {
         return this.dataTracker.get(SHOT_AT_ANGLE);
+    }
+
+    @Override
+    public boolean shouldRender(double distance) {
+        return distance < 4096.0;
+    }
+
+    @Override
+    public boolean shouldRender(double cameraX, double cameraY, double cameraZ) {
+        return super.shouldRender(cameraX, cameraY, cameraZ);
     }
 
     @Override
