@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.mixin;
 
+import com.github.klyser8.earthbounds.registry.EarthboundEnchantments;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
@@ -25,7 +26,10 @@ public abstract class EnchantmentHelperMixin {
                                                    CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir,
                                                    List<EnchantmentLevelEntry> list, Item item,
                                                    boolean bl, Iterator<Enchantment> var6, Enchantment enchantment) {
-        MixinCallbacks.canEnchant(stack, list, enchantment);
+        if (enchantment == EarthboundEnchantments.CRUMBLE
+                && !EarthboundEnchantments.CRUMBLE.isAcceptableItem(stack) && !list.isEmpty()) {
+            list.remove(list.size() - 1);
+        }
     }
 
 }
