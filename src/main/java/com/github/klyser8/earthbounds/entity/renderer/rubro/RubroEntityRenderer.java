@@ -15,6 +15,7 @@ public class RubroEntityRenderer extends EarthenEntityRenderer<RubroEntity> {
 
     public RubroEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new RubroEntityModel());
+        this.shadowRadius = 0.65f;
         addLayer(new RubroRedstoneLayer(this));
         addLayer(new RubroMaskLayer(this));
     }

@@ -17,6 +17,7 @@ public class PertilyoEntityRenderer extends EarthenEntityRenderer<PertilyoEntity
 
     public PertilyoEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new PertilyoEntityModel());
+        this.shadowRadius = 0.5f;
         addLayer(new PertilyoLightLayer(this));
     }
 

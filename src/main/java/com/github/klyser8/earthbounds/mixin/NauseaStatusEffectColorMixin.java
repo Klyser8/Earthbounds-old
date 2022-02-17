@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(StatusEffects.class)
-public class NauseaStatusEffectColorMixin {
+public abstract class NauseaStatusEffectColorMixin {
 
 
 

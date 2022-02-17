@@ -2,17 +2,14 @@ package com.github.klyser8.earthbounds.entity;
 
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.client.EarthboundsClient;
+import com.github.klyser8.earthbounds.item.GlowGreaseItem;
 import com.github.klyser8.earthbounds.network.EntitySpawnPacket;
 import com.github.klyser8.earthbounds.registry.EarthboundBlocks;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
 import com.github.klyser8.earthbounds.registry.EarthboundItems;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.GlowLichenBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.FlyingItemEntity;
-import net.minecraft.entity.LivingEntity;
+import com.github.klyser8.earthbounds.registry.EarthboundParticles;
+import net.minecraft.block.*;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -22,7 +19,11 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -48,11 +49,6 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
             this.dataTracker.set(ITEM, stack.copy());
         }
         this.setVelocity(this.random.nextGaussian() * 0.001, 0.05, this.random.nextGaussian() * 0.001);
-    }
-
-    public GlowGreaseDropEntity(World world, @Nullable Entity entity, double x, double y, double z, ItemStack stack) {
-        this(world, x, y, z, stack);
-        this.setOwner(entity);
     }
 
     public GlowGreaseDropEntity(World world, ItemStack stack, double x, double y, double z, boolean shotAtAngle) {
@@ -94,21 +90,9 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
             this.dataTracker.set(SHOT_AT_ANGLE, nbt.getBoolean("ShotAtAngle"));
         }
     }
-
-    @Override
-    public boolean hasNoGravity() {
-        return false;
-    }
-
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        /*if (world.isClient) {
-            return;
-        }
-        entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this), 0);
-        playHitSound();
-        remove(RemovalReason.KILLED);*/
     }
 
     private void playHitSound() {
@@ -117,21 +101,31 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
         }
     }
 
-    @Override
+    @Override //Absolem Jackdaw absolute legend
     protected void onBlockHit(BlockHitResult blockHitResult) {
-        super.onBlockHit(blockHitResult);
-        BlockPos hitPos = new BlockPos(blockHitResult.getBlockPos());
-        BlockPos placePos = hitPos.up();
+        if (isRemoved() || isInLava() || isTouchingWater()) {
+            return;
+        }
+        BlockPos blockPos = new BlockPos(blockHitResult.getBlockPos());
+        BlockPos placePos = blockPos.offset(blockHitResult.getSide());
+        BlockState oldPlaceState = world.getBlockState(placePos);
         if (!world.isClient()) {
             discard();
             GlowGreaseSplatBlock glowGreaseBlock = EarthboundBlocks.GLOW_GREASE_SPLAT;
-            BlockState state = glowGreaseBlock.getPlacementState(new AutomaticItemPlacementContext(
-                    world, placePos, blockHitResult.getSide(),
-                    EarthboundItems.GLOW_GREASE.getDefaultStack(), blockHitResult.getSide()));
-            if (state == null) return;
-            if (glowGreaseBlock.canPlaceAt(state, world, hitPos)) {
-                world.setBlockState(placePos, state);
+            BlockState greaseState;
+            BlockState currentState;
+            if (world.getBlockState(placePos).getBlock() instanceof GlowGreaseSplatBlock) {
+                currentState = world.getBlockState(placePos);
+            } else {
+                currentState = glowGreaseBlock.getDefaultState();
+            }
+            greaseState = glowGreaseBlock.withDirection(currentState, world, placePos, blockHitResult.getSide().getOpposite());
+            if (greaseState == null || !oldPlaceState.getMaterial().isReplaceable()) {
+                world.spawnEntity(new ItemEntity(world, getX(), getY(), getZ(), getStack()));
+            } else {
+                world.setBlockState(placePos, greaseState, Block.NOTIFY_ALL);
                 playHitSound();
+                spawnHitParticles();
             }
         }
     }
@@ -139,9 +133,21 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
     @Override
     public void tick() {
         super.tick();
-        if (isTouchingWater()) {
-            remove(RemovalReason.KILLED);
-            playHitSound();
+        if (isTouchingWater() || isInLava()) {
+            discard();
+            playSound(isTouchingWater() ? SoundEvents.ENTITY_GENERIC_SPLASH : SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, 0.5f, 2.0f);
+            if (!world.isClient) {
+                ((ServerWorld) world).spawnParticles(EarthboundParticles.GREASE_CHUNK, getParticleX(0.5),
+                        getRandomBodyY(), getParticleZ(0.5), 40, 0, 0, 0, 0.1);
+            }
+        }
+        if (world.isClient) {
+            for (int i = 0; i < 2; ++i) {
+                this.world.addParticle(EarthboundParticles.GREASE_CHUNK,
+                        this.getX() + getVelocity().x * (double)i / 2.0,
+                        this.getY() + getVelocity().y * (double)i / 2.0,
+                        this.getZ() + getVelocity().z * (double)i / 2.0,0,0,0);
+            }
         }
     }
 
@@ -183,5 +189,18 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
     @Override
     public boolean isAttackable() {
         return false;
+    }
+
+    public static boolean canFallThrough(BlockState state) {
+        Material material = state.getMaterial();
+        return state.isAir() || state.isIn(BlockTags.FIRE) || !material.isSolid();
+    }
+
+    private void spawnHitParticles() {
+        if (world.isClient) {
+            return;
+        }
+        ((ServerWorld) world).spawnParticles(EarthboundParticles.GREASE_CHUNK, getParticleX(0.5),
+                getRandomBodyY(), getParticleZ(0.5), 40, 0, 0, 0, 0.1);
     }
 }

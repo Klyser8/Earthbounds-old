@@ -8,6 +8,8 @@
     "AvoidCrumbleMiningMixin",
     "BrewingRecipeRegistryAccessor",
     "EnchantmentHelperMixin",
+    "FlingshotFOVMixin",
+    "FlingshotMovementBoostMixin",
     "NauseaStatusEffectColorMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin",

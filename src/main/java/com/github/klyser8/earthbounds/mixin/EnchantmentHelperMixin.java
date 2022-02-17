@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(EnchantmentHelper.class)
-public class EnchantmentHelperMixin {
+public abstract class EnchantmentHelperMixin {
 
     //most compat way to make enchantment table apply our enchantment properly
     @Inject(method = "getPossibleEntries",

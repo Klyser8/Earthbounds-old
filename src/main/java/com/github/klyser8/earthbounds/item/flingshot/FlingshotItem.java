@@ -18,6 +18,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -25,9 +26,6 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class FlingshotItem extends Item implements Vanishable {
-
-    public static final UUID FLINGSHOT_SPEED_MODIFIER_UUID = UUID.fromString("3a137b55-fc3a-43de-ac7e-c7445db45903");
-    public static final String FLINGSHOT_SPEED_MODIFIER_NAME = "flingshot_modifier";
 
     public static final Predicate<ItemStack> FLINGSHOT_PROJECTILES = stack ->
             stack.getItem() instanceof Flingable;
@@ -53,7 +51,6 @@ public class FlingshotItem extends Item implements Vanishable {
         ItemStack flingShot = user.getStackInHand(hand);
         boolean isHoldingProjectile = !getHeldProjectile(flingShot, user).isEmpty();
         if (isHoldingProjectile) {//TODO change speed of player when using flingshot
-            user.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).addTemporaryModifier(new EntityAttributeModifier(FLINGSHOT_SPEED_MODIFIER_UUID, FLINGSHOT_SPEED_MODIFIER_NAME, 3.0f, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
             user.setCurrentHand(hand);
             return TypedActionResult.consume(flingShot);
         } else {
@@ -80,7 +77,10 @@ public class FlingshotItem extends Item implements Vanishable {
         return super.finishUsing(flingshot, world, user);
     }
 
-
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.BOW;
+    }
 
     private void handleFlingshotLogic(ItemStack flingshot, World world, LivingEntity user, int remainingUseTicks) {
         if (!(user instanceof PlayerEntity player)) {
@@ -122,7 +122,6 @@ public class FlingshotItem extends Item implements Vanishable {
                 SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS,
                 1.0f, 1.3f + world.random.nextFloat() / 2.0f);
         player.incrementStat(Stats.USED.getOrCreateStat(this));
-        user.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).removeModifier(FLINGSHOT_SPEED_MODIFIER_UUID);
     }
 
     private float calculateForce(ItemStack flingshot, ItemStack projectile) {

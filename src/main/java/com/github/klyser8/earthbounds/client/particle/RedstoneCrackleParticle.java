@@ -8,11 +8,11 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.BlockPos;
 
-public class RedstoneCrackleEffect extends AnimatedParticle {
+public class RedstoneCrackleParticle extends AnimatedParticle {
 
-    public RedstoneCrackleEffect(ClientWorld world, double x, double y, double z,
-                                 double velX, double velY, double velZ,
-                                 SpriteProvider spriteProvider) {
+    public RedstoneCrackleParticle(ClientWorld world, double x, double y, double z,
+                                   double velX, double velY, double velZ,
+                                   SpriteProvider spriteProvider) {
         super(world, x, y, z, spriteProvider, 0);
         this.velocityX = velX;
         this.velocityY = velY;
@@ -50,7 +50,7 @@ public class RedstoneCrackleEffect extends AnimatedParticle {
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld,
                                        double d, double e, double f, double g, double h, double i) {
-            return new RedstoneCrackleEffect(clientWorld, d, e, f, g, h, i,
+            return new RedstoneCrackleParticle(clientWorld, d, e, f, g, h, i,
                     this.spriteProvider);
         }
     }

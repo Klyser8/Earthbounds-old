@@ -106,22 +106,24 @@ public class EarthboundItems {
             return ActionResult.SUCCESS;
         }
     };
+    public static final Item PERTILYO_ROD = new Item((new Item.Settings().group(EarthboundItemGroup.MISC)));
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
-            Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(ItemGroup.MISC));
-    public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(ItemGroup.BREWING)));
-    public static final Item AMETHYST_DUST = new Item(new Item.Settings().group(ItemGroup.MATERIALS));
-    public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(ItemGroup.DECORATIONS));
-    public static final Item FLINGSHOT = new FlingshotItem(new Item.Settings().group(ItemGroup.COMBAT).maxDamage(320));
+            Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
+    public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(EarthboundItemGroup.BREWING)));
+    public static final Item AMETHYST_DUST = new Item(new Item.Settings().group(EarthboundItemGroup.BREWING));
+    public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(EarthboundItemGroup.PLACEABLES));
+    public static final Item FLINGSHOT = new FlingshotItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxDamage(320));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
-            13913600, new Item.Settings().group(ItemGroup.MISC));
+            13913600, new Item.Settings().group(EarthboundItemGroup.MISC));
     public static final Item RUBRO_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.RUBRO, 3618630,
-            14417920, new Item.Settings().group(ItemGroup.MISC));
+            14417920, new Item.Settings().group(EarthboundItemGroup.MISC));
     public static final Item PERTILYO_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.PERTILYO, 15105367,
-            7287328, new Item.Settings().group(ItemGroup.MISC));
+            16565175, new Item.Settings().group(EarthboundItemGroup.MISC));
 
     public static void register() {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_rod"), PERTILYO_ROD);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
         Registry.register(Registry.ITEM,
@@ -142,17 +144,16 @@ public class EarthboundItems {
 
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.UNCOMMON)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.UNCOMMON).group(EarthboundItemGroup.PLACEABLES)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.RARE)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.UNCOMMON)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.UNCOMMON).group(EarthboundItemGroup.PLACEABLES)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.RARE)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
-
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
         registerModelPredicates();
     }
 

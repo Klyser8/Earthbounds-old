@@ -7,11 +7,13 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.source.BiomeSource;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -152,42 +154,19 @@ public class EarthUtil {
     }
 
     /**
-     * Source: lilypuree#0239 (Discord)
+     * Creates a list containing all adjacent positions to the given position.
      *
-     * Searches X amount of times for a block with a state fulfilling the given predicate.
-     * The search will be outward starting from the root position.
-     *
-     * @param rootPos the start position of the search
-     * @param world the world to do the search in
-     * @param blocks how many blocks to check before the search fails
-     * @param predicate the condition the blockstate must succeed
-     * @return the BlockPos fulfilling the predicate given, or null if the search fails.
-     *//*
-    public static BlockPos search(BlockPos rootPos, int blocks, Predicate<BlockPos> predicate) {
-        Set<Long> visited = new LongOpenHashSet();
-        LinkedList<BlockPos> queue = new LinkedList<>();
-        visited.add(rootPos.asLong());
-        queue.add(rootPos);
-        int attempt = 0;
-        while (queue.size() != 0 && attempt < blocks) {
-            BlockPos currentBlockPos = queue.poll();
-            if (predicate.test(currentBlockPos)) {
-                System.out.println("Searches: " + attempt);
-                return currentBlockPos;
-            }
-            for (Vec3i v : blockConnections) {
-                BlockPos nextBlockPos = currentBlockPos.add(v);
-                if (!visited.contains(nextBlockPos.asLong())) {
-                    visited.add(nextBlockPos.asLong());
-                    queue.add(nextBlockPos);
-                }
-            }
-            attempt++;
+     * @param pos the origin position
+     * @return the list with the adjacent block positions
+     */
+    public static List<BlockPos> getAdjacentPos(BlockPos pos) {
+        List<BlockPos> posList = new ArrayList<>();
+        for (Direction direction : Direction.values()) {
+            posList.add(pos.offset(direction, 1));
         }
-        System.out.println("Searches: " + attempt);
-        return null;
+        return posList;
     }
-*/
+
     private static List<Vec3i> createConnections() {
         List<Vec3i> connections = new LinkedList<>();
         for (int x = -1; x <= 1; x++) {

@@ -3,7 +3,9 @@ package com.github.klyser8.earthbounds;
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.entity.Earthen;
 import com.github.klyser8.earthbounds.registry.EarthboundEnchantments;
+import com.github.klyser8.earthbounds.registry.EarthboundItems;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.input.Input;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.Entity;
@@ -77,8 +79,27 @@ public class MixinCallbacks {
         return true;
     }
 
+    public static void applyFlingshotMovementBoost(ItemStack activeItem, Input input) {
+        if (activeItem.isOf(EarthboundItems.FLINGSHOT)) {
+            input.movementSideways *= 3;
+            input.movementForward *= 3;
+        }
+    }
+
+    public static float applyFlingshotFov(float f, boolean isUsingItem, ItemStack activeItem, int useTicks) {
+        if (isUsingItem && activeItem.isOf(EarthboundItems.FLINGSHOT)) {
+            float useSeconds = useTicks / 15.0f; //FIXME fov zooms in too much
+            useSeconds = useSeconds > 1.0f ? 1.0f : useSeconds * useSeconds;
+            f *= 1.0f - useSeconds * 0.15f;
+        }
+        return f;
+    }
+
     public static void canEnchant(ItemStack stack, List<EnchantmentLevelEntry> list,  Enchantment enchantment) {
-        if (enchantment == EarthboundEnchantments.FORCE
+        if (enchantment == EarthboundEnchantments.CRUMBLE
+                && !EarthboundEnchantments.CRUMBLE.isAcceptableItem(stack) && !list.isEmpty()) {
+            list.remove(list.size() - 1);
+        } else if (enchantment == EarthboundEnchantments.FORCE
                 && !EarthboundEnchantments.FORCE.isAcceptableItem(stack) && !list.isEmpty()) {
             list.remove(list.size() - 1);
         } else if (enchantment == EarthboundEnchantments.PRECISION

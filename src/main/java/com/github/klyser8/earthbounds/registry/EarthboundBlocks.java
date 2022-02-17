@@ -26,7 +26,7 @@ public class EarthboundBlocks {
             .copyOf(Blocks.DEEPSLATE_REDSTONE_ORE));
     public static final GlowGreaseSplatBlock GLOW_GREASE_SPLAT = new GlowGreaseSplatBlock(FabricBlockSettings
             .of(ORGANIC).noCollision().strength(0.2f).jumpVelocityMultiplier(0.8f)
-            .luminance(GlowGreaseSplatBlock.getLuminanceSupplier(10))
+            .luminance(GlowGreaseSplatBlock.getLuminanceSupplier(7))
             .sounds(BlockSoundGroup.HONEY)
             .slipperiness(1.0f));
 
