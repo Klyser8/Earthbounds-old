@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:deepslate"
+    },
+    "title": {
+      "translate": "advancement.earth.reach_deepslate.title"
+    },
+    "description": {
+      "translate": "advancement.earth.reach_deepslate.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/root",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "position": {
+            "y": {
+              "min": -64,
+              "max": 4
+            }
+          }
+        }
+      }
+    }
+  }
+}

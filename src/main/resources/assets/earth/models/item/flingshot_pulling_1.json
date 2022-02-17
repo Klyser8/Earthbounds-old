@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "earth:item/flingshot/flingshot_pulling_1"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "entity.carboranea.ambient": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_ambient1",
+      "earth:mob/carboranea/carboranea_ambient2",
+      "earth:mob/carboranea/carboranea_ambient3"
+    ]
+  },"entity.carboranea.shake": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_shake"
+    ]
+  },"entity.carboranea.shake_short": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_shake_short"
+    ]
+  },"entity.carboranea.hurt_weak": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_hurt_weak1"
+      ]
+  },"entity.carboranea.hurt": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_hurt1",
+      "earth:mob/carboranea/carboranea_hurt2",
+      "earth:mob/carboranea/carboranea_hurt3"
+      ]
+  },"entity.carboranea.death": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_death"
+      ]
+  },"entity.carboranea.bucket_fill": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_bucket_fill1",
+      "earth:mob/carboranea/carboranea_bucket_fill2"
+    ]
+  },"entity.carboranea.bucket_empty": {
+    "sounds": [
+      "earth:mob/carboranea/carboranea_bucket_empty1",
+      "earth:mob/carboranea/carboranea_bucket_empty2"
+    ]
+  },"entity.rubro.ambient": {
+    "sounds": [
+      "earth:mob/rubro/rubro_ambient1",
+      "earth:mob/rubro/rubro_ambient2",
+      "earth:mob/rubro/rubro_ambient3"
+    ]
+  },"entity.rubro.creak": {
+    "sounds": [
+      "earth:mob/rubro/rubro_creak1",
+      "earth:mob/rubro/rubro_creak2",
+      "earth:mob/rubro/rubro_creak3",
+      "earth:mob/rubro/rubro_creak4"
+    ]
+  },"entity.rubro.active": {
+    "sounds": [
+      "earth:mob/rubro/rubro_active"
+    ]
+  },"entity.rubro.charge": {
+    "sounds": [
+      "earth:mob/rubro/rubro_charge"
+    ]
+  },"entity.rubro.eat": {
+    "sounds": [
+      "earth:mob/rubro/rubro_eat1",
+      "earth:mob/rubro/rubro_eat2"
+    ]
+  },"entity.rubro.pounce": {
+    "sounds": [
+      "minecraft:mob/goat/jump1",
+      "minecraft:mob/goat/jump2"
+    ]
+  },"entity.rubro.pounce_strike": {
+    "sounds": [
+      "minecraft:mob/goat/impact1",
+      "minecraft:mob/goat/impact2",
+      "minecraft:mob/goat/impact3"
+    ]
+  },"entity.rubro.jump": {
+    "sounds": [
+      "minecraft:mob/horse/gallop1",
+      "minecraft:mob/horse/gallop2",
+      "minecraft:mob/horse/gallop3",
+      "minecraft:mob/horse/gallop4"
+    ]
+  },"entity.rubro.hurt": {
+    "sounds": [
+      "earth:mob/rubro/rubro_hurt1",
+      "earth:mob/rubro/rubro_hurt2",
+      "earth:mob/rubro/rubro_hurt3"
+    ]
+  },"entity.rubro.death": {
+    "sounds": [
+      "earth:mob/rubro/rubro_death"
+    ]
+  }
+}

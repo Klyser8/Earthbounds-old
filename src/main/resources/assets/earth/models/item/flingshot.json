@@ -1,0 +1,26 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "earth:item/flingshot/flingshot"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "earth:pull": 0.15
+      },
+      "model": "earth:item/flingshot_pulling_0"
+    },
+    {
+      "predicate": {
+        "earth:pull": 0.45
+      },
+      "model": "earth:item/flingshot_pulling_1"
+    },
+    {
+      "predicate": {
+        "earth:pull": 0.85
+      },
+      "model": "earth:item/flingshot_pulling_2"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:carboranea_bucket"
+    },
+    "title": {
+      "translate": "advancement.earth.scoop_carboranea.title"
+    },
+    "description": {
+      "translate": "advancement.earth.scoop_carboranea.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/find_carboranea",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:filled_bucket",
+      "conditions": {
+        "item": {
+          "items": [
+            "earth:carboranea_bucket"
+          ]
+        }
+      }
+    }
+  }
+}

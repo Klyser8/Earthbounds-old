@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "earth:item/flinging_potion_overlay",
+    "layer1": "earth:item/flinging_potion"
+  }
+}

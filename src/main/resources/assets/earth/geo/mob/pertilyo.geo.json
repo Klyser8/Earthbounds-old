@@ -1,0 +1,88 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.qupertilyo",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 3,
+				"visible_bounds_offset": [0, 0.5, 0]
+			},
+			"bones": [
+				{
+					"name": "main",
+					"pivot": [0, 6, 0]
+				},
+				{
+					"name": "core",
+					"parent": "main",
+					"pivot": [0, -4, 0],
+					"cubes": [
+						{"origin": [-4, 0, -4], "size": [8, 5, 8], "uv": [0, 13]},
+						{"origin": [-4, 6, -4], "size": [8, 5, 8], "uv": [0, 0]},
+						{"origin": [-1.5, 5, -1.5], "size": [3, 1, 3], "uv": [0, 35]}
+					]
+				},
+				{
+					"name": "head",
+					"parent": "core",
+					"pivot": [0, 11, 0],
+					"cubes": [
+						{"origin": [-2, 11, -2], "size": [4, 2, 4], "uv": [18, 32]},
+						{"origin": [-3, 13, -3], "size": [6, 1, 6], "uv": [24, 0]}
+					]
+				},
+				{
+					"name": "top_wings",
+					"parent": "main",
+					"pivot": [0, 8.31492, -2.55585]
+				},
+				{
+					"name": "top_right",
+					"parent": "top_wings",
+					"pivot": [-4.5, 8.65851, -2.89711],
+					"cubes": [
+						{"origin": [-13, 8, -1.995], "size": [9, 1, 4], "uv": [0, 26]},
+						{"origin": [-15, 8, -3], "size": [11, 1, 1], "uv": [22, 26]},
+						{"origin": [-14, 8, -2], "size": [1, 1, 5], "uv": [29, 33]}
+					]
+				},
+				{
+					"name": "top_left",
+					"parent": "top_wings",
+					"pivot": [4.5, 9.0412, -2.30656],
+					"cubes": [
+						{"origin": [13, 8, -2], "size": [1, 1, 5], "uv": [32, 20]},
+						{"origin": [4, 8, -3], "size": [11, 1, 1], "uv": [24, 18]},
+						{"origin": [4, 8, -1.995], "size": [9, 1, 4], "uv": [24, 13]}
+					]
+				},
+				{
+					"name": "bottom_wings",
+					"parent": "main",
+					"pivot": [0, 2, 2]
+				},
+				{
+					"name": "bot_right",
+					"parent": "bottom_wings",
+					"pivot": [-4, 2.30864, 1.55166],
+					"cubes": [
+						{"origin": [-12, 2, 2.005], "size": [8, 1, 3], "uv": [0, 31]},
+						{"origin": [-13, 2, 1], "size": [9, 1, 1], "uv": [32, 7]}
+					]
+				},
+				{
+					"name": "bot_left",
+					"parent": "bottom_wings",
+					"pivot": [4, 2.30864, 1.55166],
+					"cubes": [
+						{"origin": [4, 2, 2.005], "size": [8, 1, 3], "uv": [23, 28]},
+						{"origin": [4, 2, 1], "size": [9, 1, 1], "uv": [32, 9]}
+					]
+				}
+			]
+		}
+	]
+}

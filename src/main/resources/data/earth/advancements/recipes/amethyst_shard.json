@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "earth:amethyst_shard"
+    ]
+  },
+  "criteria": {
+    "has_amethyst_dust": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "earth:amethyst_dust"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:amethyst_shard"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_amethyst_dust",
+      "has_the_recipe"
+    ]
+  ]
+}

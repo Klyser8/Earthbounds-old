@@ -787,6 +787,11 @@ public class RubroEntity extends PathAwareEarthenEntity {
                             "Rubro Entity: " + getUuidAsString() + " attempted scraping a redstone ore" +
                                     " which was null! Happened at location: " + getPos());
                 } else {
+                    if (getFaceExposedToAir(getBlockTargetPos()) == null) {
+                        Earthbounds.LOGGER.log(Level.ERROR,
+                                "Rubro Entity: " + getUuidAsString() + " attempted looking for a block's face " +
+                                        " exposed to air, and it returned null! Happened at location: " + getPos());
+                    }
                     if (getAnimationState() == DIGGING_STATE
                             && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
                         return true;

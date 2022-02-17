@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DD",
+    "DD"
+  ],
+  "key": {
+    "D": {
+      "item": "earth:amethyst_dust"
+    }
+  },
+  "result": {
+    "item": "minecraft:amethyst_shard"
+  }
+}

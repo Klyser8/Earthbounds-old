@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:shield",
+      "nbt": "{BlockEntityTag:{Base:14,Patterns:[{Pattern:\"moj\",Color:1}]}}"
+    },
+    "title": {
+      "translate": "advancement.earth.deflect_powerful_pounce.title"
+    },
+    "description": {
+      "translate": "advancement.earth.deflect_powerful_pounce.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/deflect_pounce",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:entity_hurt_player",
+      "conditions": {
+        "damage": {
+          "blocked": true,
+          "type": {
+            "source_entity": {
+              "type": "earth:rubro",
+              "nbt": "{Deepslate:1b,IsFullyCharged:1b}"
+            }
+          }
+        }
+      }
+    }
+  },
+  "rewards": {
+    "experience": 25
+  }
+}
