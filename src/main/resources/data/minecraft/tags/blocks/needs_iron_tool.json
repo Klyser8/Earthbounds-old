@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "earth:redstone_fossil",
+    "earth:gilded_redstone_fossil",
+    "earth:deepslate_redstone_fossil",
+    "earth:deepslate_gilded_redstone_fossil"
+  ]
+}

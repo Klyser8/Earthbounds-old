@@ -1,0 +1,44 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:golden_pickaxe",
+      "nbt": "{Enchantments:[{}]}"
+    },
+    "title": {
+      "translate": "advancement.earth.crumble_enchantment.title"
+    },
+    "description": {
+      "translate": "advancement.earth.crumble_enchantment.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/kill_with_pickaxe",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:wooden_pickaxe",
+              "minecraft:stone_pickaxe",
+              "minecraft:iron_pickaxe",
+              "minecraft:golden_pickaxe",
+              "minecraft:diamond_pickaxe",
+              "minecraft:netherite_pickaxe"
+            ],
+            "enchantments": [
+              {
+                "enchantment": "earth:crumble",
+                "levels": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

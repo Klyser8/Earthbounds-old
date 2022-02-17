@@ -1,0 +1,48 @@
+{
+  "item.earth.carboranea_bucket": "Bucket of Carboranea",
+  "item.earth.carboranea_spawn_egg": "Carboranea Spawn Egg",
+  "item.earth.rubro_spawn_egg": "Rubro Spawn Egg",
+
+  "entity.earth.carboranea": "Carboranea",
+  "entity.earth.coal_chunk": "Chunk of Coal",
+  "entity.earth.rubro": "Rubro",
+
+  "block.earth.redstone_fossil": "Redstone Fossil",
+  "block.earth.gilded_redstone_fossil": "Gilded Redstone Fossil",
+  "block.earth.deepslate_redstone_fossil": "Deepslate Redstone Fossil",
+  "block.earth.deepslate_gilded_redstone_fossil": "Deepslate Gilded Redstone Fossil",
+  "block.earth.redstone_fossil.desc": "Is it rattling?",
+
+  "death.attack.rubro.pounce": "%1$s was pounced by %2$s",
+
+  "enchantment.earth.crumble": "Crumble",
+
+  "advancement.earth.breed_carboranea.title": "It's Getting Hot",
+  "advancement.earth.breed_carboranea.desc": "Breed two Carboranea together",
+  "advancement.earth.crumble_enchantment.title": "Turn Them Into Crumbs",
+  "advancement.earth.crumble_enchantment.desc": "Obtain a Crumble V pickaxe",
+  "advancement.earth.deflect_pounce.title": "Too Clingy",
+  "advancement.earth.deflect_pounce.desc": "Deflect a Rubro's Pounce with a shield",
+  "advancement.earth.deflect_powerful_pounce.title": "Ru-bruh...!",
+  "advancement.earth.deflect_powerful_pounce.desc": "Deflect a charged up Deepslate Rubro's Pounce, then say sorry to your shield",
+  "advancement.earth.feed_rubro.title": "Have some, Bro",
+  "advancement.earth.feed_rubro.desc": "Feed a Rubro some Redstone",
+  "advancement.earth.find_carboranea.title": "Den, it's tiny!",
+  "advancement.earth.find_carboranea.desc": "Find a Carboranea inside its Coal Den",
+  "advancement.earth.find_fossil.title": "What a Bizarre Fossil",
+  "advancement.earth.find_fossil.desc": "Find a Redstone Fossil, and keep it safe...",
+  "advancement.earth.find_gilded_fossil.title": "This one's Shiny!",
+  "advancement.earth.find_gilded_fossil.desc": "Obtain a Gilded Redstone Fossil, and...?",
+  "advancement.earth.hurt_rubro.title": "Cool down, Cool down!",
+  "advancement.earth.hurt_rubro.desc": "Attack a Rubro, then keep calm",
+  "advancement.earth.kill_with_pickaxe.title": "Does This Really Work?",
+  "advancement.earth.kill_with_pickaxe.desc": "Slay an Earthen creature using a pickaxe, that's how you do it!",
+  "advancement.earth.obtain_redstone.title": "Look Out for Yourself",
+  "advancement.earth.obtain_redstone.desc": "Keep your ear down to the ground, you may have upset somebody",
+  "advancement.earth.reach_deepslate.title": "So Below",
+  "advancement.earth.reach_deepslate.desc": "Reach the Deepslate layer of the world",
+  "advancement.earth.root.title": "Earthbounds",
+  "advancement.earth.root.desc": "Beware of the depths",
+  "advancement.earth.scoop_carboranea.title": "A Bucket of Carbonara",
+  "advancement.earth.scoop_carboranea.desc": "Scoop up a Carboranea with a bucket"
+}

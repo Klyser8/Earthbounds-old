@@ -1,0 +1,48 @@
+{
+  "item.earth.carboranea_bucket": "Secchio di Carboranea",
+  "item.earth.carboranea_spawn_egg": "Uovo Generatore di Carboranea",
+  "item.earth.rubro_spawn_egg": "Uovo Generatore di Rubro",
+
+  "entity.earth.carboranea": "Carboranea",
+  "entity.earth.coal_chunk": "Tocco di Carbone",
+  "entity.earth.rubro": "Rubro",
+
+  "block.earth.redstone_fossil": "Fossile di Redstone",
+  "block.earth.gilded_redstone_fossil": "Fossile di Redstone Dorato",
+  "block.earth.deepslate_redstone_fossil": "Fossile di Redstone in Ardesia Profonda",
+  "block.earth.deepslate_gilded_redstone_fossil": "Fossile di Redstone Dorato in Ardesia Profonda",
+  "block.earth.redstone_fossil.desc": "Cos'é questo crepitio?",
+
+  "death.attack.rubro.pounce": "%1$s é stato avventato da %2$s",
+
+  "enchantment.earth.crumble": "Crollo",
+
+  "advancement.earth.breed_carboranea.title": "Un Riscaldamento",
+  "advancement.earth.breed_carboranea.desc": "Fai accoppiare due Carboranea",
+  "advancement.earth.crumble_enchantment.title": "Crolla Tutto",
+  "advancement.earth.crumble_enchantment.desc": "Ottieni un piccone con Crollo V",
+  "advancement.earth.deflect_pounce.title": "Troppo Appiccicoso",
+  "advancement.earth.deflect_pounce.desc": "Defletti l'avventarsi di un Rubro con uno scudo",
+  "advancement.earth.deflect_powerful_pounce.title": "Ru-Bruh...!",
+  "advancement.earth.deflect_powerful_pounce.desc": "Defletti l'avventarsi di un Rubro di Ardesia Profonda caricato, poi scusati con il tuo scudo",
+  "advancement.earth.feed_rubro.title": "Ecco a te, Bro",
+  "advancement.earth.feed_rubro.desc": "Dai della Redstone ad un Rubro",
+  "advancement.earth.find_carboranea.title": "Per Mille Tane, é Minuscolo!",
+  "advancement.earth.find_carboranea.desc": "Trova un Carboranea dentro la sua Tana di Carbone",
+  "advancement.earth.find_fossil.title": "Che Fossile Bizzarro",
+  "advancement.earth.find_fossil.desc": "Trova un fossile di Redstone, e tienilo al sicuro...",
+  "advancement.earth.find_gilded_fossil.title": "Questo é Shiny!",
+  "advancement.earth.find_gilded_fossil.desc": "Ottieni un Fossile di Redstone Dorato, e poi...?",
+  "advancement.earth.hurt_rubro.title": "Calmati, Calmati!",
+  "advancement.earth.hurt_rubro.desc": "Attacca un Rubro, e mantieni la calma",
+  "advancement.earth.kill_with_pickaxe.title": "Funziona Davvero?",
+  "advancement.earth.kill_with_pickaxe.desc": "Uccidi una creatura Earthen usando un piccone, é così che si fa!",
+  "advancement.earth.obtain_redstone.title": "Bada a Te Stesso",
+  "advancement.earth.obtain_redstone.desc": "Orecchie ben aperte, qualcuno potrebbe essersi agitato",
+  "advancement.earth.reach_deepslate.title": "Così in Basso",
+  "advancement.earth.reach_deepslate.desc": "Raggiungi lo strato di Ardesia Profonda nel tuo mondo",
+  "advancement.earth.root.title": "Earthbounds",
+  "advancement.earth.root.desc": "Occhio alle profondità",
+  "advancement.earth.scoop_carboranea.title": "Un Secchio di Carbonara",
+  "advancement.earth.scoop_carboranea.desc": "Raccogli un Carboranea usando un secchio"
+}

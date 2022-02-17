@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:fire_charge"
+    },
+    "title": {
+      "translate": "advancement.earth.find_carboranea.title"
+    },
+    "description": {
+      "translate": "advancement.earth.find_carboranea.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/root",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:tick",
+      "conditions": {
+        "player": {
+          "player": {
+            "looking_at": {
+              "type": "earth:carboranea"
+            }
+          }
+        }
+      }
+    }
+  }
+}

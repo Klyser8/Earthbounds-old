@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:blaze_powder"
+    },
+    "title": {
+      "translate": "advancement.earth.breed_carboranea.title"
+    },
+    "description": {
+      "translate": "advancement.earth.breed_carboranea.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/scoop_carboranea",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "parent": {
+          "type": "earth:carboranea"
+        },
+        "partner": {
+          "type": "earth:carboranea"
+        },
+        "child": {
+          "type": "earth:carboranea"
+        }
+      }
+    }
+  }
+}

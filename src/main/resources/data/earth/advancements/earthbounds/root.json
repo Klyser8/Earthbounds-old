@@ -1,0 +1,35 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecraft:amethyst_shard"
+        },
+        "title": {
+            "translate": "advancement.earth.root.title",
+            "color": "yellow"
+        },
+        "description": {
+            "translate": "advancement.earth.root.desc"
+        },
+        "background": "earth:textures/gui/advancements/backgrounds/earthbounds.png",
+        "frame": "task",
+        "show_toast": false,
+        "announce_to_chat": false,
+        "hidden": false
+    },
+    "criteria": {
+        "belowDeepslate": {
+            "trigger": "minecraft:location",
+            "conditions": {
+                "location": {
+                    "position": {
+                        "y": {
+                            "min": -64,
+                            "max": 60
+                        }
+                    },
+                    "dimension": "minecraft:overworld"
+                }
+            }
+        }
+    }
+}
