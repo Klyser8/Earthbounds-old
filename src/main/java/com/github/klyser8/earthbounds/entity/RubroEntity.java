@@ -818,7 +818,8 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
          * Whether the goal should continue or not. If the Rubro has been recently attacked,
          * the goal should stop right away.
          *
-         * Null check required as of this issue: https://github.com/Klyser8/Earthbounds/issues/2.
+         * First Null check required as of this issue: https://github.com/Klyser8/Earthbounds/issues/2.
+         * Second Null check required as of this issue:  https://gist.github.com/idkman2021/b5f85b5d7dc6d494b20a42ffdf1ff87c
          *
          * @return true if it should continue
          */
@@ -836,6 +837,11 @@ public class RubroEntity extends PathAwareEntity implements Earthen {
                             "Rubro Entity: " + getUuidAsString() + " attempted scraping a redstone ore" +
                                     " which was null! Happened at location: " + getPos());
                 } else {
+                    if (getFaceExposedToAir(getBlockTargetPos()) == null) {
+                        Earthbounds.LOGGER.log(Level.ERROR,
+                                "Rubro Entity: " + getUuidAsString() + " attempted looking for a block's face " +
+                                        " exposed to air, and it returned null! Happened at location: " + getPos());
+                    }
                     if (getEntityState() == STATE_DIGGING
                             && getEyePos().distanceTo(Vec3d.ofCenter(getFaceExposedToAir(getBlockTargetPos()))) < 2.0) {
                         return true;
