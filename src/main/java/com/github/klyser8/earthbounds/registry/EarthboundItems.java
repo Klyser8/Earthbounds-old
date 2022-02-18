@@ -109,6 +109,8 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
         Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "glow_grease"), GLOW_GREASE);
+        Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_spawn_egg"), CARBORANEA_SPAWN_EGG);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "rubro_spawn_egg"), RUBRO_SPAWN_EGG);

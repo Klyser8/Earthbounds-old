@@ -1,10 +1,13 @@
 package com.github.klyser8.earthbounds.client;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.registry.EarthboundBlocks;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
 import com.github.klyser8.earthbounds.registry.EarthboundParticles;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
@@ -20,5 +23,6 @@ public class EarthboundsClient implements ClientModInitializer {
     public void onInitializeClient() {
         EarthboundEntities.registerRenderers();
         EarthboundParticles.registerFactories();
+        BlockRenderLayerMap.INSTANCE.putBlock(EarthboundBlocks.GLOW_GREASE_SPLAT, RenderLayer.getTranslucent());
     }
 }
