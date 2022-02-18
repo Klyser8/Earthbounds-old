@@ -11,6 +11,7 @@
     "NauseaStatusEffectColorMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin",
+    "VelocityAffectingPosMixin",
     "VFXPosMixin"
   ],
   "client": [
