@@ -1,19 +1,11 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.block.RedstoneFossilBlock;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.item.GlowGreaseItem;
 import com.github.klyser8.earthbounds.item.RedstoneFossilBlockItem;
-import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
-import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
@@ -25,8 +17,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
@@ -107,7 +97,7 @@ public class EarthboundItems {
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(ItemGroup.MISC));
     public static final Item GLOW_GREASE = new GlowGreaseItem(
-            EarthboundBlocks.GLOW_GREASE_SPLAT_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
+            EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(ItemGroup.MISC));

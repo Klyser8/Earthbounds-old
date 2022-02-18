@@ -3,6 +3,7 @@ package com.github.klyser8.earthbounds.registry.features;
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeature;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeatureConfig;
+import com.github.klyser8.earthbounds.world.features.glowgrease.GlowGreaseFeature;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
@@ -12,12 +13,15 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.GlowLichenFeatureConfig;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
 public class EarthboundFeatures {
 
     public static final Feature<CoalDenFeatureConfig> COAL_DEN = new CoalDenFeature(CoalDenFeatureConfig.CODEC);
+    public static final Feature<GlowLichenFeatureConfig> GLOW_GREASE_SPLAT =
+            new GlowGreaseFeature(GlowLichenFeatureConfig.CODEC);
 
     public static void setupAndRegister() {
         EarthboundPlacedFeatures placedFeatures = new EarthboundPlacedFeatures();

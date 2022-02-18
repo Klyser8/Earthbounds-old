@@ -11,6 +11,8 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.feature.*;
 
+import java.util.List;
+
 public class EarthboundConfiguredFeatures {
 
     public static ConfiguredFeature<?, ?> OVERWORLD_REDSTONE_FOSSIL;
@@ -19,6 +21,7 @@ public class EarthboundConfiguredFeatures {
     public static ConfiguredFeature<?, ?> OVERWORLD_DEEPSLATE_GILDED_REDSTONE_FOSSIL;
 
     public static ConfiguredFeature<?, ?> SMALL_COAL_DEN;
+    public static ConfiguredFeature<?, ?> GLOW_GREASE_SPLAT;
 
 
     //Discard on air chance = Chance that if the block is exposed to air, it is discarded.
@@ -51,6 +54,14 @@ public class EarthboundConfiguredFeatures {
                 new Identifier(Earthbounds.MOD_ID, "small_coal_den"),
                 EarthboundFeatures.COAL_DEN.configure(new CoalDenFeatureConfig(
                         ConstantIntProvider.create(-8), ConstantIntProvider.create(12)
+                )));
+
+        GLOW_GREASE_SPLAT = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
+                new Identifier(Earthbounds.MOD_ID, "glow_grease_splat"),
+                EarthboundFeatures.GLOW_GREASE_SPLAT.configure(new GlowLichenFeatureConfig(
+                        30, true, false, true, 0.9f, List.of(
+                        Blocks.STONE, Blocks.ANDESITE, Blocks.DIORITE, Blocks.GRANITE, Blocks.DRIPSTONE_BLOCK,
+                        Blocks.CALCITE, Blocks.TUFF, Blocks.DEEPSLATE)
                 )));
     }
 
