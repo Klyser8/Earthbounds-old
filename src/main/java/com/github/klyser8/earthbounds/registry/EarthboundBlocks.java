@@ -14,6 +14,8 @@ import java.util.function.ToIntFunction;
 
 public class EarthboundBlocks {
 
+    public static final Material ORGANIC = new Material.Builder(MapColor.ORANGE).replaceable().allowsMovement().build();
+
     public static final Block REDSTONE_FOSSIL_BLOCK = new RedstoneFossilBlock(FabricBlockSettings
             .copyOf(Blocks.REDSTONE_ORE));
     public static final Block GILDED_REDSTONE_FOSSIL_BLOCK = new RedstoneFossilBlock(FabricBlockSettings
