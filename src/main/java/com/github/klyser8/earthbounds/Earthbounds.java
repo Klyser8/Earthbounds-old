@@ -39,6 +39,7 @@ public class Earthbounds implements ModInitializer {
         EarthboundParticles.register();
         EarthboundBlocks.register();
         EarthboundEnchantments.register();
+        EarthboundPotions.register();
 
         initEvents();
     }
