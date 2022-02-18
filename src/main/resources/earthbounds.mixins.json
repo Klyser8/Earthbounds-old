@@ -7,6 +7,7 @@
     "AbstractFurnaceBlockEntityAccessor",
     "AvoidCrumbleMiningMixin",
     "EnchantmentHelperMixin",
+    "NauseaStatusEffectColorMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin"
   ],
