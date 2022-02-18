@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.mixin;
 
-import com.github.klyser8.earthbounds.MixinCallbacks;
+import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -24,7 +24,17 @@ abstract class VelocityAffectingPosMixin {
 
     @Inject(at = @At("HEAD"), method = "getVelocityAffectingPos", cancellable = true)
     private void getVelocityAffectingBlockPos(CallbackInfoReturnable<BlockPos> cir) {
-        MixinCallbacks.calculateVelocityAffectingPos(getPos(), getBoundingBox(), getWorld(), cir);
+        calculateVelocityAffectingPos(getPos(), getBoundingBox(), getWorld(), cir);
+    }
+
+    private void calculateVelocityAffectingPos(Vec3d pos, Box box, World world,
+                                                     CallbackInfoReturnable<BlockPos> cir) {
+        BlockPos blockPos = new BlockPos(pos.x, box.minY, pos.z);
+        if (world.getBlockState(blockPos).getBlock() instanceof GlowGreaseSplatBlock) {
+            cir.setReturnValue(blockPos);
+        } else {
+            cir.setReturnValue(blockPos.add(0, -0.5000001, 0));
+        }
     }
 
 }
