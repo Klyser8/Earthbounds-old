@@ -1,4 +1,13 @@
 {
+  "item.minecraft.potion.effect.sickness": "Potion of Sickness",
+  "item.minecraft.potion.effect.long_sickness": "Potion of Sickness",
+  "item.minecraft.splash_potion.effect.sickness": "Splash Potion of Sickness",
+  "item.minecraft.splash_potion.effect.long_sickness": "Splash Potion of Sickness",
+  "item.minecraft.lingering_potion.effect.sickness": "Lingering Potion of Sickness",
+  "item.minecraft.lingering_potion.effect.long_sickness": "Lingering Potion of Sickness",
+  "item.minecraft.tipped_arrow.effect.sickness": "Arrow of Sickness",
+  "item.minecraft.tipped_arrow.effect.long_sickness": "Arrow of Sickness",
+
   "item.earth.carboranea_bucket": "Bucket of Carboranea",
   "item.earth.glow_grease": "Glow Grease",
   "item.earth.carboranea_spawn_egg": "Carboranea Spawn Egg",

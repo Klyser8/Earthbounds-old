@@ -1,4 +1,13 @@
 {
+  "item.minecraft.potion.effect.sickness": "Pozione del Malessere",
+  "item.minecraft.potion.effect.long_sickness": "Pozione del Malessere",
+  "item.minecraft.splash_potion.effect.sickness": "Pozione da Lancio del Malessere",
+  "item.minecraft.splash_potion.effect.long_sickness": "Pozione da Lancio del Malessere",
+  "item.minecraft.lingering_potion.effect.sickness": "Pozione Persistente del Malessere",
+  "item.minecraft.lingering_potion.effect.long_sickness": "Pozione Persistente del Malessere",
+  "item.minecraft.tipped_arrow.effect.sickness": "Freccia del Malessere",
+  "item.minecraft.tipped_arrow.effect.long_sickness": "Freccia del Malessere",
+
   "item.earth.carboranea_bucket": "Secchio di Carboranea",
   "item.earth.glow_grease": "Grasso Lume",
   "item.earth.carboranea_spawn_egg": "Uovo Generatore di Carboranea",
