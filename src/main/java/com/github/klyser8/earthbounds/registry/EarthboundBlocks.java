@@ -1,6 +1,7 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.block.RedstoneFossilBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -21,7 +22,7 @@ public class EarthboundBlocks {
             .copyOf(Blocks.DEEPSLATE_REDSTONE_ORE));
     public static final Block DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK = new RedstoneFossilBlock(FabricBlockSettings
             .copyOf(Blocks.DEEPSLATE_REDSTONE_ORE));
-    public static final GlowGreaseSplatBlock GLOW_GREASE_SPLAT = new GlowGreaseSplatBlock(FabricBlockSettings
+    public static final GlowGreaseSplatBlock GLOW_GREASE_SPLAT_BLOCK = new GlowGreaseSplatBlock(FabricBlockSettings
             .of(ORGANIC).noCollision().strength(0.2f).jumpVelocityMultiplier(0.8f)
             .luminance(GlowGreaseSplatBlock.getLuminanceSupplier(7))
             .sounds(BlockSoundGroup.HONEY)
@@ -37,7 +38,7 @@ public class EarthboundBlocks {
         Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "glow_grease_splat"),
-                GLOW_GREASE_SPLAT);
+                GLOW_GREASE_SPLAT_BLOCK);
     }
 
     //Code kindly stolen from Mojang

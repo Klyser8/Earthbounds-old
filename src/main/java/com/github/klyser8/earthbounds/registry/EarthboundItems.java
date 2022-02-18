@@ -3,6 +3,7 @@ package com.github.klyser8.earthbounds.registry;
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.block.RedstoneFossilBlock;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.item.GlowGreaseItem;
 import com.github.klyser8.earthbounds.item.RedstoneFossilBlockItem;
 import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
 import com.google.common.collect.Multimap;
@@ -105,6 +106,8 @@ public class EarthboundItems {
     };
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(ItemGroup.MISC));
+    public static final Item GLOW_GREASE = new GlowGreaseItem(
+            EarthboundBlocks.GLOW_GREASE_SPLAT_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(ItemGroup.MISC));
