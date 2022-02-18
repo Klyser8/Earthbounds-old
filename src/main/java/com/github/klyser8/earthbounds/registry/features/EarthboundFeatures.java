@@ -27,6 +27,7 @@ public class EarthboundFeatures {
         EarthboundPlacedFeatures placedFeatures = new EarthboundPlacedFeatures();
         EarthboundConfiguredFeatures configuredFeatures = new EarthboundConfiguredFeatures();
         Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "coal_den"), COAL_DEN);
+        Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "glow_grease_splat"), GLOW_GREASE_SPLAT);
         configuredFeatures.register();
         placedFeatures.register();
 
@@ -39,6 +40,16 @@ public class EarthboundFeatures {
                 },
                 (biomeSelectionContext, biomeModificationContext) -> biomeModificationContext.getGenerationSettings().
                         addBuiltInFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, EarthboundPlacedFeatures.SMALL_COAL_DEN));
+
+        BiomeModifications.create(new Identifier(MOD_ID, "add_glow_grease_splat")).add(
+                ModificationPhase.ADDITIONS,
+                context -> {
+                    Biome.Category category = context.getBiome().getCategory();
+                    return category != Biome.Category.NETHER && category
+                            != Biome.Category.THEEND && category != Biome.Category.NONE;
+                },
+                context -> context.getGenerationSettings().addBuiltInFeature(
+                        GenerationStep.Feature.UNDERGROUND_DECORATION, EarthboundPlacedFeatures.GLOW_GREASE_SPLAT));
 
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY,

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+//TODO replace glow lichen feature config with its own feature config
 public class GlowGreaseFeature extends Feature<GlowLichenFeatureConfig> {
 
     public GlowGreaseFeature(Codec<GlowLichenFeatureConfig> codec) {
