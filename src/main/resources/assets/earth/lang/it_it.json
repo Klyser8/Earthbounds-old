@@ -1,5 +1,6 @@
 {
   "item.earth.carboranea_bucket": "Secchio di Carboranea",
+  "item.earth.glow_grease": "Grasso Lume",
   "item.earth.carboranea_spawn_egg": "Uovo Generatore di Carboranea",
   "item.earth.rubro_spawn_egg": "Uovo Generatore di Rubro",
 
@@ -11,6 +12,7 @@
   "block.earth.gilded_redstone_fossil": "Fossile di Redstone Dorato",
   "block.earth.deepslate_redstone_fossil": "Fossile di Redstone in Ardesia Profonda",
   "block.earth.deepslate_gilded_redstone_fossil": "Fossile di Redstone Dorato in Ardesia Profonda",
+  "block.earth.glow_grease_splat": "Chiazza di Grasso Lume",
   "block.earth.redstone_fossil.desc": "Cos'é questo crepitio?",
 
   "death.attack.rubro.pounce": "%1$s é stato avventato da %2$s",

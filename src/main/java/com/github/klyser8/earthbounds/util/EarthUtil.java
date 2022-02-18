@@ -4,8 +4,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -102,6 +105,20 @@ public class EarthUtil {
      */
     public static float calculateJumpHeight(float jumpVelocity) {
         return jumpVelocity * 2.25f;
+    }
+
+    /**
+     * Creates a list containing all adjacent positions to the given position.
+     *
+     * @param pos the origin position
+     * @return the list with the adjacent block positions
+     */
+    public static List<BlockPos> getAdjacentPos(BlockPos pos) {
+        List<BlockPos> posList = new ArrayList<>();
+        for (Direction direction : Direction.values()) {
+            posList.add(pos.offset(direction, 1));
+        }
+        return posList;
     }
 
 }

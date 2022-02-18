@@ -1,5 +1,6 @@
 {
   "item.earth.carboranea_bucket": "Bucket of Carboranea",
+  "item.earth.glow_grease": "Glow Grease",
   "item.earth.carboranea_spawn_egg": "Carboranea Spawn Egg",
   "item.earth.rubro_spawn_egg": "Rubro Spawn Egg",
 
@@ -11,6 +12,7 @@
   "block.earth.gilded_redstone_fossil": "Gilded Redstone Fossil",
   "block.earth.deepslate_redstone_fossil": "Deepslate Redstone Fossil",
   "block.earth.deepslate_gilded_redstone_fossil": "Deepslate Gilded Redstone Fossil",
+  "block.earth.glow_grease_splat": "Glow Grease Splat",
   "block.earth.redstone_fossil.desc": "Is it rattling?",
 
   "death.attack.rubro.pounce": "%1$s was pounced by %2$s",
