@@ -21,6 +21,11 @@ public class EarthboundBlocks {
             .copyOf(Blocks.DEEPSLATE_REDSTONE_ORE));
     public static final Block DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK = new RedstoneFossilBlock(FabricBlockSettings
             .copyOf(Blocks.DEEPSLATE_REDSTONE_ORE));
+    public static final GlowGreaseSplatBlock GLOW_GREASE_SPLAT = new GlowGreaseSplatBlock(FabricBlockSettings
+            .of(ORGANIC).noCollision().strength(0.2f).jumpVelocityMultiplier(0.8f)
+            .luminance(GlowGreaseSplatBlock.getLuminanceSupplier(7))
+            .sounds(BlockSoundGroup.HONEY)
+            .slipperiness(1.0f));
 
     public static void register() {
         Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
@@ -31,6 +36,8 @@ public class EarthboundBlocks {
                 DEEPSLATE_REDSTONE_FOSSIL_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
+        Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "glow_grease_splat"),
+                GLOW_GREASE_SPLAT);
     }
 
     //Code kindly stolen from Mojang
