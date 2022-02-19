@@ -82,15 +82,5 @@ public class EarthboundPlacedFeatures {
                          SquarePlacementModifier.of(),
                          RarityFilterPlacementModifier.of(20),
                          HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))));
-
-        GLOW_GREASE_SPLAT = Registry.register(BuiltinRegistries.PLACED_FEATURE, new Identifier(MOD_ID, "glow_grease_splat"),
-                EarthboundConfiguredFeatures.GLOW_GREASE_SPLAT.withPlacement(
-                        CountPlacementModifier.of(1),
-                        PlacedFeatures.BOTTOM_TO_120_RANGE,
-                        SquarePlacementModifier.of(),
-                        SurfaceThresholdFilterPlacementModifier.of(
-                                Heightmap.Type.OCEAN_FLOOR_WG, Integer.MIN_VALUE, -13),
-                        RarityFilterPlacementModifier.of(2),
-                        BiomePlacementModifier.of()));
     }
 }
