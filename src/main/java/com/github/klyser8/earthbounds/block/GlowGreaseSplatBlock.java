@@ -1,7 +1,8 @@
 package com.github.klyser8.earthbounds.block;
 
 import com.github.klyser8.earthbounds.registry.EarthboundParticles;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractLichenBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
@@ -10,7 +11,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.function.ToIntFunction;
 
 public class GlowGreaseSplatBlock extends AbstractLichenBlock {
@@ -23,10 +26,9 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
      * {@return a function that receives a {@link BlockState} and returns the luminance for the state}
      * If the lichen has no visible sides, it supplies 0.
      *
+     * @param luminance luminance supplied when the lichen has at least one visible side
      * @apiNote The return value is meant to be passed to
      * {@link AbstractBlock.Settings#luminance} builder method.
-     *
-     * @param luminance luminance supplied when the lichen has at least one visible side
      */
     public static ToIntFunction<BlockState> getLuminanceSupplier(int luminance) {
         return state -> GlowGreaseSplatBlock.hasAnyDirection(state) ? luminance : 0;
@@ -92,20 +94,20 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
             particlePos = Vec3d.of(pos).add(
                     dir.getOffsetX() / 10.0 + random.nextDouble(),
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
-                    dir.getOffsetZ() + 1.05);
+                    dir.getOffsetZ() + 1.1);
         } else if (dir == Direction.EAST) {
             particlePos = Vec3d.of(pos).add(
-                    dir.getOffsetX() / 10.0 + 0.85,
+                    dir.getOffsetX() / 10.0 + 0.80,
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
                     dir.getOffsetZ() / 10.0 + random.nextDouble());
         } else if (dir == Direction.SOUTH) {
             particlePos = Vec3d.of(pos).add(
                     dir.getOffsetX() / 10.0 + random.nextDouble(),
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
-                    dir.getOffsetZ() / 10.0 + 0.85);
+                    dir.getOffsetZ() / 10.0 + 0.80);
         } else if (dir == Direction.WEST) {
             particlePos = Vec3d.of(pos).add(
-                    dir.getOffsetX() / 10.0 + 0.15,
+                    dir.getOffsetX() / 10.0 + 0.2,
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
                     dir.getOffsetZ() / 10.0 + random.nextDouble());
         } else {

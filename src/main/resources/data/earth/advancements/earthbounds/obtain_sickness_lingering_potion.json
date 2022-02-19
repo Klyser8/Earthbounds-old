@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:lingering_potion",
+      "nbt": "{Potion:\"earth:sickness\"}"
+    },
+    "title": {
+      "translate": "advancement.earth.obtain_sickness_lingering_potion.title"
+    },
+    "description": {
+      "translate": "advancement.earth.obtain_sickness_lingering_potion.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/enter_grease_splat",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:lingering_potion"
+            ],
+            "potion": "earth:sickness"
+          }
+        ]
+      }
+    }
+  }
+}

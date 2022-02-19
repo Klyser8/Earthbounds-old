@@ -20,20 +20,6 @@ public class GlowGreaseItem extends AliasedBlockItem implements Flingable {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        /*ItemStack stack = user.getStackInHand(hand);
-        if (!world.isClient) {
-
-            GlowGreaseDropEntity greaseDrop = new GlowGreaseDropEntity(world, stack, user,
-                    user.getEyePos().x, user.getEyePos().y, user.getEyePos().z, false);
-            world.spawnEntity(greaseDrop);
-            greaseDrop.setVelocity(user, user.getPitch(), user.getYaw(), 1.0f, 1.0f, 1.0f);
-        }
-        return TypedActionResult.success(stack, true);*/
-        return super.use(world, user, hand);
-    }
-
-    @Override
     public ThrownItemEntity createFlingableEntity(World world, ItemStack stack, LivingEntity shooter) {
         Vec3d eyePos = shooter.getEyePos();
         return new GlowGreaseDropEntity(world, stack, shooter,

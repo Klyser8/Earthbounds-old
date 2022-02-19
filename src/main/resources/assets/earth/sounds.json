@@ -91,5 +91,28 @@
     "sounds": [
       "earth:mob/rubro/rubro_death"
     ]
+  },"block.glow_grease.place": {
+    "sounds": [
+      "minecraft:block/honeyblock/break1",
+      "minecraft:block/honeyblock/break2",
+      "minecraft:block/honeyblock/break3",
+      "minecraft:block/honeyblock/break4",
+      "minecraft:block/honeyblock/break5"
+    ]
+  },"block.glow_grease.break": {
+    "sounds": [
+      "minecraft:block/honeyblock/break1",
+      "minecraft:block/honeyblock/break2",
+      "minecraft:block/honeyblock/break3",
+      "minecraft:block/honeyblock/break4",
+      "minecraft:block/honeyblock/break5"
+    ]
+  },"block.glow_grease.step": {
+    "sounds": [
+      "minecraft:block/honeyblock/step1",
+      "minecraft:block/honeyblock/step2",
+      "minecraft:block/honeyblock/step3",
+      "minecraft:block/honeyblock/step4"
+    ]
   }
 }

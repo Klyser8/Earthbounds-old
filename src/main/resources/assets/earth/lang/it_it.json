@@ -1,5 +1,15 @@
 {
+  "item.minecraft.potion.effect.sickness": "Pozione del Malessere",
+  "item.minecraft.potion.effect.long_sickness": "Pozione del Malessere",
+  "item.minecraft.splash_potion.effect.sickness": "Pozione da Lancio del Malessere",
+  "item.minecraft.splash_potion.effect.long_sickness": "Pozione da Lancio del Malessere",
+  "item.minecraft.lingering_potion.effect.sickness": "Pozione Persistente del Malessere",
+  "item.minecraft.lingering_potion.effect.long_sickness": "Pozione Persistente del Malessere",
+  "item.minecraft.tipped_arrow.effect.sickness": "Freccia del Malessere",
+  "item.minecraft.tipped_arrow.effect.long_sickness": "Freccia del Malessere",
+
   "item.earth.carboranea_bucket": "Secchio di Carboranea",
+  "item.earth.glow_grease": "Grasso Lume",
   "item.earth.carboranea_spawn_egg": "Uovo Generatore di Carboranea",
   "item.earth.rubro_spawn_egg": "Uovo Generatore di Rubro",
 
@@ -11,6 +21,7 @@
   "block.earth.gilded_redstone_fossil": "Fossile di Redstone Dorato",
   "block.earth.deepslate_redstone_fossil": "Fossile di Redstone in Ardesia Profonda",
   "block.earth.deepslate_gilded_redstone_fossil": "Fossile di Redstone Dorato in Ardesia Profonda",
+  "block.earth.glow_grease_splat": "Chiazza di Grasso Lume",
   "block.earth.redstone_fossil.desc": "Cos'é questo crepitio?",
 
   "death.attack.rubro.pounce": "%1$s é stato avventato da %2$s",
@@ -29,6 +40,8 @@
   "advancement.earth.deflect_pounce.desc": "Defletti l'avventarsi di un Rubro con uno scudo",
   "advancement.earth.deflect_powerful_pounce.title": "Ru-Bruh...!",
   "advancement.earth.deflect_powerful_pounce.desc": "Defletti l'avventarsi di un Rubro di Ardesia Profonda caricato, poi scusati con il tuo scudo",
+  "advancement.earth.enter_grease_splat.title": "Bleah, é unto",
+  "advancement.earth.enter_grease_splat.desc": "Immergi i piedi in una pozza di Grasso Lume",
   "advancement.earth.feed_rubro.title": "Ecco a te, Bro",
   "advancement.earth.feed_rubro.desc": "Dai della Redstone ad un Rubro",
   "advancement.earth.find_carboranea.title": "Per Mille Tane, é Minuscolo!",
@@ -43,6 +56,8 @@
   "advancement.earth.kill_with_pickaxe.desc": "Uccidi una creatura Earthen usando un piccone, é così che si fa!",
   "advancement.earth.obtain_redstone.title": "Bada a Te Stesso",
   "advancement.earth.obtain_redstone.desc": "Orecchie ben aperte, qualcuno potrebbe essersi agitato",
+  "advancement.earth.obtain_sickness_lingering_potion.title": "La Nuova Peste?",
+  "advancement.earth.obtain_sickness_lingering_potion.desc": "Ottieni una Pozione Persistente del Malessere",
   "advancement.earth.reach_deepslate.title": "Così in Basso",
   "advancement.earth.reach_deepslate.desc": "Raggiungi lo strato di Ardesia Profonda nel tuo mondo",
   "advancement.earth.root.title": "Earthbounds",

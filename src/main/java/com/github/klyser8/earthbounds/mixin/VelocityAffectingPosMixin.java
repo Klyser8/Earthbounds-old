@@ -1,6 +1,7 @@
 package com.github.klyser8.earthbounds.mixin;
 
 import com.github.klyser8.earthbounds.MixinCallbacks;
+import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;

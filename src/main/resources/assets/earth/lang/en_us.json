@@ -1,5 +1,15 @@
 {
+  "item.minecraft.potion.effect.sickness": "Potion of Sickness",
+  "item.minecraft.potion.effect.long_sickness": "Potion of Sickness",
+  "item.minecraft.splash_potion.effect.sickness": "Splash Potion of Sickness",
+  "item.minecraft.splash_potion.effect.long_sickness": "Splash Potion of Sickness",
+  "item.minecraft.lingering_potion.effect.sickness": "Lingering Potion of Sickness",
+  "item.minecraft.lingering_potion.effect.long_sickness": "Lingering Potion of Sickness",
+  "item.minecraft.tipped_arrow.effect.sickness": "Arrow of Sickness",
+  "item.minecraft.tipped_arrow.effect.long_sickness": "Arrow of Sickness",
+
   "item.earth.carboranea_bucket": "Bucket of Carboranea",
+  "item.earth.glow_grease": "Glow Grease",
   "item.earth.carboranea_spawn_egg": "Carboranea Spawn Egg",
   "item.earth.rubro_spawn_egg": "Rubro Spawn Egg",
 
@@ -11,6 +21,7 @@
   "block.earth.gilded_redstone_fossil": "Gilded Redstone Fossil",
   "block.earth.deepslate_redstone_fossil": "Deepslate Redstone Fossil",
   "block.earth.deepslate_gilded_redstone_fossil": "Deepslate Gilded Redstone Fossil",
+  "block.earth.glow_grease_splat": "Glow Grease Splat",
   "block.earth.redstone_fossil.desc": "Is it rattling?",
 
   "death.attack.rubro.pounce": "%1$s was pounced by %2$s",
@@ -29,6 +40,8 @@
   "advancement.earth.deflect_pounce.desc": "Deflect a Rubro's Pounce with a shield",
   "advancement.earth.deflect_powerful_pounce.title": "Ru-bruh...!",
   "advancement.earth.deflect_powerful_pounce.desc": "Deflect a charged up Deepslate Rubro's Pounce, then say sorry to your shield",
+  "advancement.earth.enter_grease_splat.title": "Greased Lightin'",
+  "advancement.earth.enter_grease_splat.desc": "Dip your feet in Glow Grease",
   "advancement.earth.feed_rubro.title": "Have some, Bro",
   "advancement.earth.feed_rubro.desc": "Feed a Rubro some Redstone",
   "advancement.earth.find_carboranea.title": "Den, it's tiny!",
@@ -43,6 +56,8 @@
   "advancement.earth.kill_with_pickaxe.desc": "Slay an Earthen creature using a pickaxe, that's how you do it!",
   "advancement.earth.obtain_redstone.title": "Look Out for Yourself",
   "advancement.earth.obtain_redstone.desc": "Keep your ear down to the ground, you may have upset somebody",
+  "advancement.earth.obtain_sickness_lingering_potion.title": "The New Plague?",
+  "advancement.earth.obtain_sickness_lingering_potion.desc": "Obtain a Lingering Potion of Sickness",
   "advancement.earth.reach_deepslate.title": "So Below",
   "advancement.earth.reach_deepslate.desc": "Reach the Deepslate layer of the world",
   "advancement.earth.root.title": "Earthbounds",

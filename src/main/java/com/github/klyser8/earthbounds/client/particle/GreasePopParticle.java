@@ -54,5 +54,4 @@ public class GreasePopParticle extends AnimatedParticle {
                     this.spriteProvider);
         }
     }
-
 }

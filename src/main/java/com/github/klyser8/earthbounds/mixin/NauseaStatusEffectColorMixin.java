@@ -10,8 +10,6 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(StatusEffects.class)
 public abstract class NauseaStatusEffectColorMixin {
 
-
-
     @ModifyArg(method = "<clinit>", slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=nausea")),
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/entity/effect/StatusEffect;<init>(Lnet/minecraft/entity/effect/StatusEffectCategory;I)V",
