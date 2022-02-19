@@ -3,8 +3,6 @@
     "icon": {
       "item": "minecraft:deepslate_redstone_ore"
     },
-    "title": "Look Out for Yourself",
-    "description": "Keep your ear down to the ground, you may have upset somebody",
     "title": {
       "translate": "advancement.earth.obtain_redstone.title"
     },

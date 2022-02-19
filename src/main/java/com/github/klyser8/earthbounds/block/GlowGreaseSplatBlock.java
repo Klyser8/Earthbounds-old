@@ -94,20 +94,20 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
             particlePos = Vec3d.of(pos).add(
                     dir.getOffsetX() / 10.0 + random.nextDouble(),
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
-                    dir.getOffsetZ() + 1.05);
+                    dir.getOffsetZ() + 1.1);
         } else if (dir == Direction.EAST) {
             particlePos = Vec3d.of(pos).add(
-                    dir.getOffsetX() / 10.0 + 0.85,
+                    dir.getOffsetX() / 10.0 + 0.80,
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
                     dir.getOffsetZ() / 10.0 + random.nextDouble());
         } else if (dir == Direction.SOUTH) {
             particlePos = Vec3d.of(pos).add(
                     dir.getOffsetX() / 10.0 + random.nextDouble(),
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
-                    dir.getOffsetZ() / 10.0 + 0.85);
+                    dir.getOffsetZ() / 10.0 + 0.80);
         } else if (dir == Direction.WEST) {
             particlePos = Vec3d.of(pos).add(
-                    dir.getOffsetX() / 10.0 + 0.15,
+                    dir.getOffsetX() / 10.0 + 0.2,
                     dir.getOffsetY() / 10.0 + random.nextDouble(),
                     dir.getOffsetZ() / 10.0 + random.nextDouble());
         } else {

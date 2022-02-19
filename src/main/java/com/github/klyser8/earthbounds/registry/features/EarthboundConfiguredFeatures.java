@@ -59,10 +59,10 @@ public class EarthboundConfiguredFeatures {
         GLOW_GREASE_SPLAT = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
                 new Identifier(Earthbounds.MOD_ID, "glow_grease_splat"),
                 EarthboundFeatures.GLOW_GREASE_SPLAT.configure(new GlowLichenFeatureConfig(
-                        30, true, false, true, 0.9f, List.of(
+                        30, true, true, true, 0.9f, List.of(
                         Blocks.STONE, Blocks.ANDESITE, Blocks.DIORITE, Blocks.GRANITE, Blocks.DRIPSTONE_BLOCK,
                         Blocks.CALCITE, Blocks.TUFF, Blocks.DEEPSLATE, Blocks.OAK_WOOD, Blocks.MOSS_BLOCK)
-                )));
+                ))); //TODO make glow grease config! (1.1)
     }
 
 }

@@ -2,6 +2,7 @@ package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
 import net.minecraft.client.gui.hud.SubtitlesHud;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -9,6 +10,7 @@ import net.minecraft.util.registry.Registry;
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
 public class EarthboundSounds {
+
 
     public static final SoundEvent CARBORANEA_AMBIENT = new SoundEvent(
             new Identifier(MOD_ID, "entity.carboranea.ambient"));
@@ -42,6 +44,13 @@ public class EarthboundSounds {
     public static final SoundEvent RUBRO_DEATH = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.death"));
 
+    public static final SoundEvent GLOW_GREASE_PLACE = new SoundEvent(
+            new Identifier(MOD_ID, "block.glow_grease.place"));
+    public static final SoundEvent GLOW_GREASE_BREAK = new SoundEvent(
+            new Identifier(MOD_ID, "block.glow_grease.break"));
+    public static final SoundEvent GLOW_GREASE_STEP = new SoundEvent(
+            new Identifier(MOD_ID, "block.glow_grease.step"));
+
     public static void register() {
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_AMBIENT.getId(), CARBORANEA_AMBIENT);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_SHAKE.getId(), CARBORANEA_SHAKE);
@@ -60,5 +69,16 @@ public class EarthboundSounds {
         Registry.register(Registry.SOUND_EVENT, RUBRO_EAT.getId(), RUBRO_EAT);
         Registry.register(Registry.SOUND_EVENT, RUBRO_HURT.getId(), RUBRO_HURT);
         Registry.register(Registry.SOUND_EVENT, RUBRO_DEATH.getId(), RUBRO_DEATH);
+
+        Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_PLACE.getId(), GLOW_GREASE_PLACE);
+        Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_BREAK.getId(), GLOW_GREASE_BREAK);
+        Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_STEP.getId(), GLOW_GREASE_STEP);
+    }
+
+    public class BlockSoundGroups {
+
+        public static final BlockSoundGroup GLOW_GREASE = new BlockSoundGroup(1.0f, 1.25f, GLOW_GREASE_BREAK,
+                GLOW_GREASE_STEP, GLOW_GREASE_PLACE, GLOW_GREASE_STEP, GLOW_GREASE_STEP);
+
     }
 }
