@@ -118,15 +118,15 @@ public class EarthboundItems {
 
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.UNCOMMON)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.UNCOMMON).group(ItemGroup.BUILDING_BLOCKS)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.RARE)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.RARE).group(ItemGroup.BUILDING_BLOCKS)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.UNCOMMON)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.UNCOMMON).group(ItemGroup.BUILDING_BLOCKS)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK,
-                        new FabricItemSettings().rarity(Rarity.RARE)/*.group(ItemGroup.BUILDING_BLOCKS)*/));
+                        new FabricItemSettings().rarity(Rarity.RARE).group(ItemGroup.BUILDING_BLOCKS)));
     }
 }
