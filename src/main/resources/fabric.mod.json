@@ -8,8 +8,11 @@
     "Klyser8"
   ],
   "contact": {
-    "Discord": "Klyser8#9052",
-    "Curseforge": "Klyser8_"
+    "discord": "Klyser8#9052",
+    "email": "klyser8.official@gmail.com",
+    "issues": "https://github.com/Klyser8/Earthbounds/issues",
+    "sources": "https://github.com/Klyser8/Earthbounds",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/earthbounds"
   },
   "license": "MIT",
   "icon": "assets/trinkets/icon.png",
@@ -27,7 +30,7 @@
   ],
   "accessWidener": "earth.accesswidener",
   "depends": {
-    "fabricloader": ">=0.12.12",
+    "fabricloader": ">=0.13.1",
     "fabric": "*",
     "minecraft": "1.18.1",
     "geckolib3": ">=3.0.30"
