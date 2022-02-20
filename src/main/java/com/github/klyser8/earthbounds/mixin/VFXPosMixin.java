@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
@@ -22,27 +23,27 @@ public abstract class VFXPosMixin {
 
     @Shadow public abstract Vec3d getPos();
 
-    @Redirect(method = "spawnSprintingParticles", at = @At(value = "INVOKE",
+    @ModifyArg(method = "spawnSprintingParticles", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;floor(D)I", ordinal = 1))
-    private int spawnSprintingParticles(double value) {
-        return calculatePosOffset(getWorld(), getBlockPos(), getPos());
+    private double spawnCorrectSprintingParticles(double y) {
+        return calculatePosOffset();
     }
 
-    @Redirect(method = "getLandingPos", at = @At(value = "INVOKE",
+    @ModifyArg(method = "getLandingPos", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;floor(D)I", ordinal = 1))
-    private int getLandingPos(double value) {
-        return calculatePosOffset(getWorld(), getBlockPos(), getPos());
+    private double getLandingPos(double value) {
+        return calculatePosOffset();
     }
 
-    public int calculatePosOffset(World world, BlockPos blockPos, Vec3d pos) {
-        BlockState state = world.getBlockState(blockPos);
-        VoxelShape collisionShape = state.getOutlineShape(world, blockPos);
-        if (world.isAir(blockPos)
+    public double calculatePosOffset() {
+        BlockState state = getWorld().getBlockState(getBlockPos());
+        VoxelShape collisionShape = state.getOutlineShape(getWorld(), getBlockPos());
+        if (getWorld().isAir(getBlockPos())
                 || collisionShape.isEmpty()
                 || collisionShape.getBoundingBox().maxY > 0.2) {
-            return MathHelper.floor(pos.y - (double)0.2f);
+            return getPos().y - (double)0.2f;
         } else {
-            return (int) Math.floor(pos.y);
+            return getPos().y;
         }
     }
 }
