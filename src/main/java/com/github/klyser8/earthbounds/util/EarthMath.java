@@ -1,8 +1,10 @@
 package com.github.klyser8.earthbounds.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 import java.util.Random;
 
@@ -37,4 +39,20 @@ public class EarthMath {
                 (double)divergence, random.nextGaussian() * (double)0.0075f * (double)divergence).multiply(speed);
     }
 
+    /**
+     * Iterates all blocks downwards until the world's low height limit, and returns the first solid block position it
+     * finds.
+     *
+     * @param world the current world
+     * @param pos the position to start the search from
+     * @return the solid position, or null if none is found.
+     */
+    public static BlockPos getClosestSolidBlockBelow(World world, BlockPos pos) {
+        for (int y = pos.getY(); y > world.getBottomY(); y--) {
+            if (world.getBlockState(pos.withY(y)).isSolidBlock(world, pos.withY(y))) {
+                return pos.withY(y);
+            }
+        }
+        return null;
+    }
 }

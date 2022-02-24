@@ -10,6 +10,7 @@
     "EnchantmentHelperMixin",
     "FlingshotFOVMixin",
     "FlingshotMovementBoostMixin",
+    "LightningResistanceMixin",
     "NauseaStatusEffectColorMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin",

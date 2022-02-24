@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.item.flingshot;
 
+import com.github.klyser8.earthbounds.item.EarthboundItem;
 import com.github.klyser8.earthbounds.item.enchantment.VersatilityEnchantment;
 import com.github.klyser8.earthbounds.registry.EarthboundEnchantments;
 import com.github.klyser8.earthbounds.registry.EarthboundItems;
@@ -11,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundCategory;
@@ -25,7 +27,7 @@ import net.minecraft.world.World;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class FlingshotItem extends Item implements Vanishable {
+public class FlingshotItem extends EarthboundItem implements Vanishable {
 
     public static final Predicate<ItemStack> FLINGSHOT_PROJECTILES = stack ->
             stack.getItem() instanceof Flingable;
@@ -33,7 +35,7 @@ public class FlingshotItem extends Item implements Vanishable {
     public static final int CHARGE_TIME = 15;
 
     public FlingshotItem(Settings settings) {
-        super(settings);
+        super(settings, true);
     }
 
     @Override
@@ -99,10 +101,10 @@ public class FlingshotItem extends Item implements Vanishable {
             float force = calculateForce(flingshot, projStack);
             float divergence = calculateDivergence(flingshot);
             if (projStack.getItem() instanceof Flingable flingable) {
-                ThrownItemEntity thrownItem = flingable.createFlingableEntity(world, projStack, user);
-                world.spawnEntity(thrownItem);
-                thrownItem.setVelocity(player, player.getPitch(), player.getYaw(), 1.0f, force, divergence);
-                thrownItem.velocityModified = true;
+                ProjectileEntity projEntity = flingable.createFlingableEntity(world, projStack, user);
+                world.spawnEntity(projEntity);
+                projEntity.setVelocity(player, player.getPitch(), player.getYaw(), 1.0f, force, divergence);
+                projEntity.velocityModified = true;
                 if (!isCreative) {
                     projStack.decrement(1);
                 }

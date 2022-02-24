@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.mixin;
 
+import com.github.klyser8.earthbounds.MixinCallbacks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -26,24 +27,12 @@ public abstract class VFXPosMixin {
     @ModifyArg(method = "spawnSprintingParticles", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;floor(D)I", ordinal = 1))
     private double spawnCorrectSprintingParticles(double y) {
-        return calculatePosOffset();
+        return MixinCallbacks.calculatePosOffset(getWorld(), getBlockPos(), getPos());
     }
 
     @ModifyArg(method = "getLandingPos", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;floor(D)I", ordinal = 1))
     private double getLandingPos(double value) {
-        return calculatePosOffset();
-    }
-
-    public double calculatePosOffset() {
-        BlockState state = getWorld().getBlockState(getBlockPos());
-        VoxelShape collisionShape = state.getOutlineShape(getWorld(), getBlockPos());
-        if (getWorld().isAir(getBlockPos())
-                || collisionShape.isEmpty()
-                || collisionShape.getBoundingBox().maxY > 0.2) {
-            return getPos().y - (double)0.2f;
-        } else {
-            return getPos().y;
-        }
+        return MixinCallbacks.calculatePosOffset(getWorld(), getBlockPos(), getPos());
     }
 }

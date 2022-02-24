@@ -21,14 +21,11 @@ public class GreaseChunkParticle extends AscendingParticle {
         red = 1;
         green = 1;
         blue = 1;
-        alpha = 0;
+        alpha = 0.8f;
     }
 
     @Override
     public void tick() {
-        if (age == 1) {
-            alpha = 0.8f;
-        }
         if (onGround) {
             groundAge++;
             float a = Math.max(1.0f - ( (groundAge / (float) MAX_GROUND_AGE) + 0.2f), 0);

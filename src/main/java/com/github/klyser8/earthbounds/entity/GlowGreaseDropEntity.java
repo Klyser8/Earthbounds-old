@@ -28,6 +28,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -142,11 +143,12 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
             }
         }
         if (world.isClient) {
+            Vec3d vel = getVelocity().normalize();
             for (int i = 0; i < 2; ++i) {
                 this.world.addParticle(EarthboundParticles.GREASE_CHUNK,
-                        this.getX() + getVelocity().x * (double)i / 2.0,
-                        this.getY() + getVelocity().y * (double)i / 2.0,
-                        this.getZ() + getVelocity().z * (double)i / 2.0,0,0,0);
+                        getX() - vel.x / 1.5,
+                        getY() - vel.y / 1.5,
+                        getZ() - vel.z / 1.5,0,0,0);
             }
         }
     }

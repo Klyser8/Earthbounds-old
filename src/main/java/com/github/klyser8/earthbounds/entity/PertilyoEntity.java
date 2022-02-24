@@ -1,8 +1,10 @@
 package com.github.klyser8.earthbounds.entity;
 
 import com.github.klyser8.earthbounds.entity.goal.MoveToTargetBlockGoal;
+import com.github.klyser8.earthbounds.registry.EarthboundItems;
 import com.github.klyser8.earthbounds.util.EarthMath;
 import com.github.klyser8.earthbounds.util.EarthUtil;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
@@ -231,16 +233,33 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
             if (!isBlockAboveSolid) {
                 setRoosting(false);
             }
-            if (random.nextFloat() < 0.01 || getDamageTracker().wasRecentlyAttacked()) {
+            if (random.nextFloat() < 0.01 || getDamageTracker().wasRecentlyAttacked() ||
+                    world.getLightLevel(getBlockPos()) > 7) {
                 setRoosting(false);
             }
         } else {
-            if (isBlockAboveSolid
+            /*if (isBlockAboveSolid
                     && world.getLightLevel(getBlockPos()) < 6
                     && EarthUtil.isOnCooldown(age, lastRoostTime, 300)) {
                 if (random.nextFloat() < 0.1) {
                     navigation.stop();
                     setRoosting(true);
+                }
+            }*/
+            if (age % 100 == 0) {
+                if (!world.isClient) {
+                    BlockPos solidPosBelow = EarthMath.getClosestSolidBlockBelow(world, getBlockPos());
+                    if (solidPosBelow == null || Math.sqrt(getBlockPos().getSquaredDistance(solidPosBelow)) < 3) {
+                        return;
+                    }
+                    if (getEnergy() > 0) {
+                        if (random.nextFloat() < 0.25) {
+                            GlowGreaseDropEntity glowGrease = new GlowGreaseDropEntity(world, getX(), getY(), getZ(),
+                                    EarthboundItems.GLOW_GREASE.getDefaultStack());
+                            world.spawnEntity(glowGrease);
+                            setEnergy(getEnergy() - 1);
+                        }
+                    }
                 }
             }
         }
@@ -344,6 +363,11 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
 
     public void setRoosting(boolean roosting) {
         dataTracker.set(IS_ROOSTING, roosting);
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+
     }
 
     public boolean isInAir() {
@@ -522,6 +546,14 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
             }
             return vec3d3 != null ? vec3d3 : FuzzyTargeting.find(
                     PertilyoEntity.this, 10, 5);
+        }
+    }
+
+    class FindPlaceToRoostGoal extends Goal {
+
+        @Override
+        public boolean canStart() {
+            return false;
         }
     }
 }

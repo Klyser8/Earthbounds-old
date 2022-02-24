@@ -34,5 +34,9 @@
     "fabric": "*",
     "minecraft": "1.18.1",
     "geckolib3": ">=3.0.30"
+  },
+  "custom": {
+    "notify_gradle_properties_url": "https://raw.githubusercontent.com/Klyser8/Earthbounds/master/gradle.properties",
+    "notify_gradle_properties_key": "mod_version"
   }
 }

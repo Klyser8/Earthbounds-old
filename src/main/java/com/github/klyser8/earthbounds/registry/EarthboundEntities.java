@@ -3,6 +3,7 @@ package com.github.klyser8.earthbounds.registry;
 import com.github.klyser8.earthbounds.entity.*;
 import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
+import com.github.klyser8.earthbounds.entity.renderer.ShimmerShellEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.pertilyo.PertilyoEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -49,6 +50,10 @@ public class EarthboundEntities {
             new Identifier(MOD_ID, "coal_chunk"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, CoalChunkEntity::new)
                     .dimensions(EntityDimensions.fixed(0.2f, 0.2f)).build());
+    public static final EntityType<ShimmerShellEntity> SHIMMER_SHELL = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "shimmer_shell"),
+            FabricEntityTypeBuilder.<ShimmerShellEntity>create(SpawnGroup.MISC, ShimmerShellEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.3f, 0.3f)).build());
     public static final EntityType<GlowGreaseDropEntity> GLOW_GREASE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "glow_grease"),
             FabricEntityTypeBuilder.<GlowGreaseDropEntity>create(SpawnGroup.MISC, GlowGreaseDropEntity::new)
@@ -78,6 +83,7 @@ public class EarthboundEntities {
         EntityRendererRegistry.register(RUBRO, RubroEntityRenderer::new);
         EntityRendererRegistry.register(PERTILYO, PertilyoEntityRenderer::new);
         EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
+        EntityRendererRegistry.register(SHIMMER_SHELL, ShimmerShellEntityRenderer::new);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -86,7 +92,6 @@ public class EarthboundEntities {
         FabricDefaultAttributeRegistry.register(RUBRO, RubroEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(PERTILYO, PertilyoEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(COAL_CHUNK, CoalChunkEntity.createAttributes());
-
     }
 
 }
