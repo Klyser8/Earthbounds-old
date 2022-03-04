@@ -20,7 +20,7 @@ public class ShimmerShellItem extends Item implements Flingable {
     @Override
     public ProjectileEntity createFlingableEntity(World world, ItemStack stack, LivingEntity shooter) {
         Vec3d eyePos = shooter.getEyePos();
-        return new ShimmerShellEntity(EarthboundEntities.SHIMMER_SHELL, eyePos.x, eyePos.y, eyePos.z, world);
+        return new ShimmerShellEntity(EarthboundEntities.SHIMMER_SHELL, eyePos.x, eyePos.y, eyePos.z, world, shooter);
     }
 
 }
