@@ -61,7 +61,8 @@ public class EarthboundPlacedFeatures {
                     EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), 1),
                     BiomePlacementModifier.of()
     ));
-    public static PlacedFeature GLOW_GREASE_SPLAT = new PlacedFeature(RegistryEntry.of(
+    public static PlacedFeature GLOW_GREASE_SPLAT =
+            new PlacedFeature(RegistryEntry.of(
             EarthboundConfiguredFeatures.GLOW_GREASE_SPLAT), List.of(
                     CountPlacementModifier.of(10),
                     PlacedFeatures.BOTTOM_TO_120_RANGE,
