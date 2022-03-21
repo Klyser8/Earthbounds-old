@@ -22,7 +22,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.decorator.HeightmapPlacementModifier;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 

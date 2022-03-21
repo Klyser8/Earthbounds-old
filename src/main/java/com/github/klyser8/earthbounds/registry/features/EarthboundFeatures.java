@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.registry.features;
 
-import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.mixin.BiomeAccessor;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeature;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeatureConfig;
 import com.github.klyser8.earthbounds.world.features.glowgrease.GlowGreaseFeature;
@@ -12,6 +12,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.GlowLichenFeatureConfig;
 
@@ -20,21 +21,19 @@ import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 public class EarthboundFeatures {
 
     public static final Feature<CoalDenFeatureConfig> COAL_DEN = new CoalDenFeature(CoalDenFeatureConfig.CODEC);
-    public static final Feature<GlowLichenFeatureConfig> GLOW_GREASE_SPLAT =
-            new GlowGreaseFeature(GlowLichenFeatureConfig.CODEC);
+    public static final Feature<DefaultFeatureConfig> GLOW_GREASE_SPLAT =
+            new GlowGreaseFeature(DefaultFeatureConfig.CODEC);
 
     public static void setupAndRegister() {
-        EarthboundPlacedFeatures placedFeatures = new EarthboundPlacedFeatures();
-        EarthboundConfiguredFeatures configuredFeatures = new EarthboundConfiguredFeatures();
         Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "coal_den"), COAL_DEN);
         Registry.register(Registry.FEATURE, new Identifier(MOD_ID, "glow_grease_splat"), GLOW_GREASE_SPLAT);
-        configuredFeatures.register();
-        placedFeatures.register();
+        EarthboundConfiguredFeatures.register();
+        EarthboundPlacedFeatures.register();
 
         BiomeModifications.create(new Identifier(MOD_ID, "add_small_coal_den")).add(
                 ModificationPhase.ADDITIONS,
                 (context) -> {
-                    Biome.Category category = context.getBiome().getCategory();
+                    Biome.Category category = ((BiomeAccessor) (Object) context.getBiome()).invokeGetCategory();
                     return category == Biome.Category.MOUNTAIN || category == Biome.Category.EXTREME_HILLS ||
                             category == Biome.Category.SAVANNA ;
                 },
@@ -44,7 +43,7 @@ public class EarthboundFeatures {
         BiomeModifications.create(new Identifier(MOD_ID, "add_glow_grease_splat")).add(
                 ModificationPhase.ADDITIONS,
                 context -> {
-                    Biome.Category category = context.getBiome().getCategory();
+                    Biome.Category category = ((BiomeAccessor) (Object) context.getBiome()).invokeGetCategory();
                     return category != Biome.Category.NETHER && category
                             != Biome.Category.THEEND && category != Biome.Category.NONE;
                 },

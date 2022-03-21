@@ -14,6 +14,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -160,8 +161,8 @@ public class CoalChunkEntity extends MobEntity implements Conductive, IAnimatabl
     }
 
     @Override
-    public boolean canWalkOnFluid(Fluid fluid) {
-        return fluid.isIn(FluidTags.LAVA);
+    public boolean canWalkOnFluid(FluidState fluidState) {
+        return fluidState.isIn(FluidTags.LAVA);
     }
 
     @Override

@@ -23,6 +23,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
@@ -300,8 +301,8 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
     }
 
     @Override
-    public boolean canWalkOnFluid(Fluid fluid) {
-        return fluid.isIn(FluidTags.LAVA);
+    public boolean canWalkOnFluid(FluidState fluidState) {
+        return fluidState.isIn(FluidTags.LAVA);
     }
 
     @Override
