@@ -6,11 +6,13 @@ import com.github.klyser8.earthbounds.util.EarthUtil;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.GlowLichenFeatureConfig;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.Collections;
@@ -18,19 +20,30 @@ import java.util.List;
 import java.util.Random;
 
 //TODO replace glow lichen feature config with its own feature config
-public class GlowGreaseFeature extends Feature<GlowLichenFeatureConfig> {
+public class GlowGreaseFeature extends Feature<DefaultFeatureConfig> {
 
-    public GlowGreaseFeature(Codec<GlowLichenFeatureConfig> codec) {
+    private final RegistryEntryList<Block> placeableList = RegistryEntryList.of(Block::getRegistryEntry, List.of(
+            Blocks.STONE,
+            Blocks.ANDESITE,
+            Blocks.DIORITE,
+            Blocks.GRANITE,
+            Blocks.DRIPSTONE_BLOCK,
+            Blocks.CALCITE,
+            Blocks.TUFF,
+            Blocks.DEEPSLATE,
+            Blocks.OAK_WOOD,
+            Blocks.MOSS_BLOCK));
+
+    public GlowGreaseFeature(Codec<DefaultFeatureConfig> codec) {
         super(codec);
     }
 
     @Override
-    public boolean generate(FeatureContext<GlowLichenFeatureConfig> context) {
+    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
         StructureWorldAccess world = context.getWorld();
         BlockPos.Mutable origin = context.getOrigin().mutableCopy();
         BlockState ogState = world.getBlockState(origin);
         Random random = context.getRandom();
-        GlowLichenFeatureConfig config = context.getConfig();
         //If the location is air, then it's good!
         if (!ogState.isAir()) {
             return false;
@@ -52,7 +65,7 @@ public class GlowGreaseFeature extends Feature<GlowLichenFeatureConfig> {
             for (Direction dir : Direction.values()) {
                 //If the grease cant be placed on this block, then look for another direction
                 BlockPos supportingPos = origin.offset(dir, 1);
-                if (!config.canPlaceOn.contains(world.getBlockState(supportingPos).getBlock())) {
+                if (!placeableList.contains(world.getBlockState(supportingPos).getBlock().getRegistryEntry())) {
                     continue;
                 }
                 BlockState currentState;

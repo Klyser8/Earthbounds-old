@@ -30,13 +30,9 @@
   ],
   "accessWidener": "earth.accesswidener",
   "depends": {
-    "fabricloader": ">=0.13.1",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": "1.18.1",
-    "geckolib3": ">=3.0.30"
-  },
-  "custom": {
-    "notify_gradle_properties_url": "https://raw.githubusercontent.com/Klyser8/Earthbounds/master/gradle.properties",
-    "notify_gradle_properties_key": "mod_version"
+    "minecraft": "1.18.2",
+    "geckolib3": ">=3.0.35"
   }
 }
