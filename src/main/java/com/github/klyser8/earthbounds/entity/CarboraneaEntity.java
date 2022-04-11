@@ -22,7 +22,6 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
@@ -41,7 +40,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -53,14 +51,11 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.*;
 
-public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductive, Bucketable {
+public class CarboraneaEntity extends AnimalEarthenEntity implements Conductive, Bucketable {
 
     private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.BLAZE_POWDER);
 
     private final int maxCoals; //How many coals this entity can have present at a time
-
-    private static final TrackedData<Integer> LAST_DAMAGER_ID = DataTracker.registerData(CarboraneaEntity.class,
-            TrackedDataHandlerRegistry.INTEGER);
 
     private static final TrackedData<Float> HEAT = DataTracker.registerData(CarboraneaEntity.class,
             TrackedDataHandlerRegistry.FLOAT);
@@ -74,8 +69,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
             TrackedDataHandlerRegistry.INTEGER);
 
     private final List<CoalChunkEntity> coals;
-
-    private AnimationFactory factory = new AnimationFactory(this);
 
     /**
      * Each carboranea may have a limit of either 3, 6 or 9 coals.
@@ -113,7 +106,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        dataTracker.startTracking(LAST_DAMAGER_ID, getId());
         dataTracker.startTracking(HEAT, 0.0f);
         dataTracker.startTracking(FROM_BUCKET, false);
         dataTracker.startTracking(SHOULD_MATE_SITTING, false);
@@ -233,11 +225,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
         return BREEDING_INGREDIENT.test(stack);
     }
 
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
-    }
-
     /**
      * Heat should always stay between 0 and {@link CarboraneaEntity#MAX_HEAT}
      * @param period how often the heat should be updated
@@ -329,11 +316,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
     }
 
     @Override
-    public EntityGroup getGroup() {
-        return EarthboundEntityGroup.EARTHEN;
-    }
-
-    @Override
     public void playAmbientSound() {
         float pitch = 1.0f - getCurrentHeat() / 2000.0f;
         SoundEvent soundEvent = this.getAmbientSound();
@@ -356,17 +338,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
             pitch -= getCurrentHeat() / 2000;
             super.playSound(sound, volume, pitch);
         }
-    }
-
-    @Override
-    public boolean damage(DamageSource source, float amount) {
-        if (getLastDamager() != null && source.getSource() != null && !getLastDamager().equals(source.getSource())) {
-            setLastDamager(source.getSource());
-        }
-        if (!Earthen.isDamagePickaxe(source)) {
-            amount = Earthen.handleNonPickaxeDamage(source, this, amount);
-        }
-        return super.damage(source, amount);
     }
 
     /**
@@ -488,17 +459,6 @@ public class CarboraneaEntity extends AnimalEntity implements Earthen, Conductiv
         }
         return Optional.empty();
     }
-
-    @Override
-    public Entity getLastDamager() {
-        return world.getEntityById(dataTracker.get(LAST_DAMAGER_ID));
-    }
-
-    @Override
-    public void setLastDamager(Entity entity) {
-        dataTracker.set(LAST_DAMAGER_ID, entity.getId());
-    }
-
 
     /**
      * Creates the entity's attributes.

@@ -1,5 +1,9 @@
 {
-  "entity.carboranea.ambient": {
+  "entity.earthen_hurt_weak": {
+    "sounds": [
+      "earth:mob/earthen_hurt_weak"
+    ]
+  },"entity.carboranea.ambient": {
     "sounds": [
       "earth:mob/carboranea/carboranea_ambient1",
       "earth:mob/carboranea/carboranea_ambient2",
@@ -90,6 +94,53 @@
   },"entity.rubro.death": {
     "sounds": [
       "earth:mob/rubro/rubro_death"
+    ]
+  },"entity.pertilyo.fly_loop": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_fly_loop"
+    ]
+  },"entity.pertilyo.ambient": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_ambient1",
+      "earth:mob/pertilyo/pertilyo_ambient2",
+      "earth:mob/pertilyo/pertilyo_ambient3"
+    ]
+  },"entity.pertilyo.ambient_sleep": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_ambient_sleep1",
+      "earth:mob/pertilyo/pertilyo_ambient_sleep2",
+      "earth:mob/pertilyo/pertilyo_ambient_sleep3"
+    ]
+  },"entity.pertilyo.angry": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_angry1",
+      "earth:mob/pertilyo/pertilyo_angry2"
+    ]
+  },"entity.pertilyo.hurt": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_hurt1",
+      "earth:mob/pertilyo/pertilyo_hurt2"
+    ]
+  },"entity.pertilyo.plop": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_plop"
+    ]
+  },"entity.pertilyo.oxidize": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_oxidize1",
+      "earth:mob/pertilyo/pertilyo_oxidize2"
+    ]
+  },"entity.pertilyo.deoxidize": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_deoxidize"
+    ]
+  },"entity.pertilyo.death": {
+    "sounds": [
+      "earth:mob/pertilyo/pertilyo_death"
+    ]
+  },"item.flingshot.shoot": {
+    "sounds": [
+      "earth:item/flingshot/flingshot_shoot"
     ]
   },"block.glow_grease.place": {
     "sounds": [

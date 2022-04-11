@@ -4,6 +4,7 @@ import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.BookItem;
 import net.minecraft.item.ItemStack;
 
 public class AutomationEnchantment extends Enchantment {
@@ -20,7 +21,7 @@ public class AutomationEnchantment extends Enchantment {
 
     @Override
     public int getMaxPower(int level) {
-        return 30;
+        return 50;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class AutomationEnchantment extends Enchantment {
      */
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof FlingshotItem;
+        return stack.getItem() instanceof FlingshotItem || stack.getItem() instanceof BookItem;
     }
 
 }

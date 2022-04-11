@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:flinging_potion",
+      "nbt": "{Potion:\"minecraft:harming\"}"
+    },
+    "title": {
+      "translate": "advancement.earth.flinging_potion_witch_afar.title"
+    },
+    "description": {
+      "translate": "advancement.earth.flinging_potion_witch_afar.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/obtain_flingshot",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:hit_by_flinging_potion",
+      "conditions": {
+        "hit_entity": {
+          "type": "minecraft:witch"
+        },
+        "distance": {
+          "absolute": {
+            "min": 32,
+            "max": 128
+          }
+        }
+      }
+    }
+  }
+}

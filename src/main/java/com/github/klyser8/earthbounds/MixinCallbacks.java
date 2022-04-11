@@ -2,30 +2,33 @@ package com.github.klyser8.earthbounds;
 
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.entity.Earthen;
-import com.github.klyser8.earthbounds.registry.EarthboundEnchantments;
-import com.github.klyser8.earthbounds.registry.EarthboundItems;
+import com.github.klyser8.earthbounds.registry.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.dispenser.DispenserBehavior;
+import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.client.input.Input;
+import net.minecraft.client.recipebook.RecipeBookGroup;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
@@ -38,9 +41,9 @@ public class MixinCallbacks {
                                                       SoundCategory soundCategory, float volume, float pitch) {
         if (target instanceof Earthen) {
             if (!(stackInHand.getItem() instanceof PickaxeItem)) {
-                soundEvent = SoundEvents.ENTITY_IRON_GOLEM_HURT; //TODO replace this sound with a custom one
-                volume = 0.5f;
-                pitch = 2.0f;
+                soundEvent = EarthboundSounds.EARTHEN_HURT_WEAK;
+                volume = 1f;
+                pitch = 1.0f + target.getWorld().random.nextFloat() / 5.0f;
             }
         }
         instance.playSound(null, posX, posY, posZ, soundEvent, soundCategory, volume, pitch);
@@ -111,6 +114,28 @@ public class MixinCallbacks {
         } else if (enchantment == EarthboundEnchantments.VERSATILITY
                 && !EarthboundEnchantments.PRECISION.isAcceptableItem(stack) && !list.isEmpty()) {
             list.remove(list.size() - 1);
+        }
+    }
+
+    public static void insertRecipesInGroups(Recipe<?> recipe, CallbackInfoReturnable<RecipeBookGroup> cir) {
+        ItemStack stack = recipe.getOutput();
+        ItemGroup itemGroup = stack.getItem().getGroup();
+        if (itemGroup == EarthboundItemGroup.COMBAT) {
+            cir.setReturnValue(RecipeBookGroup.CRAFTING_EQUIPMENT);
+        } else if (itemGroup == EarthboundItemGroup.PLACEABLES) {
+            cir.setReturnValue(RecipeBookGroup.CRAFTING_BUILDING_BLOCKS);
+        }
+    }
+
+    public static void insertDispenserCustomBehaviors(CallbackInfo ci, BlockPointerImpl blockPointerImpl,
+                                                      DispenserBlockEntity dispenserBlockEntity, int i, ItemStack itemStack) {
+        // get custom behavior
+        DispenserBehavior customBehavior = EarthboundDispenserBehaviors.getCustomDispenserBehavior(itemStack);
+        // check if custom behavior exists
+        if(customBehavior != null) {
+            // run custom behavior
+            dispenserBlockEntity.setStack(i, customBehavior.dispense(blockPointerImpl, itemStack));
+            ci.cancel();
         }
     }
 

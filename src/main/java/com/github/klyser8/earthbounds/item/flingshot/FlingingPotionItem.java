@@ -25,7 +25,7 @@ public class FlingingPotionItem extends PotionItem implements Flingable {
     @Override
     public ThrownItemEntity createFlingableEntity(World world, ItemStack stack, LivingEntity shooter) {
         Vec3d eyePos = shooter.getEyePos();
-        FlingingPotionEntity potionEntity = new FlingingPotionEntity(world, eyePos.x, eyePos.y, eyePos.z);
+        FlingingPotionEntity potionEntity = new FlingingPotionEntity(shooter, world, eyePos.x, eyePos.y, eyePos.z);
         potionEntity.setItem(stack);
         return potionEntity;
     }

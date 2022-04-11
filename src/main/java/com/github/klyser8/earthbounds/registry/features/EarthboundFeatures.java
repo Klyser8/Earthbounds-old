@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -43,15 +44,9 @@ public class EarthboundFeatures {
                 (biomeSelectionContext, biomeModificationContext) -> biomeModificationContext.getGenerationSettings().
                         addBuiltInFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, EarthboundPlacedFeatures.SMALL_COAL_DEN));
 
-        BiomeModifications.create(new Identifier(MOD_ID, "add_glow_grease_splat")).add(
-                ModificationPhase.ADDITIONS,
-                context -> {
-                    Biome.Category category = ((BiomeAccessor) (Object) context.getBiome()).invokeGetCategory();
-                    return category != Biome.Category.NETHER && category
-                            != Biome.Category.THEEND && category != Biome.Category.NONE;
-                },
-                context -> context.getGenerationSettings().addBuiltInFeature(
-                        GenerationStep.Feature.UNDERGROUND_DECORATION, EarthboundPlacedFeatures.GLOW_GREASE_SPLAT));
+        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.DRIPSTONE_CAVES),
+                GenerationStep.Feature.UNDERGROUND_DECORATION, RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+                        new Identifier(MOD_ID, "glow_grease_splat")));
 
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
                 RegistryKey.of(Registry.PLACED_FEATURE_KEY,

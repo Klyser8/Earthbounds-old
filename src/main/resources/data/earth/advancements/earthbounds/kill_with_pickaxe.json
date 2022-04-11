@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancement.earth.kill_with_pickaxe.desc"
     },
-    "frame": "goal",
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false

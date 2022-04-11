@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
@@ -42,9 +43,9 @@ public class EarthboundEntities {
             FabricEntityTypeBuilder.createMob()
                     .spawnGroup(SpawnGroup.AMBIENT)
                     .entityFactory(PertilyoEntity::new)
-                    .dimensions(EntityDimensions.changing(0.66f, 1.0f))
-                    /*.spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-                            RubroEntity::checkMobSpawn)*/
+                    .dimensions(EntityDimensions.changing(0.44f, 1.0f))
+                    .spawnRestriction(SpawnRestriction.Location.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                            PertilyoEntity::checkMobSpawn)
                     .build();
 
     public static final EntityType<CoalChunkEntity> COAL_CHUNK = Registry.register(Registry.ENTITY_TYPE,
@@ -54,7 +55,8 @@ public class EarthboundEntities {
     public static final EntityType<ShimmerShellEntity> SHIMMER_SHELL = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "shimmer_shell"),
             FabricEntityTypeBuilder.<ShimmerShellEntity>create(SpawnGroup.MISC, ShimmerShellEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.3f, 0.3f)).build());
+                    .dimensions(EntityDimensions.fixed(0.3f, 0.3f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
     public static final EntityType<GlowGreaseDropEntity> GLOW_GREASE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "glow_grease"),
             FabricEntityTypeBuilder.<GlowGreaseDropEntity>create(SpawnGroup.MISC, GlowGreaseDropEntity::new)
@@ -77,6 +79,8 @@ public class EarthboundEntities {
 
         BiomeModifications.addSpawn(BiomeSelectors.all(),
                 SpawnGroup.AMBIENT, EarthboundEntities.RUBRO, 36, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DRIPSTONE_CAVES),
+                SpawnGroup.AMBIENT, EarthboundEntities.PERTILYO, 10, 1, 1);
     }
 
     public static void registerRenderers() {

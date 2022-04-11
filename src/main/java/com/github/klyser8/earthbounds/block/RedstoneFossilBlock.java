@@ -1,10 +1,7 @@
 package com.github.klyser8.earthbounds.block;
 
 import com.github.klyser8.earthbounds.entity.RubroEntity;
-import com.github.klyser8.earthbounds.registry.EarthboundBlocks;
-import com.github.klyser8.earthbounds.registry.EarthboundEntities;
-import com.github.klyser8.earthbounds.registry.EarthboundParticles;
-import com.github.klyser8.earthbounds.registry.EarthboundSounds;
+import com.github.klyser8.earthbounds.registry.*;
 import com.github.klyser8.earthbounds.util.EarthUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneOreBlock;
@@ -13,6 +10,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -58,6 +56,9 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
         if (world.isClient) {
             world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, EarthboundSounds.RUBRO_EAT,
                     SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5, true);
+        }
+        if (player instanceof ServerPlayerEntity serverPlayer) {
+            EarthboundsAdvancementCriteria.BREAK_REDSTONE_FOSSIL.trigger(serverPlayer, world.getBlockState(pos));
         }
         super.onBreak(world, pos, state, player);
     }

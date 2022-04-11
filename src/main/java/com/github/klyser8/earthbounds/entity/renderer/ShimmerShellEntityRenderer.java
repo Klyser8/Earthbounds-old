@@ -27,8 +27,13 @@ public class ShimmerShellEntityRenderer extends GeoProjectilesRenderer<ShimmerSh
     @Override
     public void render(ShimmerShellEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn,
                        VertexConsumerProvider bufferIn, int packedLightIn) {
-//        float rotation = (entityIn.age * 5f % 360f);
-//        matrixStackIn.multiply(new Quaternion(0, rotation, 0, true));
+        matrixStackIn.push();
+        int rotation = (int) (System.currentTimeMillis() % 360);
+        matrixStackIn.translate(0, 0.15, 0);
+        if (entityIn.getCollisionAge() == 0) {
+            matrixStackIn.multiply(new Quaternion(rotation / 2f, 0, 0, true));
+        }
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        matrixStackIn.pop();
     }
 }

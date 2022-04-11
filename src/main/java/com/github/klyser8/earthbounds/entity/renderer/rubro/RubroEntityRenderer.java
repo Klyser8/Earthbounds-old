@@ -3,6 +3,7 @@ package com.github.klyser8.earthbounds.entity.renderer.rubro;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.model.RubroEntityModel;
 import com.github.klyser8.earthbounds.entity.renderer.EarthenEntityRenderer;
+import com.github.klyser8.earthbounds.entity.renderer.EarthenMobRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,7 +12,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 
-public class RubroEntityRenderer extends EarthenEntityRenderer<RubroEntity> {
+public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
 
     public RubroEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new RubroEntityModel());

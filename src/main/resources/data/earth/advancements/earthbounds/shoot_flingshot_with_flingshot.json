@@ -1,0 +1,31 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:flingshot",
+      "nbt": "{Enchantments:[{}]}"
+    },
+    "title": {
+      "translate": "advancement.earth.shoot_flingshot_with_flingshot.title"
+    },
+    "description": {
+      "translate": "advancement.earth.shoot_flingshot_with_flingshot.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/obtain_flingshot",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:shot_flingshot",
+      "conditions": {
+        "item": {
+          "items": [
+            "earth:flingshot"
+          ]
+        }
+      }
+    }
+  }
+}

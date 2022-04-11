@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:shimmer_shell"
+    },
+    "title": {
+      "translate": "advancement.earth.kill_creeper_with_shimmer_shell.title"
+    },
+    "description": {
+      "translate": "advancement.earth.kill_creeper_with_shimmer_shell.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/obtain_flingshot",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:killed_by_shimmer_shell",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:creeper"
+        }
+      }
+    }
+  }
+}

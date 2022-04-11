@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:lead",
+      "nbt": "{Enchantments:[{}]}"
+    },
+    "title": {
+      "translate": "advancement.earth.escort_pertilyo.title"
+    },
+    "description": {
+      "translate": "advancement.earth.escort_pertilyo.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/enter_grease_splat",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:escort_pertilyo"
+    }
+  },
+  "rewards": {
+    "experience": 35
+  }
+}

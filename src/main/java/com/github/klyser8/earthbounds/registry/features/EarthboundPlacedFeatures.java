@@ -69,7 +69,7 @@ public class EarthboundPlacedFeatures {
                     SquarePlacementModifier.of(),
                     SurfaceThresholdFilterPlacementModifier.of(
                             Heightmap.Type.OCEAN_FLOOR_WG, Integer.MIN_VALUE, -13),
-                    RarityFilterPlacementModifier.of(4),
+                    RarityFilterPlacementModifier.of(3),
                     BiomePlacementModifier.of()
     ));
 

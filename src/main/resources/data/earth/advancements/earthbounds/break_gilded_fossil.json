@@ -14,23 +14,28 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "earth:earthbounds/find_fossil",
+  "parent": "earth:earthbounds/break_fossil",
   "criteria": {
-    "requirement": {
-      "trigger": "minecraft:inventory_changed",
+    "gilded_stone": {
+      "trigger": "earth:break_redstone_fossil",
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "earth:gilded_redstone_fossil",
-              "earth:deepslate_gilded_redstone_fossil"
-            ]
-          }
-        ]
+        "block": "earth:gilded_redstone_fossil"
+      }
+    },
+    "gilded_deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_gilded_redstone_fossil"
       }
     }
   },
   "rewards": {
     "experience": 50
-  }
+  },
+  "requirements": [
+    [
+      "gilded_stone",
+      "gilded_deepslate"
+    ]
+  ]
 }

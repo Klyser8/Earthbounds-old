@@ -4,6 +4,7 @@ import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.BookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 
@@ -42,7 +43,7 @@ public class ForceEnchantment extends Enchantment {
      */
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof FlingshotItem;
+        return stack.getItem() instanceof FlingshotItem || stack.getItem() instanceof BookItem;
     }
 
     public float getExtraForce(int level) {

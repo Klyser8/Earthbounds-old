@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 
@@ -22,6 +23,11 @@ public class CrumbleEnchantment extends Enchantment {
     @Override
     public int getMinPower(int level) {
         return BASE_POWER + (level - 1) * POWER_PER_LEVEl;
+    }
+
+    @Override
+    public int getMaxPower(int level) {
+        return super.getMaxPower(level);
     }
 
     @Override
@@ -57,8 +63,10 @@ public class CrumbleEnchantment extends Enchantment {
      */
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof PickaxeItem;
+        return stack.getItem() instanceof PickaxeItem || stack.getItem() instanceof BookItem;
     }
+
+
 
     /**
      * Extra damage to earthen entities is 2.5 * enchantment level

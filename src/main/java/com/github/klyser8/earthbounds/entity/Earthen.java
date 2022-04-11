@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds.entity;
 
+import com.github.klyser8.earthbounds.registry.ShimmerDamageSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -15,11 +16,20 @@ public interface Earthen extends IAnimatable {
 
     void setLastDamager(Entity entity);
 
-    static float handleNonPickaxeDamage(DamageSource source, LivingEntity entity, float baseDamage) {
-        if (!isDamagePickaxe(source) && entity instanceof Earthen) {
-            return baseDamage / 2.5f;
+    String getLastDamageSourceName();
+
+    void setLastDamageSourceName(String name);
+
+    static float handleDamage(DamageSource source, LivingEntity entity, float baseDamage) {
+        if (entity instanceof Earthen) {
+            if (isDamagePickaxe(source)
+                    || source.getName().equalsIgnoreCase(ShimmerDamageSource.SHIMMER_EXPLOSION_NAME)
+                    || source.getName().equalsIgnoreCase(ShimmerDamageSource.SHIMMER_EXPLOSION_PLAYER_NAME)
+                    || source.getName().equalsIgnoreCase(ShimmerDamageSource.SHIMMER_SHELL_NAME)) {
+                return baseDamage;
+            }
         }
-        return baseDamage;
+        return baseDamage / 2.5f;
     }
 
     /**

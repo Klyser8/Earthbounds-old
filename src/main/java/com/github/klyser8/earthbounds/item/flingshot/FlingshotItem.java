@@ -1,9 +1,13 @@
 package com.github.klyser8.earthbounds.item.flingshot;
 
+import com.github.klyser8.earthbounds.advancement.ShotFlingshotCriterion;
 import com.github.klyser8.earthbounds.item.EarthboundItem;
+import com.github.klyser8.earthbounds.item.GlowGreaseItem;
 import com.github.klyser8.earthbounds.item.enchantment.VersatilityEnchantment;
 import com.github.klyser8.earthbounds.registry.EarthboundEnchantments;
 import com.github.klyser8.earthbounds.registry.EarthboundItems;
+import com.github.klyser8.earthbounds.registry.EarthboundSounds;
+import com.github.klyser8.earthbounds.registry.EarthboundsAdvancementCriteria;
 import com.github.klyser8.earthbounds.util.EarthMath;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -15,7 +19,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.*;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
@@ -116,13 +122,18 @@ public class FlingshotItem extends EarthboundItem implements Vanishable {
                         velocity.x, velocity.y, velocity.z);
                 itemEntity.setPickupDelay(20);
                 world.spawnEntity(itemEntity);
+            }
+            EarthboundsAdvancementCriteria.SHOT_FLINGSHOT.trigger((ServerPlayerEntity) player, projStack);
+            flingshot.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+            //If the item shot was not flingable originally, it means it in its entirety was thrown (versatility enchant)
+            //Remove!
+            if (!(projStack.getItem() instanceof Flingable)) {
                 projStack.setCount(0);
             }
-            flingshot.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
         }
         world.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS,
-                1.0f, 1.3f + world.random.nextFloat() / 2.0f);
+                EarthboundSounds.FLINGSHOT_SHOOT, SoundCategory.PLAYERS,
+                1.0f, 1 + world.random.nextFloat() / 4.0f);
         player.incrementStat(Stats.USED.getOrCreateStat(this));
     }
 

@@ -1,7 +1,11 @@
 package com.github.klyser8.earthbounds.entity;
 
+import com.github.klyser8.earthbounds.client.sound.PertilyoFlyLoopSoundInstance;
+import com.github.klyser8.earthbounds.entity.goal.EscapeAttackerGoal;
 import com.github.klyser8.earthbounds.entity.goal.MoveToTargetBlockGoal;
 import com.github.klyser8.earthbounds.registry.EarthboundItems;
+import com.github.klyser8.earthbounds.registry.EarthboundSounds;
+import com.github.klyser8.earthbounds.registry.EarthboundsAdvancementCriteria;
 import com.github.klyser8.earthbounds.util.EarthMath;
 import com.github.klyser8.earthbounds.util.EarthUtil;
 import net.minecraft.block.BlockState;
@@ -13,6 +17,7 @@ import net.minecraft.entity.ai.AboveGroundTargeting;
 import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -21,17 +26,18 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -43,8 +49,15 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
+
+    //In ticks
+    public static final int OXIDATION_STEP_0 = 0;
+    public static final int OXIDATION_STEP_1 = 900;
+    public static final int OXIDATION_STEP_2 = 1800;
+    public static final int OXIDATION_STEP_3 = 2700;
 
     private static final byte SHOOT_STATE = 1;
 
@@ -56,14 +69,16 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
             TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> SECONDS_SINCE_DEOX = DataTracker.registerData(PertilyoEntity.class,
             TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Boolean> IS_OXIDIZED = DataTracker.registerData(PertilyoEntity.class,
+            TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_ROOSTING = DataTracker.registerData(PertilyoEntity.class,
             TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<BlockPos> CLOSEST_TORCH = DataTracker.registerData(PertilyoEntity.class,
             TrackedDataHandlerRegistry.BLOCK_POS);
 
-    @Nullable
-    private BlockPos hangPos;
     private int lastRoostTime = 0;
+
+    private Vec3d leashedLocation;
 
     private final Map<BlockPos, Integer> ignoredBlocks = new HashMap<>();
 
@@ -100,51 +115,76 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
         dataTracker.startTracking(ENERGY, 0);
         dataTracker.startTracking(MAX_ENERGY, 10);
         dataTracker.startTracking(SECONDS_SINCE_DEOX, 0);
+        dataTracker.startTracking(IS_OXIDIZED, false);
         dataTracker.startTracking(IS_ROOSTING, false);
         dataTracker.startTracking(CLOSEST_TORCH, new BlockPos(0, 0, 0));
+    }
+
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("TimeSinceDeox", getTimeSinceDeox());
+        nbt.putInt("Energy", getEnergy());
+        //Used for the pertilyo struck by lightning advancement.
+        nbt.putBoolean("IsOxidized", isOxidized());
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        if (nbt.contains("TimeSinceDeox")) {
+            setTimeSinceDeox(nbt.getInt("TimeSinceDeox"));
+        }
+        if (nbt.contains("Energy")) {
+            setEnergy(nbt.getInt("Energy"));
+        }
+        if (nbt.contains("IsOxidized")) {
+            setOxidized(nbt.getBoolean("IsOxidized"));
+        }
     }
 
     @Override
     protected void initGoals() {
         goalSelector.add(0, new MoveToTorchGoal(200));
         goalSelector.add(1, new PertilyoWanderARoundGoal());
+        goalSelector.add(2, new PertilyoEscapeAttackerGoal(this, 1.25f));
+        goalSelector.add(3, new PertilyoLookAroundGoal(this));
     }
 
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this,
-                "move", 10, this::constantPredicate));
+                "pose", 10, this::movementPredicate));
         animationData.addAnimationController(new AnimationController<>(this,
-                "pose", 10, this::optionalPredicate));
+                "move", 10, this::posePredicate));
     }
 
-    private <E extends IAnimatable> PlayState constantPredicate(AnimationEvent<E> event) {
-        if (event.isMoving()) {
-            event.getController().transitionLengthTicks = 10;
-            event.getController().setAnimation(
-                    new AnimationBuilder().addAnimation("pose_fly_move", true));
-            return PlayState.CONTINUE;
-        } else if (isRoosting()) {
+    private <E extends IAnimatable> PlayState posePredicate(AnimationEvent<E> event) {
+        if (isRoosting() && getAnimationState() == DEFAULT_STATE) {
             event.getController().transitionLengthTicks = 0;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("pose_roost", true));
             return PlayState.CONTINUE;
-        } /*else {
-            event.getController().transitionLengthTicks = 10;
-            event.getController().setAnimation(
-                    new AnimationBuilder().addAnimation("default", true));
-            return PlayState.CONTINUE;
-        }*/
+        }
         return PlayState.STOP;
-        /*if (isOnGround() && !event.isMoving()) {
-            event.getController().transitionLengthTicks = 10;
-            event.getController().setAnimation(
-                    new AnimationBuilder().addAnimation("idle_ground", true));
-            return PlayState.CONTINUE;
-        }*/
     }
 
-    private <E extends IAnimatable> PlayState optionalPredicate(AnimationEvent<E> event) {
+    private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
+        BlockPos belowBlock = new BlockPos(getPos().add(0, -0.2f, 0));
+        if (shouldHibernate() && world.getBlockState(belowBlock).isSolidBlock(world, belowBlock) &&
+                !isRoosting() && getAnimationState() != SHOOT_STATE) {
+            event.getController().transitionLengthTicks = 10;
+            event.getController().setAnimation(
+                    new AnimationBuilder().addAnimation("hibernate", true));
+            return PlayState.CONTINUE;
+        }
+        if (world.isThundering() && getTimeSinceDeox() > OXIDATION_STEP_1 && event.isMoving() &&
+                !isRoosting() && getAnimationState() != SHOOT_STATE) {
+            event.getController().transitionLengthTicks = 5;
+            event.getController().setAnimation(
+                    new AnimationBuilder().addAnimation("flap_loop_shake", true));
+            return PlayState.CONTINUE;
+        }
         if (!isRoosting() && getAnimationState() != SHOOT_STATE) {
             event.getController().transitionLengthTicks = 5;
             event.getController().setAnimation(
@@ -157,7 +197,6 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
                     new AnimationBuilder().addAnimation("shoot_gleam", false));
             return PlayState.CONTINUE;
         }
-
         return PlayState.STOP;
     }
 
@@ -174,21 +213,62 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
 
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-        return false;
+        return shouldHibernate();
+    }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (!world.isClient) {
+            if (!Earthen.isDamagePickaxe(source)) {
+                amount = Earthen.handleDamage(source, this, amount);
+            }
+        }
+        return super.damage(source, amount);
+    }
+
+    @Override
+    public void attachLeash(Entity entity, boolean sendPacket) {
+        super.attachLeash(entity, sendPacket);
+        leashedLocation = getPos();
+    }
+
+    @Override
+    protected void updateLeash() {
+        super.updateLeash();
+        if (getHoldingEntity() instanceof ServerPlayerEntity player) {
+            if (leashedLocation.getY() < -32 && getPos().getY() > world.getSeaLevel() && world.isSkyVisible(getBlockPos())) {
+                EarthboundsAdvancementCriteria.ESCORT_PERTILYO.trigger(player);
+            }
+        }
+    }
+
+    /**
+     * Plays a moving sound constantly from the moment the mob spawns, until it dies.
+     */
+    @Override
+    public void readFromPacket(MobSpawnS2CPacket packet) {
+        super.readFromPacket(packet);
+        PertilyoFlyLoopSoundInstance.playSound(this);
     }
 
     @Override
     public void tick() {
         super.tick();
+        //keeps vertical speed to a limit. Looks wonky otherwise!
+        if (upwardSpeed > 0.5) {
+            setUpwardSpeed(0.5f);
+        } else if (upwardSpeed < -0.5f && !shouldHibernate()) {
+            setUpwardSpeed(-0.5f);
+        }
         if (age % 20 == 0) {
             int deoxIncrease = 1;
             if (isTouchingWaterOrRain()) {
                 deoxIncrease *= 2;
             }
-            setDeoxAmount(getDeoxAmount() + deoxIncrease);
+            setTimeSinceDeox(getTimeSinceDeox() + deoxIncrease);
             if (!world.isClient) {
-                if (world.isThundering() && world.isSkyVisible(getBlockPos())) {
-                    if (random.nextFloat() < 0.01) {
+                if (world.isThundering() && world.isSkyVisible(getBlockPos()) && getTimeSinceDeox() > OXIDATION_STEP_1) {
+                    if (random.nextFloat() < 0.02) {
                         LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
                         if (lightning != null) {
                             lightning.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(getBlockPos()));
@@ -197,15 +277,14 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
                     }
                 }
             }
+            if (getTimeSinceDeox() % OXIDATION_STEP_1 == 0
+                    && getTimeSinceDeox() != 0 && getTimeSinceDeox() <= OXIDATION_STEP_3) {
+                playSound(EarthboundSounds.PERTILYO_OXIDIZE, 0.5f, 1.0f + random.nextFloat() / 0.5f);
+            }
         }
         if (this.isRoosting()) {
             this.setVelocity(Vec3d.ZERO);
-            this.setPos(this.getX(),
-                    (double) MathHelper.floor(this.getY()) + 1.0 - (double)this.getHeight(),
-                    this.getZ());
-        } /*else {
-            this.setVelocity(this.getVelocity().multiply(1.0, 0.6, 1.0));
-        }*/
+        }
         if (age % 100 == 0) {
             for (BlockPos pos : ignoredBlocks.keySet()) {
                 //Pertilyo may try destroying a torch every 30 seconds
@@ -218,34 +297,40 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
     }
 
     @Override
-    public void onStruckByLightning(ServerWorld world, LightningEntity lightning) {
-        setDeoxAmount(0);
-        playElectricSparks(100);
-    }
-
-    @Override
     protected void mobTick() {
         super.mobTick();
+        if (shouldHibernate()) {
+            if (!navigation.isFollowingPath()) {
+                if (hasNoGravity()) {
+                    setNoGravity(false);
+                }
+            }
+            return;
+        }
+        if (!hasNoGravity()) {
+            setNoGravity(true);
+        }
         BlockPos blockPos = getBlockPos();
         BlockPos abovePos = blockPos.up();
         boolean isBlockAboveSolid = world.getBlockState(abovePos).isSolidBlock(world, blockPos);
         if (isRoosting()) {
-            if (!isBlockAboveSolid) {
+            if (!isBlockAboveSolid || random.nextInt(getTimeSinceDeox() + 300) == 0
+                    || getDamageTracker().wasRecentlyAttacked() || world.getLightLevel(getBlockPos()) > 7
+                    || world.isThundering()) {
+                lastRoostTime = age;
                 setRoosting(false);
-            }
-            if (random.nextFloat() < 0.01 || getDamageTracker().wasRecentlyAttacked() ||
-                    world.getLightLevel(getBlockPos()) > 7) {
-                setRoosting(false);
+                playSound(EarthboundSounds.PERTILYO_PLOP, 1.0f, 1.5f);
             }
         } else {
-            /*if (isBlockAboveSolid
+            if (isBlockAboveSolid
                     && world.getLightLevel(getBlockPos()) < 6
-                    && EarthUtil.isOnCooldown(age, lastRoostTime, 300)) {
+                    && !EarthUtil.isOnCooldown(age, lastRoostTime, 300)
+                    && !isRoosting()) {
                 if (random.nextFloat() < 0.1) {
                     navigation.stop();
                     setRoosting(true);
                 }
-            }*/
+            }
             if (age % 100 == 0) {
                 if (!world.isClient) {
                     BlockPos solidPosBelow = EarthMath.getClosestSolidBlockBelow(world, getBlockPos());
@@ -258,54 +343,83 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
                                     EarthboundItems.GLOW_GREASE.getDefaultStack());
                             world.spawnEntity(glowGrease);
                             setEnergy(getEnergy() - 1);
+                            playSound(EarthboundSounds.PERTILYO_PLOP, 1.0f, 1.0f);
                         }
                     }
                 }
             }
         }
-        /*BlockPos blockPos = getBlockPos();
-        BlockPos abovePos = blockPos.up();
+    }
+
+    @Override
+    public void onStruckByLightning(ServerWorld world, LightningEntity lightning) {
+        if (getTimeSinceDeox() > OXIDATION_STEP_1) {
+            if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+                ItemEntity item = new ItemEntity(world, getX(), getY() + 0.5, getZ(),
+                        EarthboundItems.PERTILYO_ROD.getDefaultStack());
+                item.setToDefaultPickupDelay();
+                world.spawnEntity(item);
+                item.setOnFireFor(0); //Used to prevent the item from dying from fire
+            }
+        }
+        if (getTimeSinceDeox() > 1) {
+            setTimeSinceDeox(-1);
+            playSound(EarthboundSounds.PERTILYO_DEOXIDIZE, 2.0f, 1.0f);
+        }
+        playElectricSparks(100);
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return isRoosting() ? EarthboundSounds.PERTILYO_AMBIENT_SLEEP : EarthboundSounds.PERTILYO_AMBIENT;
+    }
+
+    @Override
+    public void playAmbientSound() {
         if (isRoosting()) {
-            if (!world.getBlockState(abovePos).isSolidBlock(world, blockPos)) {
-                setRoosting(false);
-                if (!isSilent()) {
-                    world.syncWorldEvent(null, WorldEvents.BAT_TAKES_OFF, blockPos, 0);
-                }
+            if (random.nextFloat() > 0.25f) {
+                return;
             }
-        } else {
-            //If the hanging pos isnt null, and it isnt OR it's not air and it's not above bottom Y then set it to null
-            if (!(hangingPos == null
-                    || world.isAir(hangingPos) && hangingPos.getY() > world.getBottomY())) {
-                hangingPos = null;
+        }
+        playSound(getAmbientSound(), isRoosting() ? getSoundVolume() / 2.0f : getSoundVolume(), this.getSoundPitch());
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return EarthboundSounds.PERTILYO_HURT;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return EarthboundSounds.PERTILYO_DEATH;
+    }
+
+    @Override
+    public boolean isFireImmune() {
+        return true;
+    }
+
+    /**
+     * Checks if the pertilyo is in the condition to spawn in a given location.
+     *
+     * @param type The type of the entity
+     * @param world The world which the entity may spawn in
+     * @param spawnReason the reason of the spawn
+     * @param pos the spawn position
+     * @return whether the mob is allowed to spawn at the location.
+     */
+    public static boolean checkMobSpawn(EntityType<? extends MobEntity> type, WorldAccess world,
+                                        SpawnReason spawnReason, BlockPos pos, Random random) {
+        if ((spawnReason == SpawnReason.NATURAL || spawnReason == SpawnReason.CHUNK_GENERATION)) {
+            if (world.getLightLevel(pos) > 8 || pos.getY() > 0) {
+                return false;
             }
-            //If hanging pos is null Or random check is passed or hanging pos is within distance, then create new
-            //hanging position.
-            if (hangingPos == null
-                    || random.nextInt(3000) == 0 || hangingPos.isWithinDistance(getPos(), 2.0)) {
-                hangingPos = new BlockPos(
-                        getX() + random.nextInt(7) - random.nextInt(7),
-                        getY() + random.nextInt(6) - 2,
-                        getZ() + random.nextInt(7) - random.nextInt(7));
-            }
-            //Applies velocity to Pertilyo
-            double x = hangingPos.getX() + 0.5 - getX();
-            double y = hangingPos.getY() + 0.1 - getY();
-            double z = hangingPos.getZ() + 0.5 - getZ();
-            Vec3d currentVel = getVelocity();
-            Vec3d newVel = currentVel.add(
-                    (Math.signum(x) * 0.5 - currentVel.x) * 0.1f,
-                    (Math.signum(y) * 0.7f - currentVel.y) * 0.1f,
-                    (Math.signum(z) * 0.5 - currentVel.z) * 0.1f);
-            setVelocity(newVel);
-            float deg = (float)(MathHelper.atan2(newVel.z, newVel.x) * 57.2957763671875) - 90.0f;
-            float yaw = MathHelper.wrapDegrees(deg - getYaw());
-            forwardSpeed = 0.5f;
-            setYaw(getYaw() + yaw);
-            System.out.println(abovePos);
-            if (random.nextInt(100) == 0 && world.getBlockState(abovePos).isSolidBlock(world, abovePos)) {
-                this.setRoosting(true);
-            }
-        }*/
+            return canMobSpawn(type, world, spawnReason, pos, random);
+        }
+        return false;
     }
 
     @Override
@@ -337,20 +451,42 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
     /**
      * Seconds since last de-oxidation happened. This can only happen through being struck by lightning.
      */
-    public int getDeoxAmount() {
+    public int getTimeSinceDeox() {
         return dataTracker.get(SECONDS_SINCE_DEOX);
     }
 
-    public void setDeoxAmount(int time) {
+    public void setTimeSinceDeox(int time) {
         dataTracker.set(SECONDS_SINCE_DEOX, time);
+        //Oxidation time is set to -1 for the advancement related to Pertilyo to work.
+        if (time >= OXIDATION_STEP_1 || time == -1) {
+            if (!isOxidized()) {
+                setOxidized(true);
+            }
+        } else {
+            if (isOxidized()) {
+                setOxidized(false);
+            }
+        }
+    }
+
+    public boolean shouldHibernate() {
+        return world.isSkyVisible(getBlockPos()) && world.isThundering() && getTimeSinceDeox() > OXIDATION_STEP_1;
+    }
+
+    public boolean isOxidized() {
+        return dataTracker.get(IS_OXIDIZED);
+    }
+
+    public void setOxidized(boolean isOxidized) {
+        dataTracker.set(IS_OXIDIZED, isOxidized);
     }
 
     public Oxidizable.OxidationLevel getOxidizationLevel() {
-        if (getDeoxAmount() < 300) {
+        if (getTimeSinceDeox() < OXIDATION_STEP_1) {
             return Oxidizable.OxidationLevel.UNAFFECTED;
-        } else if (getDeoxAmount() < 600) {
+        } else if (getTimeSinceDeox() < OXIDATION_STEP_2) {
             return Oxidizable.OxidationLevel.EXPOSED;
-        } else if (getDeoxAmount() < 900) {
+        } else if (getTimeSinceDeox() < OXIDATION_STEP_3) {
             return Oxidizable.OxidationLevel.WEATHERED;
         } else {
             return Oxidizable.OxidationLevel.OXIDIZED;
@@ -370,16 +506,8 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
 
     }
 
-    public boolean isInAir() {
-        return !onGround;
-    }
-
     boolean isTorch(BlockPos pos) {
         return world.canSetBlock(pos) && world.getBlockState(pos).getBlock() instanceof TorchBlock;
-    }
-
-    boolean isTooFar(BlockPos pos) {
-        return !getBlockPos().isWithinDistance(pos, 32);
     }
 
     private void playElectricSparks(int amount) {
@@ -409,11 +537,17 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
         @Override
         public boolean canStart() {
             if (super.canStart()) {
-                return !hasPositionTarget()
-                        && shouldMoveToTorch()
-                        && !isCloserThan(1);
+                return /*!hasPositionTarget() MIGHT CAUSE WEIRD ISSUES! Disabled as pertilyo wouldn't destroy torches
+                        && */shouldMoveToTorch()
+                        && !isCloserThan(1)
+                        && !shouldHibernate();
             }
             return false;
+        }
+
+        @Override
+        public void start() {
+            super.start();
         }
 
         @Override
@@ -428,6 +562,10 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
                     targetPos = null;
                     return;
                 }
+                playSound(EarthboundSounds.PERTILYO_ANGRY, 1.0f, 1.0f);
+                ((ServerWorld) world).spawnParticles(ParticleTypes.ANGRY_VILLAGER,
+                        getEyePos().x, getEyePos().y, getEyePos().z,
+                        5, 0.25,0.25,0.25, 0);
                 lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, Vec3d.ofCenter(targetPos));
                 if (getNavigation().isFollowingPath()) {
                     getNavigation().stop();
@@ -512,7 +650,10 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
 
         @Override
         public boolean canStart() {
-            return navigation.isIdle() && random.nextInt(10) == 0 && !isRoosting();
+            return navigation.isIdle()
+                    && random.nextInt(10) == 0
+                    && !isRoosting()
+                    && !shouldHibernate();
         }
 
         @Override
@@ -525,7 +666,7 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
 
         @Override
         public boolean shouldContinue() {
-            return navigation.isFollowingPath();
+            return navigation.isFollowingPath() && !isRoosting();
         }
 
         /**
@@ -549,11 +690,36 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
         }
     }
 
-    class FindPlaceToRoostGoal extends Goal {
+    class PertilyoEscapeAttackerGoal extends EscapeAttackerGoal {
+
+        public PertilyoEscapeAttackerGoal(PathAwareEntity mob, double speed) {
+            super(mob, speed);
+        }
 
         @Override
         public boolean canStart() {
-            return false;
+            return super.canStart() && !shouldHibernate();
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            if (isRoosting()) {
+                setRoosting(false);
+            }
         }
     }
+
+    class PertilyoLookAroundGoal extends LookAroundGoal {
+
+        public PertilyoLookAroundGoal(MobEntity mob) {
+            super(mob);
+        }
+
+        @Override
+        public boolean canStart() {
+            return super.canStart() && !shouldHibernate() && !isRoosting();
+        }
+    }
+
 }

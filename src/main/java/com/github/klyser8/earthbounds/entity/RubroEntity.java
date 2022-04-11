@@ -462,12 +462,11 @@ public class RubroEntity extends PathAwareEarthenEntity {
     @Override
     public boolean damage(DamageSource source, float amount) {
         int powerLost = 0;
-        if (getLastDamager() != null && source.getSource() != null && !getLastDamager().equals(source.getSource())) {
-            setLastDamager(source.getSource());
-        }
         powerLost +=1;
-        if (!Earthen.isDamagePickaxe(source)) {
-            amount = Earthen.handleNonPickaxeDamage(source, this, amount);
+        if (!world.isClient) {
+            if (!Earthen.isDamagePickaxe(source)) {
+                amount = Earthen.handleDamage(source, this, amount);
+            }
         }
         if (!world.isClient) {
             if (getPower() > getMaxPower() * 0.4 && random.nextDouble() < amount / 30.0) {

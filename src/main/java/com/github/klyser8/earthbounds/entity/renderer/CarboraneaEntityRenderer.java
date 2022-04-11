@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-public class CarboraneaEntityRenderer extends EarthenEntityRenderer<CarboraneaEntity> {
+public class CarboraneaEntityRenderer extends EarthenMobRenderer<CarboraneaEntity> {
 
     private static final float num = 0.00392156863f;
     private static final int maxLightIn = 240;
@@ -41,7 +41,7 @@ public class CarboraneaEntityRenderer extends EarthenEntityRenderer<CarboraneaEn
             blue = 1 - (lightIn * num);
         }
         super.render(model, carboranea, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,
-                (int) /*Math.max(lightIn, carboranea.getBrightnessAtEyes() * 255)*/packedLightIn, packedOverlayIn,
+                /*Math.max(lightIn, carboranea.getBrightnessAtEyes() * 255)*/packedLightIn, packedOverlayIn,
                 red, green, blue, alpha);
     }
 

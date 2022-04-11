@@ -2,7 +2,8 @@ package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.item.EarthboundItem;
-import com.github.klyser8.earthbounds.item.ShimmerShellItem;
+import com.github.klyser8.earthbounds.item.AmethystDust;
+import com.github.klyser8.earthbounds.item.flingshot.ShimmerShellItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingingPotionItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import com.github.klyser8.earthbounds.item.GlowGreaseItem;
@@ -76,7 +77,6 @@ public class EarthboundItems {
             if (!world.isClient) {
                 BlockPos torchPos = BlockPos.findClosest(user.getBlockPos(),12, 12,
                         pos -> world.getBlockState(pos).getBlock() instanceof TorchBlock).orElse(null);
-                System.out.println(torchPos);
             }
             return super.use(world, user, hand);
         }
@@ -108,11 +108,13 @@ public class EarthboundItems {
             return ActionResult.SUCCESS;
         }
     };
+    public static final Item EARTHBOUNDS_ICON = new Item(new FabricItemSettings().rarity(Rarity.EPIC));
+
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON), true);
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
     public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(EarthboundItemGroup.BREWING)));
-    public static final Item AMETHYST_DUST = new Item(new Item.Settings().group(EarthboundItemGroup.BREWING));
+    public static final Item AMETHYST_DUST = new AmethystDust(new Item.Settings().group(EarthboundItemGroup.BREWING));
     public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(EarthboundItemGroup.PLACEABLES));
     public static final Item FLINGSHOT = new FlingshotItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(320));
     public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(16));
@@ -126,6 +128,7 @@ public class EarthboundItems {
 
     public static void register() {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "earthbounds_icon"), EARTHBOUNDS_ICON);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_rod"), PERTILYO_ROD);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
@@ -159,24 +162,6 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK,
                         new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
-        registerModelPredicates();
     }
 
-    private static void registerModelPredicates() {
-        Identifier pullingIdentifier = new Identifier(Earthbounds.MOD_ID, "pull");
-        FabricModelPredicateProviderRegistry.register(FLINGSHOT, pullingIdentifier, (stack, world, entity, seed) -> {
-            if (entity == null) {
-                return 0;
-            }
-            if (entity.getActiveItem() != stack) {
-                return 0;
-            }
-            if (EnchantmentHelper.get(stack).containsKey(EarthboundEnchantments.AUTOMATION)) {
-                return (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft())
-                        % FlingshotItem.CHARGE_TIME / FlingshotItem.CHARGE_TIME;
-            } else {
-                return (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft()) / FlingshotItem.CHARGE_TIME;
-            }
-        });
-    }
 }

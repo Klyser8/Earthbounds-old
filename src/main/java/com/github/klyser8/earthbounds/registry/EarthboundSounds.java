@@ -12,6 +12,8 @@ import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 public class EarthboundSounds {
 
 
+    public static final SoundEvent EARTHEN_HURT_WEAK = new SoundEvent(
+            new Identifier(MOD_ID, "entity.earthen_hurt_weak"));
     public static final SoundEvent CARBORANEA_AMBIENT = new SoundEvent(
             new Identifier(MOD_ID, "entity.carboranea.ambient"));
     public static final SoundEvent CARBORANEA_SHAKE = new SoundEvent(
@@ -50,6 +52,28 @@ public class EarthboundSounds {
     public static final SoundEvent RUBRO_DEATH = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.death"));
 
+    public static final SoundEvent PERTILYO_FLY_LOOP = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.fly_loop"));
+    public static final SoundEvent PERTILYO_AMBIENT = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.ambient"));
+    public static final SoundEvent PERTILYO_AMBIENT_SLEEP = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.ambient_sleep"));
+    public static final SoundEvent PERTILYO_ANGRY = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.angry"));
+    public static final SoundEvent PERTILYO_PLOP = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.plop"));
+    public static final SoundEvent PERTILYO_OXIDIZE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.oxidize"));
+    public static final SoundEvent PERTILYO_DEOXIDIZE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.deoxidize"));
+    public static final SoundEvent PERTILYO_DEATH = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.death"));
+    public static final SoundEvent PERTILYO_HURT = new SoundEvent(
+            new Identifier(MOD_ID, "entity.pertilyo.hurt"));
+
+    public static final SoundEvent FLINGSHOT_SHOOT = new SoundEvent(
+            new Identifier(MOD_ID, "item.flingshot.shoot"));
+
     public static final SoundEvent GLOW_GREASE_PLACE = new SoundEvent(
             new Identifier(MOD_ID, "block.glow_grease.place"));
     public static final SoundEvent GLOW_GREASE_BREAK = new SoundEvent(
@@ -58,7 +82,9 @@ public class EarthboundSounds {
             new Identifier(MOD_ID, "block.glow_grease.step"));
 
     public static void register() {
+        //Entities
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_AMBIENT.getId(), CARBORANEA_AMBIENT);
+        Registry.register(Registry.SOUND_EVENT, EARTHEN_HURT_WEAK.getId(), EARTHEN_HURT_WEAK);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_SHAKE.getId(), CARBORANEA_SHAKE);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_SHAKE_SHORT.getId(), CARBORANEA_SHAKE_SHORT);
         Registry.register(Registry.SOUND_EVENT, CARBORANEA_HURT.getId(), CARBORANEA_HURT);
@@ -79,6 +105,20 @@ public class EarthboundSounds {
         Registry.register(Registry.SOUND_EVENT, RUBRO_HURT.getId(), RUBRO_HURT);
         Registry.register(Registry.SOUND_EVENT, RUBRO_DEATH.getId(), RUBRO_DEATH);
 
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_FLY_LOOP.getId(), PERTILYO_FLY_LOOP);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_AMBIENT.getId(), PERTILYO_AMBIENT);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_AMBIENT_SLEEP.getId(), PERTILYO_AMBIENT_SLEEP);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_ANGRY.getId(), PERTILYO_ANGRY);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_PLOP.getId(), PERTILYO_PLOP);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_OXIDIZE.getId(), PERTILYO_OXIDIZE);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_DEOXIDIZE.getId(), PERTILYO_DEOXIDIZE);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_DEATH.getId(), PERTILYO_DEATH);
+        Registry.register(Registry.SOUND_EVENT, PERTILYO_HURT.getId(), PERTILYO_HURT);
+
+        //Items
+        Registry.register(Registry.SOUND_EVENT, FLINGSHOT_SHOOT.getId(), FLINGSHOT_SHOOT);
+
+        //Blocks
         Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_PLACE.getId(), GLOW_GREASE_PLACE);
         Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_BREAK.getId(), GLOW_GREASE_BREAK);
         Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_STEP.getId(), GLOW_GREASE_STEP);

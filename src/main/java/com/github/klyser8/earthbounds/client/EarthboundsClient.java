@@ -3,20 +3,20 @@ package com.github.klyser8.earthbounds.client;
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.entity.GlowGreaseDropEntity;
 import com.github.klyser8.earthbounds.entity.renderer.GlowGreaseDropEntityRenderer;
-import com.github.klyser8.earthbounds.network.EntitySpawnPacket;
-import com.github.klyser8.earthbounds.registry.EarthboundBlocks;
-import com.github.klyser8.earthbounds.registry.EarthboundEntities;
-import com.github.klyser8.earthbounds.registry.EarthboundItems;
-import com.github.klyser8.earthbounds.registry.EarthboundParticles;
+import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
+import com.github.klyser8.earthbounds.registry.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.fabricmc.fabric.impl.networking.ClientSidePacketRegistryImpl;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.potion.PotionUtil;
@@ -46,31 +46,24 @@ public class EarthboundsClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(EarthboundEntities.GLOW_GREASE, GlowGreaseDropEntityRenderer::new);
         EntityRendererRegistry.register(EarthboundEntities.FLINGING_POTION, FlyingItemEntityRenderer::new);
-        receiveEntityPacket();
+        registerModelPredicates();
     }
 
-    public void receiveEntityPacket() {
-        ClientSidePacketRegistryImpl.INSTANCE.register(packetID, (ctx, byteBuf) -> {
-            EntityType<?> et = Registry.ENTITY_TYPE.get(byteBuf.readVarInt());
-            UUID uuid = byteBuf.readUuid();
-            int entityId = byteBuf.readVarInt();
-            Vec3d pos = EntitySpawnPacket.PacketBufUtil.readVec3d(byteBuf);
-            float pitch = EntitySpawnPacket.PacketBufUtil.readAngle(byteBuf);
-            float yaw = EntitySpawnPacket.PacketBufUtil.readAngle(byteBuf);
-            ctx.getTaskQueue().execute(() -> {
-                if (MinecraftClient.getInstance().world == null)
-                    throw new IllegalStateException("Tried to spawn entity in a null world!");
-                Entity e = et.create(MinecraftClient.getInstance().world);
-                if (e == null)
-                    throw new IllegalStateException("Failed to create instance of entity \"" + Registry.ENTITY_TYPE.getId(et) + "\"!");
-                e.updateTrackedPosition(pos);
-                e.setPos(pos.x, pos.y, pos.z);
-                e.setPitch(pitch);
-                e.setYaw(yaw);
-                e.setId(entityId);
-                e.setUuid(uuid);
-                MinecraftClient.getInstance().world.addEntity(entityId, e);
-            });
+    private static void registerModelPredicates() {
+        Identifier pullingIdentifier = new Identifier(Earthbounds.MOD_ID, "pull");
+        ModelPredicateProviderRegistry.register(EarthboundItems.FLINGSHOT, pullingIdentifier, (stack, world, entity, seed) -> {
+            if (entity == null) {
+                return 0;
+            }
+            if (entity.getActiveItem() != stack) {
+                return 0;
+            }
+            if (EnchantmentHelper.get(stack).containsKey(EarthboundEnchantments.AUTOMATION)) {
+                return (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft())
+                        % FlingshotItem.CHARGE_TIME / FlingshotItem.CHARGE_TIME;
+            } else {
+                return (float) (stack.getMaxUseTime() - entity.getItemUseTimeLeft()) / FlingshotItem.CHARGE_TIME;
+            }
         });
     }
 }

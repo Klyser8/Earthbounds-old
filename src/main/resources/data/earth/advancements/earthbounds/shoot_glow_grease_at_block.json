@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:glow_grease",
+      "nbt": "{Enchantments:[{}]}"
+    },
+    "title": {
+      "translate": "advancement.earth.shoot_glow_grease_at_block.title"
+    },
+    "description": {
+      "translate": "advancement.earth.shoot_glow_grease_at_block.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "earth:earthbounds/obtain_flingshot",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:shoot_glow_grease_against_block",
+      "conditions": {
+        "max_light_level": {
+          "min": 0,
+          "max": 2
+        },
+        "landing_distance": {
+          "absolute": {
+            "min": 15,
+            "max": 100
+          }
+        }
+      }
+    }
+  }
+}

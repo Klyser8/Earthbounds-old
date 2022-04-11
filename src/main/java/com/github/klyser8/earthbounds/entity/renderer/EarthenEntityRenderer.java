@@ -1,16 +1,23 @@
 package com.github.klyser8.earthbounds.entity.renderer;
 
 import com.github.klyser8.earthbounds.entity.Earthen;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import com.github.klyser8.earthbounds.entity.PathAwareEarthenEntity;
+import com.github.klyser8.earthbounds.registry.ShimmerDamageSource;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageRecord;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LightType;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -27,23 +34,6 @@ public class EarthenEntityRenderer<T extends LivingEntity & IAnimatable & Earthe
                        VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
                        int packedOverlayIn, float red, float green, float blue, float alpha) {
         super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer,
-                vertexBuilder, packedLightIn, getPackedOverlay((Earthen) animatable, 0), red, green, blue, alpha);
-    }
-
-    /**
-     * Earthen entities should not flash red when hurt unless they are harmed by a pickaxe.
-     */
-    public static int getPackedOverlay(Earthen earthen, float uIn) {
-        if (earthen instanceof LivingEntity entity) {
-            boolean wasAttackPickaxe = false;
-            if (earthen.getLastDamager() != null) {
-                if (earthen.getLastDamager() instanceof LivingEntity damager) {
-                    wasAttackPickaxe = damager.getMainHandStack().getItem() instanceof PickaxeItem;
-                }
-            }
-            return OverlayTexture.getUv(OverlayTexture.getU(uIn),
-                    entity.hurtTime > 0 && wasAttackPickaxe);
-        }
-        return 0;
+                vertexBuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 }

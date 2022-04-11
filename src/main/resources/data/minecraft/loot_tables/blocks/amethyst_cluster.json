@@ -15,8 +15,16 @@
                 {
                   "function": "minecraft:set_count",
                   "count": {
-                    "min": 2,
-                    "max": 4
+                    "min": 0,
+                    "max": 1
+                  }
+                },
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "earth:crumble",
+                  "formula": "minecraft:uniform_bonus_count",
+                  "parameters": {
+                    "bonusMultiplier": 1
                   }
                 }
               ],
@@ -28,7 +36,8 @@
                       {
                         "enchantment": "earth:crumble",
                         "levels": {
-                          "min": 1
+                          "min": 1,
+                          "max": 5
                         }
                       }
                     ]

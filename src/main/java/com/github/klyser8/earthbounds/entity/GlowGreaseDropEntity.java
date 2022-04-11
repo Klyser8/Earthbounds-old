@@ -3,17 +3,14 @@ package com.github.klyser8.earthbounds.entity;
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.client.EarthboundsClient;
 import com.github.klyser8.earthbounds.item.GlowGreaseItem;
-import com.github.klyser8.earthbounds.network.EntitySpawnPacket;
-import com.github.klyser8.earthbounds.registry.EarthboundBlocks;
-import com.github.klyser8.earthbounds.registry.EarthboundEntities;
-import com.github.klyser8.earthbounds.registry.EarthboundItems;
-import com.github.klyser8.earthbounds.registry.EarthboundParticles;
+import com.github.klyser8.earthbounds.registry.*;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.*;
@@ -21,6 +18,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
@@ -109,6 +107,7 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
         }
         BlockPos blockPos = new BlockPos(blockHitResult.getBlockPos());
         BlockPos placePos = blockPos.offset(blockHitResult.getSide());
+        int lightLevel = world.getLightLevel(placePos);
         BlockState oldPlaceState = world.getBlockState(placePos);
         if (!world.isClient()) {
             discard();
@@ -127,6 +126,10 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
                 world.setBlockState(placePos, greaseState, Block.NOTIFY_ALL);
                 playHitSound();
                 spawnHitParticles();
+                if (getOwner() instanceof ServerPlayerEntity player) {
+                    EarthboundsAdvancementCriteria.SHOOT_GLOW_GREASE_AGAINST_WALL.trigger(player, player.getEyePos(),
+                            Vec3d.ofCenter(placePos), lightLevel);
+                }
             }
         }
     }
@@ -151,11 +154,6 @@ public class GlowGreaseDropEntity extends ThrownItemEntity implements FlyingItem
                         getZ() - vel.z / 1.5,0,0,0);
             }
         }
-    }
-
-    @Override
-    public Packet createSpawnPacket() {
-        return EntitySpawnPacket.create(this, EarthboundsClient.packetID);
     }
 
     @Override

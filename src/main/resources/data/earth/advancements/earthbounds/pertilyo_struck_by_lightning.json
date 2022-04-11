@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:pertilyo_rod"
+    },
+    "title": {
+      "translate": "advancement.earth.pertilyo_struck_by_lightning.title"
+    },
+    "description": {
+      "translate": "advancement.earth.pertilyo_struck_by_lightning.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/enter_grease_splat",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:lightning_strike",
+      "conditions": {
+        "lightning": {
+          "lightning_bolt": {
+            "entity_struck": {
+              "type": "earth:pertilyo",
+              "nbt": "{IsOxidized:1b}"
+            }
+          }
+        },
+        "bystander": {
+          "type": "minecraft:player"
+        }
+      }
+    }
+  }
+}
