@@ -297,15 +297,41 @@ public class RubroEntity extends PathAwareEarthenEntity {
     public EntityDimensions getDimensions(EntityPose pose) {
         float height = super.getDimensions(pose).height;
         float width = super.getDimensions(pose).width;
-        if (getPower() < 0) {
+        /*if (getPower() < 0) {
             height += getPower() / 1000.0f;
-            width += getPower() / 700.0f;
-        }
+            width += getPower() / 1000.0f;
+        }*/
         if (isStanding()) {
             return EntityDimensions.changing(width, height * 2);
         } else {
             return EntityDimensions.changing(width, height);
         }
+    }
+
+    @Override
+    public boolean isBaby() {
+        return getPower() < 0;
+    }
+
+    @Override
+    public float getScaleFactor() {
+        if (isBaby()) {
+            return 1.0f + getPower() / 1000.0f;
+        } else {
+            return super.getScaleFactor();
+        }
+    }
+
+    @Override
+    public float getSoundPitch() {
+        float pitch = 1.0f;
+        if (isDeepslate()) {
+            pitch -= 0.2f;
+        }
+        if (isBaby()) {
+            pitch -= getPower() / 1000f;
+        }
+        return pitch;
     }
 
     @Override
@@ -332,12 +358,6 @@ public class RubroEntity extends PathAwareEarthenEntity {
             super.lookAtEntity(targetEntity, maxYawChange * 0.25f, maxPitchChange * 0.25f);
         }
     }
-
-    @Override
-    public void lookAt(EntityAnchorArgumentType.EntityAnchor anchorPoint, Vec3d target) {
-        super.lookAt(anchorPoint, target);
-    }
-
     @Override
     public boolean collides() {
         return super.collides() && collides;
@@ -384,6 +404,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
 
     @Override
     public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
+        System.out.println("Power: " + getPower());
         ActionResult result = super.interactAt(player, hitPos, hand);
         if (world.isClient) return ActionResult.FAIL;
         ItemStack mainStack = player.getStackInHand(hand);
@@ -598,11 +619,15 @@ public class RubroEntity extends PathAwareEarthenEntity {
      * Updates this Rubro's, setting it to the provided amount.
      * Additionally, it updates the current attribute modifiers with new ones.
      *
-     * @param power the new power
+     * @param newPower the new power
      */
     @SuppressWarnings("ConstantConditions")
-    public void updatePower(int power) {
-        dataTracker.set(POWER, Math.max(power, 0));
+    public void updatePower(int newPower) {
+        if (getPower() > 0) {
+            dataTracker.set(POWER, Math.max(newPower, 0));
+        } else {
+            dataTracker.set(POWER, newPower);
+        }
         if (getPower() >= getMaxPower() * 0.85 && !isFullyCharged()) {
             setFullyCharged(true);
         } else if (isFullyCharged() && getPower() < getMaxPower()) {

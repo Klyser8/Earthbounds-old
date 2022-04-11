@@ -35,7 +35,7 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
         boolean shouldPop = false;
         renderMask(model, rubro);
         if (rubro.getPower() < 0) {
-            babify(matrixStackIn, 1.0f + rubro.getPower() / 650.0f);
+            babify(matrixStackIn, 1.0f + rubro.getPower() / 1000f);
             shouldPop = true;
         }
         super.render(model, rubro, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,

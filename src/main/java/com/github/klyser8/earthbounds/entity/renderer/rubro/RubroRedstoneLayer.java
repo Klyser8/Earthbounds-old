@@ -26,7 +26,7 @@ public class RubroRedstoneLayer extends GeoLayerRenderer<RubroEntity> {
     public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn,
                        RubroEntity rubro, float limbSwing, float limbSwingAmount, float partialTicks,
                        float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!rubro.isInvisible()) {
+        if (!rubro.isInvisible() && !rubro.isBaby()) {
             float strength = (float) rubro.getPower() / RubroEntity.POWER_LIMIT / 2.0f;
             this.getRenderer().render(getEntityModel().getModel(RUBRO_MODEL), rubro, partialTicks,
                     RenderLayer.getEyes(RUBRO_REDSTONE), matrixStackIn, bufferIn,
