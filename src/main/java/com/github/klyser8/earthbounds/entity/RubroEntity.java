@@ -133,12 +133,11 @@ public class RubroEntity extends PathAwareEarthenEntity {
     /**
      * Initializes the Rubro.
      *
-     * @param fromFossil whether the rubro is born from a fossil or not.
      * @param goldSkull whether the rubro has a gold skull or not.
      * @param startPower the amount of power the rubro has as a baby (any value lower than 0)
      */
-    public void initializeFossil(boolean deepslate, boolean fromFossil, boolean goldSkull, int startPower) {
-        setFromFossil(fromFossil);
+    public void initializeFossil(boolean deepslate, boolean goldSkull, int startPower) {
+        setFromFossil(true);
         setGoldSkull(goldSkull);
         updatePower(startPower);
         setDeepslate(deepslate);

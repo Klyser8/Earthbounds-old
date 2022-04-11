@@ -37,7 +37,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state,
                            @Nullable BlockEntity blockEntity, ItemStack stack) {
         super.afterBreak(world, player, pos, state, blockEntity, stack);
-        /*if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) == 0) {
+        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, stack) == 0) {
             boolean goldSkull = state.getBlock().equals(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK) ||
                     state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
             boolean deepslate = state.getBlock().equals(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK) ||
@@ -47,8 +47,8 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
             rubro.refreshPositionAndAngles((double)pos.getX() + 0.5D, pos.getY(),
                     (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.spawnEntity(rubro);
-            rubro.initializeFossil(deepslate, true, goldSkull, -200 - world.random.nextInt(192));
-        }*/
+            rubro.initializeFossil(deepslate, goldSkull, -440 - world.random.nextInt(200));
+        }
     }
 
     @Override
