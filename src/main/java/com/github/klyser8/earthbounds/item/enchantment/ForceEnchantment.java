@@ -11,16 +11,21 @@ import net.minecraft.item.PickaxeItem;
 public class ForceEnchantment extends Enchantment {
 
     private final int BASE_POWER = 1;
-    private final int POWER_PER_LEVEl = 12;
+    private final int POWER_PER_LEVEl = 16;
 
     public ForceEnchantment() {
-        super(Rarity.UNCOMMON, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]
+        super(Rarity.COMMON, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]
                 {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
     }
 
     @Override
     public int getMinPower(int level) {
         return BASE_POWER + (level - 1) * POWER_PER_LEVEl;
+    }
+
+    @Override
+    public int getMaxPower(int level) {
+        return super.getMaxPower(level);
     }
 
     @Override
