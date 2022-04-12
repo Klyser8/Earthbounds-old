@@ -1,13 +1,10 @@
 package com.github.klyser8.earthbounds.registry;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.item.EarthboundItem;
-import com.github.klyser8.earthbounds.item.AmethystDust;
+import com.github.klyser8.earthbounds.item.*;
 import com.github.klyser8.earthbounds.item.flingshot.ShimmerShellItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingingPotionItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
-import com.github.klyser8.earthbounds.item.GlowGreaseItem;
-import com.github.klyser8.earthbounds.item.RedstoneFossilBlockItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
@@ -116,7 +113,8 @@ public class EarthboundItems {
     public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(EarthboundItemGroup.BREWING)));
     public static final Item AMETHYST_DUST = new AmethystDust(new Item.Settings().group(EarthboundItemGroup.BREWING));
     public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(EarthboundItemGroup.PLACEABLES));
-    public static final Item FLINGSHOT = new FlingshotItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(320));
+    public static final Item FLINGSHOT = new FlingshotItem(EarthboundToolMaterials.COPPER,
+            new Item.Settings().group(EarthboundItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(320));
     public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(16));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,

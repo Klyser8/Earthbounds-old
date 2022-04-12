@@ -10,13 +10,13 @@ import net.minecraft.item.ItemStack;
 public class VersatilityEnchantment extends Enchantment {
 
     public VersatilityEnchantment() {
-        super(Rarity.RARE, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]
+        super(Rarity.VERY_RARE, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]
                 {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
     }
 
     @Override
     public int getMinPower(int level) {
-        return 15;
+        return 20;
     }
 
     @Override

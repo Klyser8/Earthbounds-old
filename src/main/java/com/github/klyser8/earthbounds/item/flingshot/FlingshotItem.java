@@ -39,9 +39,15 @@ public class FlingshotItem extends EarthboundItem implements Vanishable {
             stack.getItem() instanceof Flingable;
 
     public static final int CHARGE_TIME = 15;
+    private final ToolMaterial material;
 
-    public FlingshotItem(Settings settings) {
+    public FlingshotItem(ToolMaterial material, Settings settings) {
         super(settings, true);
+        this.material = material;
+    }
+
+    public ToolMaterial getMaterial() {
+        return this.material;
     }
 
     @Override
@@ -51,7 +57,12 @@ public class FlingshotItem extends EarthboundItem implements Vanishable {
 
     @Override
     public int getEnchantability() {
-        return 1;
+        return this.material.getEnchantability();
+    }
+
+    @Override
+    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+        return this.material.getRepairIngredient().test(ingredient) || super.canRepair(stack, ingredient);
     }
 
     @Override
