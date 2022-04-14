@@ -98,7 +98,7 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
         if (getCollisionAge() > 0) {
             setCollisionAge(getCollisionAge() + 1);
         }
-        if (getCollisionAge() >= 11) {
+        if (getCollisionAge() >= 20) {
             if (!world.isClient) {
                 explode();
             }
@@ -110,10 +110,9 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entityHit = entityHitResult.getEntity();
         setVelocity(getVelocity().negate().multiply(0.1));
-        entityHitResult.getEntity().damage(ShimmerDamageSource.shell(this, getOwner()),
-                (float) getDamage() / 2);
         if (entityHit instanceof LivingEntity living) {
             attemptAdvancementTrigger(living);
+            explode();
         }
     }
 
@@ -133,7 +132,7 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
                 entity -> entity instanceof LivingEntity);
         for (Entity entity : entities) {
             LivingEntity living = (LivingEntity) entity;
-            float dmg = (float) (getDamage() / distanceTo(entity));
+            float dmg = Math.max((float) (getDamage() / distanceTo(entity)), (float) (getDamage() / getPos().distanceTo(entity.getEyePos())));
             living.damage(ShimmerDamageSource.shimmerExplosion(
                     (LivingEntity) getOwner()), (float) Math.min(dmg, getDamage()));
             attemptAdvancementTrigger(living);

@@ -110,12 +110,12 @@ public class EarthboundItems {
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON), true);
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
-    public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(1).group(EarthboundItemGroup.BREWING)));
+    public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(3).group(EarthboundItemGroup.BREWING)));
     public static final Item AMETHYST_DUST = new AmethystDust(new Item.Settings().group(EarthboundItemGroup.BREWING));
     public static final Item GLOW_GREASE = new GlowGreaseItem(EarthboundBlocks.GLOW_GREASE_SPLAT, new Item.Settings().group(EarthboundItemGroup.PLACEABLES));
     public static final Item FLINGSHOT = new FlingshotItem(EarthboundToolMaterials.COPPER,
             new Item.Settings().group(EarthboundItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(320));
-    public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(16));
+    public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(EarthboundItemGroup.MISC));
