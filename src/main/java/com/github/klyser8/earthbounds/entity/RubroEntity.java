@@ -537,7 +537,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
-        return isBaby() ? null : EarthboundSounds.RUBRO_AMBIENT;
+        return EarthboundSounds.RUBRO_AMBIENT;
     }
 
     @Override
@@ -549,7 +549,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     public void playAmbientSound() {
         SoundEvent soundEvent = this.getAmbientSound();
         if (soundEvent != null) {
-            this.playSound(soundEvent, this.getSoundVolume(), isDeepslate() ? 0.85f : 1.0f);
+            this.playSound(soundEvent, this.getSoundVolume(), isDeepslate() ? getSoundPitch() - 0.15f : getSoundPitch());
         }
     }
 

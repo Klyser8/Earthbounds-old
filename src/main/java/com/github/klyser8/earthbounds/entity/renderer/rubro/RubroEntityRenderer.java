@@ -19,7 +19,7 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
 
     public RubroEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new RubroEntityModel());
-        this.shadowRadius = 0f;
+        this.shadowRadius = 0.75f;
         addLayer(new RubroRedstoneLayer(this));
         addLayer(new RubroMaskLayer(this));
     }
@@ -37,8 +37,9 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
                        int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         boolean shouldPop = false;
         renderMask(model, rubro);
+        float scale = 1.0f + rubro.getPower() / 1000f;
         if (rubro.getPower() < 0) {
-            babify(matrixStackIn, 1.0f + rubro.getPower() / 1000f);
+            babify(matrixStackIn, scale);
             shouldPop = true;
         }
         super.render(model, rubro, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder,
@@ -48,23 +49,10 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
         }
     }
 
-    private void renderShadow(RubroEntity rubro) {
-        GameOptions options = MinecraftClient.getInstance().options;
-        float h;
-        double g;
-        if (options.entityShadows
-                && !rubro.isInvisible()
-                && (h = (float)((1.0 - (g = MinecraftClient.getInstance().getEntityRenderDispatcher().getSquaredDistanceToCamera(rubro.getX(), rubro.getY(), rubro.getZ()))
-                / 256.0) * shadowOpacity)) > 0.0f) {
-            EntityRenderDispatcher.renderShadow(matrices, vertexConsumers, entity, h, tickDelta, this.world, entityRenderer.shadowRadius);
-        }
-    }
-
     //REMEMBER: push, scale/rotate/translate, pop
     private void babify(MatrixStack matrixStackIn, float scale) {
         matrixStackIn.push();
         matrixStackIn.scale(scale, scale, scale);
-        this.shadowRadius = scale / 2;
     }
 
     private void renderMask(GeoModel model, RubroEntity rubro) {
