@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -37,7 +38,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state,
                            @Nullable BlockEntity blockEntity, ItemStack stack) {
         super.afterBreak(world, player, pos, state, blockEntity, stack);
-        if (EnchantmentHelper.getLevel(EarthboundEnchantments.CRUMBLE, stack) >= 5) {
+        if (EnchantmentHelper.getLevel(EarthboundEnchantments.CRUMBLE, stack) >= 5 || player.getAbilities().creativeMode) {
             boolean goldSkull = state.getBlock().equals(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK) ||
                     state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
             boolean deepslate = state.getBlock().equals(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK) ||
@@ -47,7 +48,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
             rubro.refreshPositionAndAngles((double)pos.getX() + 0.5D, pos.getY(),
                     (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.spawnEntity(rubro);
-            rubro.initializeFossil(deepslate, goldSkull, -440 - world.random.nextInt(200));
+            rubro.initializeFossil(deepslate, goldSkull, -440 - world.random.nextInt(200), player);
             world.playSound(null, pos, EarthboundSounds.RUBRO_EAT,
                     SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5);
         }
@@ -55,7 +56,8 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (player instanceof ServerPlayerEntity serverPlayer) {
+        if (player instanceof ServerPlayerEntity serverPlayer && EnchantmentHelper.getLevel(
+                EarthboundEnchantments.CRUMBLE, player.getStackInHand(Hand.MAIN_HAND)) >= 5) {
             EarthboundsAdvancementCriteria.BREAK_REDSTONE_FOSSIL.trigger(serverPlayer, world.getBlockState(pos));
         }
         super.onBreak(world, pos, state, player);

@@ -2,11 +2,14 @@ package com.github.klyser8.earthbounds.entity.renderer.rubro;
 
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.model.RubroEntityModel;
-import com.github.klyser8.earthbounds.entity.renderer.EarthenEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.EarthenMobRenderer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -16,7 +19,7 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
 
     public RubroEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new RubroEntityModel());
-        this.shadowRadius = 0.65f;
+        this.shadowRadius = 0f;
         addLayer(new RubroRedstoneLayer(this));
         addLayer(new RubroMaskLayer(this));
     }
@@ -42,6 +45,18 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
                 packedLightIn, packedOverlayIn, red, green, blue, alpha);
         if (shouldPop) {
             matrixStackIn.pop();
+        }
+    }
+
+    private void renderShadow(RubroEntity rubro) {
+        GameOptions options = MinecraftClient.getInstance().options;
+        float h;
+        double g;
+        if (options.entityShadows
+                && !rubro.isInvisible()
+                && (h = (float)((1.0 - (g = MinecraftClient.getInstance().getEntityRenderDispatcher().getSquaredDistanceToCamera(rubro.getX(), rubro.getY(), rubro.getZ()))
+                / 256.0) * shadowOpacity)) > 0.0f) {
+            EntityRenderDispatcher.renderShadow(matrices, vertexConsumers, entity, h, tickDelta, this.world, entityRenderer.shadowRadius);
         }
     }
 

@@ -12,14 +12,10 @@ import com.github.klyser8.earthbounds.client.sound.RubroActiveSoundInstance;
 import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
 import com.github.klyser8.earthbounds.util.EarthMath;
 import com.github.klyser8.earthbounds.util.EarthUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.RedstoneOreBlock;
-import net.minecraft.command.argument.EntityAnchorArgumentType;
+import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.ai.pathing.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -32,6 +28,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.WitchEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -39,8 +36,12 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.scoreboard.AbstractTeam;
+import net.minecraft.server.ServerConfigHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -49,6 +50,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -66,7 +68,7 @@ import java.util.*;
 
 import static com.github.klyser8.earthbounds.util.EarthMath.dirBetweenVecs;
 
-public class RubroEntity extends PathAwareEarthenEntity {
+public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
 
     public static final int POWER_LIMIT = 200;
     private static final int TAIL_SPIN_ANIMATION_DURATION = 36; //in ticks
@@ -101,6 +103,10 @@ public class RubroEntity extends PathAwareEarthenEntity {
     //Whether the Rubro is standing or not.
     private static final TrackedData<Boolean> STANDING = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> ASLEEP = DataTracker.registerData(RubroEntity.class,
+            TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker.registerData(RubroEntity.class,
+            TrackedDataHandlerRegistry.OPTIONAL_UUID);
 
     private static final byte DIGGING_STATE = 1;
     private static final byte POUNCING_STATE = 2;
@@ -136,7 +142,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
      * @param goldSkull whether the rubro has a gold skull or not.
      * @param startPower the amount of power the rubro has as a baby (any value lower than 0)
      */
-    public void initializeFossil(boolean deepslate, boolean goldSkull, int startPower) {
+    public void initializeFossil(boolean deepslate, boolean goldSkull, int startPower, PlayerEntity owner) {
         setFromFossil(true);
         setGoldSkull(goldSkull);
         updatePower(startPower);
@@ -144,6 +150,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
         if (isDeepslate()) {
             createDeepslateAttributes();
         }
+        setOwner(owner);
     }
 
     @Override
@@ -151,19 +158,77 @@ public class RubroEntity extends PathAwareEarthenEntity {
         goalSelector.add(0, new MoveToRedstoneGoal(60));
         goalSelector.add(1, new RubroAttackGoal());
         goalSelector.add(2, new RubroEscapeTargetGoal());
-        goalSelector.add(3, new EscapeAttackerGoal(this, 1.2f));
-        goalSelector.add(4, new WanderAroundFarGoal(this, 1.0f));
-        goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 10.0f));
-        goalSelector.add(6, new LookAroundGoal(this) {
+        goalSelector.add(3, new EscapeAttackerGoal(this, 1.2f) {
             @Override
-            public boolean canStart() {
-                return super.canStart() && getAnimationState() == DEFAULT_STATE;
+            public void start() {
+                super.start();
+                if (isAsleep()) {
+                    setAsleep(false);
+                }
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return super.shouldContinue() && !isAsleep();
             }
         });
-        targetSelector.add(0, new RevengeGoal(this, RubroEntity.class));
+        goalSelector.add(4, new RubroFollowOwnerGoal());
+        goalSelector.add(5, new WanderAroundFarGoal(this, 1.0f) {
+            @Override
+            public boolean canStart() {
+                return super.canStart() && !isAsleep();
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return super.shouldContinue() && !isAsleep();
+            }
+        });
+        goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 10.0f) {
+            @Override
+            public boolean canStart() {
+                return super.canStart() && !isAsleep();
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return super.shouldContinue() && !isAsleep();
+            }
+        });
+        goalSelector.add(7, new LookAroundGoal(this) {
+            @Override
+            public boolean canStart() {
+                return super.canStart() && getAnimationState() == DEFAULT_STATE && !isAsleep();
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return super.shouldContinue() && !isAsleep();
+            }
+        });
+        targetSelector.add(0, new RevengeGoal(this, RubroEntity.class) {
+            @Override
+            public boolean canStart() {
+                return super.canStart() && !isBaby() && !isAsleep();
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return super.shouldContinue() && !isAsleep();
+            }
+        });
         targetSelector.add(1, new RedstoneTargetGoal());
-        targetSelector.add(2, new ActiveTargetGoal<>(this, WitchEntity.class,
-                false, true));
+        targetSelector.add(2, new ActiveTargetGoal<>(this, WitchEntity.class, false, true) {
+            @Override
+            public boolean canStart() {
+                return super.canStart() && !isAsleep() && !isBaby();
+            }
+
+            @Override
+            public boolean shouldContinue() {
+                return super.shouldContinue() && !isAsleep();
+            }
+        });
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
@@ -196,6 +261,19 @@ public class RubroEntity extends PathAwareEarthenEntity {
         if (nbt.contains("IsFullyCharged")) {
             setFullyCharged(nbt.getBoolean("IsFullyCharged"));
         }
+        UUID ownerUuid;
+        if (nbt.containsUuid("Owner")) {
+            ownerUuid = nbt.getUuid("Owner");
+        } else {
+            String string = nbt.getString("Owner");
+            ownerUuid = ServerConfigHandler.getPlayerUuidByName(this.getServer(), string);
+        }
+        if (ownerUuid != null) {
+            setOwnerUuid(ownerUuid);
+        }
+        if (nbt.contains("Asleep")) {
+            this.setAsleep(nbt.getBoolean("Asleep"));
+        }
     }
 
     @Override
@@ -207,6 +285,10 @@ public class RubroEntity extends PathAwareEarthenEntity {
         nbt.putInt("Power", getPower());
         nbt.putInt("MaxPower", getMaxPower());
         nbt.putBoolean("IsFullyCharged", isFullyCharged());
+        if (this.getOwnerUuid() != null) {
+            nbt.putUuid("Owner", this.getOwnerUuid());
+        }
+        nbt.putBoolean("Asleep", isAsleep());
     }
 
     /**
@@ -234,6 +316,8 @@ public class RubroEntity extends PathAwareEarthenEntity {
         dataTracker.startTracking(CURRENT_ORE, ItemStack.EMPTY);
         dataTracker.startTracking(BLOCK_TARGET_POS, getBlockPos());
         dataTracker.startTracking(STANDING, false);
+        this.dataTracker.startTracking(ASLEEP, false);
+        this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
     }
 
     private <E extends IAnimatable> PlayState statePredicate(AnimationEvent<E> event) {
@@ -255,7 +339,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
                     new AnimationBuilder().addAnimation("tail_spin", true));
             return PlayState.CONTINUE;
         }
-        if (getAnimationState() == DEFAULT_STATE) {
+        if (getAnimationState() == DEFAULT_STATE && !isAsleep()) {
             event.getController().transitionLengthTicks = 10;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("idle", true));
@@ -265,10 +349,16 @@ public class RubroEntity extends PathAwareEarthenEntity {
     }
 
     private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
-        if (isStanding()) {
+        if (isStanding() && !isAsleep()) {
             event.getController().transitionLengthTicks = 10;
             event.getController().setAnimation(
                     new AnimationBuilder().addAnimation("stand", true));
+            return PlayState.CONTINUE;
+        }
+        if (isAsleep()) {
+            event.getController().transitionLengthTicks = 10;
+            event.getController().setAnimation(
+                    new AnimationBuilder().addAnimation("sleep", true));
             return PlayState.CONTINUE;
         }
         if (event.isMoving()) {
@@ -302,7 +392,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
             width += getPower() / 1000.0f;
         }*/
         if (isStanding()) {
-            return EntityDimensions.changing(width, height * 2);
+            return EntityDimensions.changing(width * 0.75f, height * 2);
         } else {
             return EntityDimensions.changing(width, height);
         }
@@ -342,7 +432,8 @@ public class RubroEntity extends PathAwareEarthenEntity {
     @Override
     protected float getJumpVelocity() {
         float materialMultiplier = isDeepslate() ? 0.0f : 0.05f;
-        return (0.42f + getPower() / 4000.0f) * this.getJumpVelocityMultiplier() + materialMultiplier;
+        float powerBonus = isBaby() ? 0 : getPower() / 4000.0f;
+        return (0.42f + powerBonus) * this.getJumpVelocityMultiplier() + materialMultiplier;
     }
 
     @Override
@@ -405,32 +496,37 @@ public class RubroEntity extends PathAwareEarthenEntity {
     @Override
     public ActionResult interactAt(PlayerEntity player, Vec3d hitPos, Hand hand) {
         System.out.println("Power: " + getPower());
-        ActionResult result = super.interactAt(player, hitPos, hand);
-        if (world.isClient) return ActionResult.FAIL;
+        ActionResult result = ActionResult.FAIL;
         ItemStack mainStack = player.getStackInHand(hand);
-        if (hand == Hand.MAIN_HAND && getPower() < getMaxPower()) {
-            int pow = 0;
-            if (mainStack.isOf(Items.REDSTONE)) {
-                pow = 1;
-            } else if (mainStack.isOf(Items.REDSTONE_BLOCK)) {
-                pow = 9;
-            }
-            if (pow > 0) {
-                if (!player.isCreative()) {
-                    mainStack.decrement(1);
+        if (hand != Hand.MAIN_HAND) {
+            return result;
+        }
+        boolean isStackRedstone = mainStack.isOf(Items.REDSTONE) || mainStack.isOf(Items.REDSTONE_BLOCK);
+        if (!world.isClient && isStackRedstone) {
+            if (getPower() < getMaxPower()) {
+                int pow = 0;
+                if (mainStack.isOf(Items.REDSTONE)) {
+                    pow = 1;
+                } else if (mainStack.isOf(Items.REDSTONE_BLOCK)) {
+                    pow = 9;
                 }
-                updatePower(getPower() + pow);
-                if (!world.isClient) {
-                    world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_EAT,
-                            SoundCategory.NEUTRAL, 0.35f + pow / 20f, 0.9f + random.nextFloat() / 5.0f);
-                    world.playSound(null, getBlockPos(), EarthboundSounds.RUBRO_CHARGE,
-                            SoundCategory.NEUTRAL, 0.35f + pow / 20f, 0.9f + random.nextFloat() / 5.0f);
+                if (pow > 0) {
+                    if (!player.isCreative()) {
+                        mainStack.decrement(1);
+                    }
+                    updatePower(getPower() + pow);
+                    playSound(EarthboundSounds.RUBRO_EAT,0.35f + pow / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
+                    playSound(EarthboundSounds.RUBRO_CHARGE, 0.35f + pow / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
+                    playRedstoneParticles(10);
+                    result =  ActionResult.SUCCESS;
                 }
-                playRedstoneParticles(10);
-                return ActionResult.SUCCESS;
             }
         }
-        return ActionResult.FAIL;
+        if (!result.isAccepted() && isFromFossil() && isOwner(player) && !isStackRedstone) {
+            setAsleep(!isAsleep());
+            result =  ActionResult.success(true);
+        }
+        return result;
     }
 
     @Override
@@ -445,14 +541,16 @@ public class RubroEntity extends PathAwareEarthenEntity {
     }
 
     @Override
+    public void playSound(SoundEvent sound, float volume, float pitch) {
+        super.playSound(sound, volume, pitch);
+    }
+
+    @Override
     public void playAmbientSound() {
         SoundEvent soundEvent = this.getAmbientSound();
         if (soundEvent != null) {
             this.playSound(soundEvent, this.getSoundVolume(), isDeepslate() ? 0.85f : 1.0f);
         }
-        /*if (getPower() > getMaxPower() * 0.4 && random.nextBoolean()) {
-            this.playSound(EarthboundSounds.RUBRO_ACTIVE, 0.25f, 0.8f + random.nextFloat() / 5);
-        }*/
     }
 
     @Nullable
@@ -481,12 +579,12 @@ public class RubroEntity extends PathAwareEarthenEntity {
      */
     @Override
     public boolean damage(DamageSource source, float amount) {
-        int powerLost = 0;
-        powerLost +=1;
+        int powerLost = 1;
         if (!world.isClient) {
             if (!Earthen.isDamagePickaxe(source)) {
                 amount = Earthen.handleDamage(source, this, amount);
             }
+            this.setAsleep(isAsleep());
         }
         if (!world.isClient) {
             if (getPower() > getMaxPower() * 0.4 && random.nextDouble() < amount / 30.0) {
@@ -549,8 +647,6 @@ public class RubroEntity extends PathAwareEarthenEntity {
         return false;
     }
 
-
-
     /**
      * Checks if the current block can power up a Rubro.
      *
@@ -577,6 +673,26 @@ public class RubroEntity extends PathAwareEarthenEntity {
             ((ServerWorld) world).spawnParticles(EarthboundParticles.REDSTONE_CRACKLE, getParticleX(0.5),
                     getRandomBodyY(), getParticleZ(0.5), 1, 0, 0, 0, 0);
         }
+    }
+
+    /**
+     * Plays particles which display Rubro's emotions.
+     *
+     * @param positive if the particles playing should be Hearts, or Smoke.
+     */
+    protected void playEmoteParticles(boolean positive) {
+        ParticleEffect particleEffect = ParticleTypes.HEART;
+        if (!positive) {
+            particleEffect = ParticleTypes.SMOKE;
+        }
+
+        for(int i = 0; i < 7; ++i) {
+            double d = this.random.nextGaussian() * 0.02D;
+            double e = this.random.nextGaussian() * 0.02D;
+            double f = this.random.nextGaussian() * 0.02D;
+            this.world.addParticle(particleEffect, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
+        }
+
     }
 
     public int getMaxPower() {
@@ -633,6 +749,9 @@ public class RubroEntity extends PathAwareEarthenEntity {
         } else if (isFullyCharged() && getPower() < getMaxPower()) {
             setFullyCharged(false);
         }
+        if (isBaby()) {
+            return;
+        }
         EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE);
         instance.removeModifier(POWER_DAMAGE_BOOST_ID);
         instance.addTemporaryModifier(
@@ -665,6 +784,10 @@ public class RubroEntity extends PathAwareEarthenEntity {
         return dataTracker.get(STANDING);
     }
 
+    /**
+     * Sets whether the Rubro should be standing up (to dig redstone).
+     * @param standing if the rubro should stand up
+     */
     public void setStanding(boolean standing) {
         dataTracker.set(STANDING, standing);
     }
@@ -675,6 +798,105 @@ public class RubroEntity extends PathAwareEarthenEntity {
 
     public void setFullyCharged(boolean isMaxPower) {
         dataTracker.set(IS_FULLY_CHARGED, isMaxPower);
+    }
+
+    @Override
+    public UUID getOwnerUuid() {
+        return dataTracker.get(OWNER_UUID).orElse(null);
+    }
+
+    @Override
+    @Nullable
+    public PlayerEntity getOwner() {
+        try {
+            UUID uUID = this.getOwnerUuid();
+            return uUID == null ? null : this.world.getPlayerByUuid(uUID);
+        } catch (IllegalArgumentException var2) {
+            return null;
+        }
+    }
+
+    /**
+     * Sets the UUID of the owner of the Rubro.
+     * Use {@link #setOwner(PlayerEntity)} instead usually
+     *
+     * @param uuid owner's uuid. May be null.
+     */
+    public void setOwnerUuid(@Nullable UUID uuid) {
+        this.dataTracker.set(OWNER_UUID, Optional.ofNullable(uuid));
+    }
+
+    /**
+     * Sets the owner of the Rubro.
+     *
+     * @param player the player who owns the rubro.
+     */
+    public void setOwner(PlayerEntity player) {
+        this.setOwnerUuid(player.getUuid());
+    }
+
+    public boolean isOwner(LivingEntity entity) {
+        System.out.println(getOwner());
+        return entity == this.getOwner();
+    }
+
+    public AbstractTeam getScoreboardTeam() {
+        if (this.isFromFossil()) {
+            LivingEntity livingEntity = this.getOwner();
+            if (livingEntity != null) {
+                return livingEntity.getScoreboardTeam();
+            }
+        }
+
+        return super.getScoreboardTeam();
+    }
+
+    public boolean isTeammate(Entity other) {
+        if (this.isFromFossil()) {
+            LivingEntity livingEntity = this.getOwner();
+            if (other == livingEntity) {
+                return true;
+            }
+            if (livingEntity != null) {
+                return livingEntity.isTeammate(other);
+            }
+        }
+        return super.isTeammate(other);
+    }
+
+    public void onDeath(DamageSource source) {
+        if (!this.world.isClient && this.world.getGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES)
+                && this.getOwner() instanceof ServerPlayerEntity) {
+            this.getOwner().sendSystemMessage(this.getDamageTracker().getDeathMessage(), Util.NIL_UUID);
+        }
+        super.onDeath(source);
+    }
+
+    /**
+     * Whether the rubro should be curled up or not.
+     * A rubro that's curled up won't move (like a dog sitting)
+     *
+     * @param asleep if the Rubro should be curled up
+     */
+    public void setAsleep(boolean asleep) {
+        dataTracker.set(ASLEEP, asleep);
+        setStanding(asleep);
+    }
+
+    public boolean isAsleep() {
+        return dataTracker.get(ASLEEP);
+    }
+
+    /**
+     * Method overridden to avoid possible confusion with the
+     * {@link #isAsleep()} method. Avoid using this however!
+     *
+     * @return {@link #isAsleep()}
+     */
+    @Override
+    @Deprecated
+    public boolean isSleeping() {
+        return isAsleep();
     }
 
     class MoveToRedstoneGoal extends Goal {
@@ -713,6 +935,9 @@ public class RubroEntity extends PathAwareEarthenEntity {
             boolean isHealthy = getHealth() > getMaxHealth() / 3;
             boolean canStart = true;
             if (getAnimationState() != DEFAULT_STATE) {
+                return false;
+            }
+            if (isFromFossil() || isAsleep()) {
                 return false;
             }
             //Cooldown, current goal and current power are ignored when low on HP.
@@ -1019,6 +1244,7 @@ public class RubroEntity extends PathAwareEarthenEntity {
         }
 
         /**
+         * - This goal cant start if the rubro is a baby
          * - This goal can only be attempted once every 20 ticks.
          * - If the Rubro's power is lower than 40% of the max power,
          *   returns false.
@@ -1028,6 +1254,9 @@ public class RubroEntity extends PathAwareEarthenEntity {
          */
         @Override
         public boolean canStart() {
+            if (isBaby() || isAsleep()) {
+                return false;
+            }
             if (world.getTime() - lastAttemptTime < 20) {
                 return false;
             }
@@ -1340,6 +1569,9 @@ public class RubroEntity extends PathAwareEarthenEntity {
 
         @Override
         public boolean canStart() {
+            if (isBaby() || isAsleep()) {
+                return false;
+            }
             if (getTarget() == null) {
                 return false;
             }
@@ -1390,7 +1622,133 @@ public class RubroEntity extends PathAwareEarthenEntity {
 
         @Override
         public boolean canStart() {
+            if (isBaby() || isAsleep()) {
+                return false;
+            }
             return super.canStart() && getPower() > getMaxPower() * 0.4;
+        }
+    }
+
+    class RubroFollowOwnerGoal extends Goal {
+
+        private final double speed;
+        private int updateCountdownTicks;
+        private final float maxDistance;
+        private final float minDistance;
+        private final boolean leavesAllowed;
+
+        public RubroFollowOwnerGoal() {
+            this.speed = 1;
+            this.minDistance = 10;
+            this.maxDistance = 2;
+            this.leavesAllowed = true;
+            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        }
+
+        @Override
+        public boolean canStart() {
+            if (!isFromFossil()) {
+                return false;
+            }
+            if (getOwner() == null) {
+                return false;
+            }
+            if (getOwner().isSpectator()) {
+                return false;
+            }
+            if (isAsleep()) {
+                return false;
+            }
+            if (squaredDistanceTo(getOwner()) < (double)(this.minDistance * this.minDistance)) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            if (getNavigation().isIdle()) {
+                return false;
+            }
+            if (isAsleep()) {
+                return false;
+            }
+            return !(squaredDistanceTo(getOwner()) <= (double)(this.maxDistance * this.maxDistance));
+        }
+
+        @Override
+        public void start() {
+            this.updateCountdownTicks = 0;
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            getLookControl().lookAt(getOwner(), 10.0f, getMaxLookPitchChange());
+            if (--this.updateCountdownTicks > 0) {
+                return;
+            }
+            this.updateCountdownTicks = this.getTickCount(10);
+            if (isLeashed() || hasVehicle()) {
+                return;
+            }
+            if (squaredDistanceTo(getOwner()) >= 24 * 24) {
+                tryTeleport();
+            } else {
+                getNavigation().startMovingTo(getOwner(), this.speed);
+            }
+        }
+
+        private void tryTeleport() {
+            if (getOwner() == null) {
+                return;
+            }
+            BlockPos blockPos = getOwner().getBlockPos();
+            for (int i = 0; i < 10; ++i) {
+                int j = this.getRandomInt(-3, 3);
+                int k = this.getRandomInt(-1, 1);
+                int l = this.getRandomInt(-3, 3);
+                boolean hasTeleportFailed = this.tryTeleportTo(
+                        blockPos.getX() + j, blockPos.getY() + k, blockPos.getZ() + l);
+                if (hasTeleportFailed) continue;
+                return;
+            }
+        }
+
+        private boolean tryTeleportTo(int x, int y, int z) {
+            if (getOwner() == null) {
+                return false;
+            }
+            if (Math.abs(x - getOwner().getX()) < 2.0 && Math.abs(z - getOwner().getZ()) < 2.0) {
+                return false;
+            }
+            if (!this.canTeleportTo(new BlockPos(x, y, z))) {
+                return false;
+            }
+            refreshPositionAndAngles(x + 0.5, y, z + 0.5, getYaw(), getPitch());
+            getNavigation().stop();
+            return true;
+        }
+
+        private boolean canTeleportTo(BlockPos pos) {
+            PathNodeType pathNodeType = LandPathNodeMaker.getLandNodeType(world, pos.mutableCopy());
+            if (pathNodeType != PathNodeType.WALKABLE) {
+                return false;
+            }
+            BlockState blockState = world.getBlockState(pos.down());
+            if (!this.leavesAllowed && blockState.getBlock() instanceof LeavesBlock) {
+                return false;
+            }
+            BlockPos blockPos = pos.subtract(getBlockPos());
+            return world.isSpaceEmpty(RubroEntity.this, getBoundingBox().offset(blockPos));
+        }
+
+        private int getRandomInt(int min, int max) {
+            return random.nextInt(max - min + 1) + min;
         }
     }
 

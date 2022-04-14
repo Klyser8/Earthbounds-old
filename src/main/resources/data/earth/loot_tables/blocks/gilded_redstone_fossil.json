@@ -9,6 +9,25 @@
           "name": "earth:gilded_redstone_fossil"
         }
       ],
+      "functions": [
+        {
+          "function": "minecraft:set_count",
+          "count": 0,
+          "conditions": [
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "earth:crumble",
+                    "levels": 5
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
