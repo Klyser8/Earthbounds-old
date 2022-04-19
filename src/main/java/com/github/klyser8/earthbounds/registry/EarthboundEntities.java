@@ -3,6 +3,7 @@ package com.github.klyser8.earthbounds.registry;
 import com.github.klyser8.earthbounds.entity.*;
 import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
+import com.github.klyser8.earthbounds.entity.renderer.CopperBuckEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.ShimmerShellEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.pertilyo.PertilyoEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
@@ -57,6 +58,11 @@ public class EarthboundEntities {
             FabricEntityTypeBuilder.<ShimmerShellEntity>create(SpawnGroup.MISC, ShimmerShellEntity::new)
                     .dimensions(EntityDimensions.fixed(0.3f, 0.3f))
                     .trackRangeBlocks(256).trackedUpdateRate(1).build());
+    public static final EntityType<CopperBuckEntity> COPPER_BUCK = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "copper_buck"),
+            FabricEntityTypeBuilder.<CopperBuckEntity>create(SpawnGroup.MISC, CopperBuckEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.2f, 0.2f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
     public static final EntityType<GlowGreaseDropEntity> GLOW_GREASE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "glow_grease"),
             FabricEntityTypeBuilder.<GlowGreaseDropEntity>create(SpawnGroup.MISC, GlowGreaseDropEntity::new)
@@ -89,6 +95,7 @@ public class EarthboundEntities {
         EntityRendererRegistry.register(PERTILYO, PertilyoEntityRenderer::new);
         EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
         EntityRendererRegistry.register(SHIMMER_SHELL, ShimmerShellEntityRenderer::new);
+        EntityRendererRegistry.register(COPPER_BUCK, CopperBuckEntityRenderer::new);
     }
 
     @SuppressWarnings("ConstantConditions")

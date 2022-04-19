@@ -39,6 +39,7 @@
   "item.earth.glow_grease": "Glow Grease",
   "item.earth.amethyst_dust": "Amethyst Dust",
   "item.earth.shimmer_shell": "Shimmer Shell",
+  "item.earth.copper_buck": "Copper Buck",
   "item.earth.pertilyo_rod": "Pertilyo Rod",
   "item.earth.carboranea_spawn_egg": "Carboranea Spawn Egg",
   "item.earth.rubro_spawn_egg": "Rubro Spawn Egg",
@@ -50,6 +51,7 @@
   "entity.earth.pertilyo": "Pertilyo",
   "entity.earth.glow_grease": "Glow Grease",
   "entity.earth.shimmer_shell": "Shimmer Shell",
+  "entity.earth.copper_buck": "Copper Buck",
   "entity.earth.flinging_potion": "Flinging Potion",
 
   "block.earth.redstone_fossil": "Redstone Fossil",
@@ -63,6 +65,8 @@
   "death.attack.shimmer_shell": "%1$s was struck by %2$s's Shimmer Shell",
   "death.attack.shimmer_explosion.player": "%1$s was pulverized by %2$s",
   "death.attack.shimmer_explosion": "%1$s was pulverized",
+  "death.attack.copper_buck.player": "%1$s was knocked out by %2$s",
+  "death.attack.copper_buck": "%1$s was knocked out",
 
   "enchantment.earth.crumble": "Crumble",
   "enchantment.earth.force": "Force",

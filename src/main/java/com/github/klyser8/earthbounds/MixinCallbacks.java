@@ -2,6 +2,8 @@ package com.github.klyser8.earthbounds;
 
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.entity.Earthen;
+import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import com.github.klyser8.earthbounds.registry.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -137,6 +139,13 @@ public class MixinCallbacks {
             dispenserBlockEntity.setStack(i, customBehavior.dispense(blockPointerImpl, itemStack));
             ci.cancel();
         }
+    }
+
+    public static float renderRubroShadow(Entity entity, float f) {
+        if (entity instanceof RubroEntity rubro && rubro.isBaby()) {
+            return Math.min(RubroEntityRenderer.MAX_SHADOW_RADIUS - (rubro.getPower() + 150f) / -1000f, RubroEntityRenderer.MAX_SHADOW_RADIUS) * 2;
+        }
+        return f;
     }
 
 }

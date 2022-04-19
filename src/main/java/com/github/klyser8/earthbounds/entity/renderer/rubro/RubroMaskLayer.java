@@ -14,13 +14,21 @@ public class RubroMaskLayer extends GeoLayerRenderer<RubroEntity> {
 
     private final Identifier RUBRO_MODEL;
     private final Identifier RUBRO_MASK;
-    private final Identifier RUBRO_MASK_GOLD; //1/20 chance of a rubro cub spawning with a gold mask
+    private final Identifier RUBRO_MASK_GILDED;
+    private final Identifier RUBRO_MASK_CRYSTALLINE;
+    private final Identifier RUBRO_MASK_CHARRED;
+    private final Identifier RUBRO_MASK_VERDANT;
+    private final Identifier RUBRO_MASK_CRIMSON;
 
     public RubroMaskLayer(IGeoRenderer<RubroEntity> entityRendererIn) {
         super(entityRendererIn);
         RUBRO_MODEL = new Identifier(Earthbounds.MOD_ID, "geo/mob/rubro.geo.json");
         RUBRO_MASK = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/mask.png");
-        RUBRO_MASK_GOLD = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/mask_gold.png");
+        RUBRO_MASK_GILDED = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/gilded_mask.png");
+        RUBRO_MASK_CRYSTALLINE = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/crystalline_mask.png");
+        RUBRO_MASK_CHARRED = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/charred_mask.png");
+        RUBRO_MASK_VERDANT = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/verdant_mask.png");
+        RUBRO_MASK_CRIMSON = new Identifier(Earthbounds.MOD_ID, "textures/entity/rubro/crimson_mask.png");
     }
 
 
@@ -28,7 +36,15 @@ public class RubroMaskLayer extends GeoLayerRenderer<RubroEntity> {
     public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn,
                        RubroEntity entity, float limbSwing, float limbSwingAmount, float partialTicks,
                        float ageInTicks, float netHeadYaw, float headPitch) {
-        Identifier maskIdentifier = /*entity.isFromFossil() && */entity.hasGoldSkull() ? RUBRO_MASK_GOLD : RUBRO_MASK;
+        Identifier maskIdentifier;
+        switch (entity.getMaskType()) {
+            case GILDED -> maskIdentifier = RUBRO_MASK_GILDED;
+            case CRYSTALLINE -> maskIdentifier = RUBRO_MASK_CRYSTALLINE;
+            case CHARRED -> maskIdentifier = RUBRO_MASK_CHARRED;
+            case VERDANT -> maskIdentifier = RUBRO_MASK_VERDANT;
+            case CRIMSON -> maskIdentifier = RUBRO_MASK_CRIMSON;
+            default -> maskIdentifier = RUBRO_MASK;
+        }
         this.getRenderer().render(getEntityModel().getModel(RUBRO_MODEL), entity, partialTicks,
                 RenderLayer.getArmorCutoutNoCull(maskIdentifier), matrixStackIn, bufferIn,
                 bufferIn.getBuffer(RenderLayer.getEyes(maskIdentifier)), packedLightIn,

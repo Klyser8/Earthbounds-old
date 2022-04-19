@@ -1,6 +1,7 @@
 package com.github.klyser8.earthbounds.block;
 
 import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.RubroMaskType;
 import com.github.klyser8.earthbounds.registry.*;
 import com.github.klyser8.earthbounds.util.EarthUtil;
 import net.minecraft.block.BlockState;
@@ -38,7 +39,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state,
                            @Nullable BlockEntity blockEntity, ItemStack stack) {
         super.afterBreak(world, player, pos, state, blockEntity, stack);
-        if (EnchantmentHelper.getLevel(EarthboundEnchantments.CRUMBLE, stack) >= 5 || player.getAbilities().creativeMode) {
+        /*if (EnchantmentHelper.getLevel(EarthboundEnchantments.CRUMBLE, stack) >= 5 || player.getAbilities().creativeMode) {
             boolean goldSkull = state.getBlock().equals(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK) ||
                     state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
             boolean deepslate = state.getBlock().equals(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK) ||
@@ -51,16 +52,31 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
             rubro.initializeFossil(deepslate, goldSkull, -440 - world.random.nextInt(200), player);
             world.playSound(null, pos, EarthboundSounds.RUBRO_EAT,
                     SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5);
-        }
+        }*/
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        super.onBreak(world, pos, state, player);
+        ItemStack stack = player.getMainHandStack();
+        if (EnchantmentHelper.getLevel(EarthboundEnchantments.CRUMBLE, stack) >= 5 || player.getAbilities().creativeMode) {
+            boolean goldSkull = state.getBlock().equals(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK) ||
+                    state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
+            boolean deepslate = state.getBlock().equals(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK) ||
+                    state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
+            RubroEntity rubro = EarthboundEntities.RUBRO.create(world);
+            if (rubro == null) return;
+            rubro.refreshPositionAndAngles((double)pos.getX() + 0.5D, pos.getY(),
+                    (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
+            world.spawnEntity(rubro);
+            rubro.initializeFossil(deepslate, RubroMaskType.CHARRED, -440 - world.random.nextInt(200), player);
+            world.playSound(null, pos, EarthboundSounds.RUBRO_EAT,
+                    SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5);
+        }
         if (player instanceof ServerPlayerEntity serverPlayer && EnchantmentHelper.getLevel(
                 EarthboundEnchantments.CRUMBLE, player.getStackInHand(Hand.MAIN_HAND)) >= 5) {
             EarthboundsAdvancementCriteria.BREAK_REDSTONE_FOSSIL.trigger(serverPlayer, world.getBlockState(pos));
         }
-        super.onBreak(world, pos, state, player);
     }
 
     @Override

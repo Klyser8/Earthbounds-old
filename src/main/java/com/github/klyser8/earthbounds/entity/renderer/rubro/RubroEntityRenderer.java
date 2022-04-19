@@ -17,9 +17,11 @@ import software.bernie.geckolib3.geo.render.built.GeoModel;
 
 public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
 
+    public static final float MAX_SHADOW_RADIUS = 0.65f;
+
     public RubroEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx, new RubroEntityModel());
-        this.shadowRadius = 0.75f;
+        this.shadowRadius = MAX_SHADOW_RADIUS;
         addLayer(new RubroRedstoneLayer(this));
         addLayer(new RubroMaskLayer(this));
     }

@@ -116,6 +116,7 @@ public class EarthboundItems {
     public static final Item FLINGSHOT = new FlingshotItem(EarthboundToolMaterials.COPPER,
             new Item.Settings().group(EarthboundItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(320));
     public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32));
+    public static final Item COPPER_BUCK = new CopperBuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32));
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(EarthboundItemGroup.MISC));
@@ -138,6 +139,8 @@ public class EarthboundItems {
                 new Identifier(Earthbounds.MOD_ID, "glow_grease"), GLOW_GREASE);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "shimmer_shell"), SHIMMER_SHELL);
+        Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "copper_buck"), COPPER_BUCK);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "flingshot"), FLINGSHOT);
 

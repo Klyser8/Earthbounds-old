@@ -39,6 +39,7 @@
   "item.earth.glow_grease": "Grasso Lume",
   "item.earth.amethyst_dust": "Polvere di ametista",
   "item.earth.shimmer_shell": "Guscio Glitterato",
+  "item.earth.copper_buck": "Bossolo di Rame",
   "item.earth.pertilyo_rod": "Verga di Pertilyo",
   "item.earth.carboranea_spawn_egg": "Uovo Generatore di Carboranea",
   "item.earth.rubro_spawn_egg": "Uovo Generatore di Rubro",
@@ -50,6 +51,7 @@
   "entity.earth.pertilyo": "Pertilyo",
   "entity.earth.glow_grease": "Grasso Lume",
   "entity.earth.shimmer_shell": "Guscio Glitterato",
+  "entity.earth.copper_buck": "Bossolo di Rame",
   "entity.earth.flinging_potion": "Pozione da tiro",
 
   "block.earth.redstone_fossil": "Fossile di Redstone",
@@ -63,6 +65,8 @@
   "death.attack.shimmer_shell": "%1$s è stato colpito dal Guscio Glitterato di %2$s",
   "death.attack.shimmer_explosion.player": "%1$s è stato polverizzato da %2$s",
   "death.attack.shimmer_explosion": "%1$s è stato polverizzato",
+  "death.attack.copper_buck.player": "%1$s è stato messo K.O. da %2$s",
+  "death.attack.copper_buck": "%1$s è stato messo K.O.",
 
   "enchantment.earth.crumble": "Crollo",
   "enchantment.earth.force": "Forza",

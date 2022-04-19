@@ -4,7 +4,6 @@ import com.github.klyser8.earthbounds.entity.PertilyoEntity;
 import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.model.PertilyoEntityModel;
 import com.github.klyser8.earthbounds.entity.model.RubroEntityModel;
-import com.github.klyser8.earthbounds.entity.renderer.EarthenEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.EarthenMobRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

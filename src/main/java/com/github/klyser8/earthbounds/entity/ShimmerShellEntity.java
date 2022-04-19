@@ -1,19 +1,10 @@
 package com.github.klyser8.earthbounds.entity;
 
-import com.github.klyser8.earthbounds.registry.EarthboundsAdvancementCriteria;
-import com.github.klyser8.earthbounds.registry.ShimmerDamageSource;
-import com.github.klyser8.earthbounds.registry.EarthboundItems;
-import com.github.klyser8.earthbounds.registry.EarthboundParticles;
+import com.github.klyser8.earthbounds.registry.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.particle.DustColorTransitionParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,42 +12,28 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
-import software.bernie.example.ClientListener;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.List;
 
-public class ShimmerShellEntity extends PersistentProjectileEntity implements IAnimatable {
+public class ShimmerShellEntity extends EarthenPersistentProjectile {
 
-    private final AnimationFactory factory;
-    private static final TrackedData<Integer> collisionAge = DataTracker.registerData(ShimmerShellEntity.class,
-            TrackedDataHandlerRegistry.INTEGER);
-
-    public ShimmerShellEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
-        super(entityType, world);
-        factory = new AnimationFactory(this);
+    public ShimmerShellEntity(EntityType<ShimmerShellEntity> type, World world) {
+        super(type, world);
         pickupType = PickupPermission.DISALLOWED;
     }
 
-    public ShimmerShellEntity(EntityType<? extends PersistentProjectileEntity> type, double x, double y, double z,
+    public ShimmerShellEntity(double x, double y, double z,
                               World world, LivingEntity owner) {
-        super(type, x, y, z, world);
-        this.factory = new AnimationFactory(this);
-        setOwner(owner);
+        super(EarthboundEntities.SHIMMER_SHELL, x, y, z, world, owner);
         pickupType = PickupPermission.DISALLOWED;
     }
 
-    protected ShimmerShellEntity(EntityType<? extends PersistentProjectileEntity> type, LivingEntity owner, World world) {
-        super(type, owner, world);
-        this.factory = new AnimationFactory(this);
-        setOwner(owner);
+    protected ShimmerShellEntity(LivingEntity owner, World world) {
+        super(EarthboundEntities.SHIMMER_SHELL, owner, world);
         pickupType = PickupPermission.DISALLOWED;
     }
 
@@ -66,38 +43,13 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
     }
 
     @Override
-    public void registerControllers(AnimationData data) {}
-
-    @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        dataTracker.startTracking(collisionAge, 0);
-    }
-
-    @Override
-    public AnimationFactory getFactory() {
-        return factory;
-    }
-
-    @Override
-    public Packet<?> createSpawnPacket() {
-        return super.createSpawnPacket();
-    }
-
-    @Override
     public double getDamage() {
         return 15;
     }
 
     @Override
     public void tick() {
-        if (getCollisionAge() == 0 && isInsideWall()) {
-            setCollisionAge(1);
-        }
         playParticleTrail();
-        if (getCollisionAge() > 0) {
-            setCollisionAge(getCollisionAge() + 1);
-        }
         if (getCollisionAge() >= 20) {
             if (!world.isClient) {
                 explode();
@@ -116,16 +68,6 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
         }
     }
 
-    @Override
-    protected void onCollision(HitResult hitResult) {
-        super.onCollision(hitResult);
-        if (hitResult.getType() != HitResult.Type.MISS) {
-            if (getCollisionAge() == 0) {
-                setCollisionAge(1);
-            }
-        }
-    }
-
     private void explode() {
         playSound(SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0f, 2.0f);
         List<Entity> entities = world.getOtherEntities(this, Box.of(getPos(), 4, 4, 4),
@@ -133,7 +75,7 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
         for (Entity entity : entities) {
             LivingEntity living = (LivingEntity) entity;
             float dmg = Math.max((float) (getDamage() / distanceTo(entity)), (float) (getDamage() / getPos().distanceTo(entity.getEyePos())));
-            living.damage(ShimmerDamageSource.shimmerExplosion(
+            living.damage(EarthboundDamageSource.shimmerExplosion(
                     (LivingEntity) getOwner()), (float) Math.min(dmg, getDamage()));
             attemptAdvancementTrigger(living);
         }
@@ -162,14 +104,6 @@ public class ShimmerShellEntity extends PersistentProjectileEntity implements IA
     @Override
     protected SoundEvent getHitSound() {
         return SoundEvents.ITEM_TRIDENT_HIT;
-    }
-
-    public int getCollisionAge() {
-        return dataTracker.get(collisionAge);
-    }
-
-    public void setCollisionAge(int age) {
-        dataTracker.set(collisionAge, age);
     }
 
     private void playParticleTrail() {

@@ -28,7 +28,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.mob.WitchEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -79,9 +78,11 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
 
     private static final TrackedData<Integer> MAX_POWER = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> MIN_POWER = DataTracker.registerData(RubroEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
     //Whether the Rubro has a golden skull or not
-    private static final TrackedData<Boolean> HAS_GOLD_SKULL = DataTracker.registerData(RubroEntity.class,
-            TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Integer> MASK_TYPE_ID = DataTracker.registerData(RubroEntity.class,
+            TrackedDataHandlerRegistry.INTEGER);
     //Whether the Rubro was born from a fossil or not
     private static final TrackedData<Boolean> FROM_FOSSIL = DataTracker.registerData(RubroEntity.class,
             TrackedDataHandlerRegistry.BOOLEAN);
@@ -139,12 +140,13 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     /**
      * Initializes the Rubro.
      *
-     * @param goldSkull whether the rubro has a gold skull or not.
+     * @param maskType the type of mask the rubro has
      * @param startPower the amount of power the rubro has as a baby (any value lower than 0)
      */
-    public void initializeFossil(boolean deepslate, boolean goldSkull, int startPower, PlayerEntity owner) {
+    public void initializeFossil(boolean deepslate, RubroMaskType maskType, int startPower, PlayerEntity owner) {
         setFromFossil(true);
-        setGoldSkull(goldSkull);
+        setMaskType(maskType);
+        setMinPower(startPower);
         updatePower(startPower);
         setDeepslate(deepslate);
         if (isDeepslate()) {
@@ -252,8 +254,8 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         if (nbt.contains("FromFossil")) {
             setFromFossil(nbt.getBoolean("FromFossil"));
         }
-        if (nbt.contains("GoldSkull")) {
-            setGoldSkull(nbt.getBoolean("GoldSkull"));
+        if (nbt.contains("MaskType")) {
+            setMaskType(RubroMaskType.getFromId(nbt.getInt("MaskType")));
         }
         if (nbt.contains("Power")) {
             updatePower(nbt.getInt("Power"));
@@ -281,7 +283,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("Deepslate", isDeepslate());
         nbt.putBoolean("FromFossil", isFromFossil());
-        nbt.putBoolean("GoldSkull", hasGoldSkull());
+        nbt.putInt("MaskType", getMaskType().getId());
         nbt.putInt("Power", getPower());
         nbt.putInt("MaxPower", getMaxPower());
         nbt.putBoolean("IsFullyCharged", isFullyCharged());
@@ -308,7 +310,8 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     protected void initDataTracker() {
         super.initDataTracker();
         dataTracker.startTracking(MAX_POWER, 100 + random.nextInt(10) * 10);
-        dataTracker.startTracking(HAS_GOLD_SKULL, false);
+        dataTracker.startTracking(MIN_POWER, 0);
+        dataTracker.startTracking(MASK_TYPE_ID, 0);
         dataTracker.startTracking(FROM_FOSSIL, false);
         dataTracker.startTracking(DEEPSLATE, false);
         dataTracker.startTracking(POWER, 0);
@@ -703,6 +706,14 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         dataTracker.set(MAX_POWER, maxPower);
     }
 
+    public int getMinPower() {
+        return dataTracker.get(MIN_POWER);
+    }
+
+    private void setMinPower(int minPower) {
+        dataTracker.set(MIN_POWER, minPower);
+    }
+
     public boolean isFromFossil() {
         return dataTracker.get(FROM_FOSSIL);
     }
@@ -711,20 +722,20 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         dataTracker.set(FROM_FOSSIL, fromFossil);
     }
 
-    public boolean hasGoldSkull() {
-        return dataTracker.get(HAS_GOLD_SKULL);
-    }
-
-    private void setGoldSkull(boolean goldSkull) {
-        dataTracker.set(HAS_GOLD_SKULL, goldSkull);
-    }
-
     public boolean isDeepslate() {
         return dataTracker.get(DEEPSLATE);
     }
 
     private void setDeepslate(boolean deepslate) {
         dataTracker.set(DEEPSLATE, deepslate);
+    }
+
+    public RubroMaskType getMaskType() {
+        return RubroMaskType.getFromId(dataTracker.get(MASK_TYPE_ID));
+    }
+
+    public void setMaskType(RubroMaskType maskType) {
+        dataTracker.set(MASK_TYPE_ID, maskType.getId());
     }
 
     public int getPower() {
@@ -739,10 +750,10 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
      */
     @SuppressWarnings("ConstantConditions")
     public void updatePower(int newPower) {
-        if (getPower() > 0) {
+        if (getPower() >= 0 && age > 20) {
             dataTracker.set(POWER, Math.max(newPower, 0));
         } else {
-            dataTracker.set(POWER, newPower);
+            dataTracker.set(POWER, Math.max(newPower, getMinPower()));
         }
         if (getPower() >= getMaxPower() * 0.85 && !isFullyCharged()) {
             setFullyCharged(true);

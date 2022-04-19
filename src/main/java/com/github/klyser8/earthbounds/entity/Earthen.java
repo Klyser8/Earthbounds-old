@@ -1,12 +1,10 @@
 package com.github.klyser8.earthbounds.entity;
 
-import com.github.klyser8.earthbounds.registry.ShimmerDamageSource;
+import com.github.klyser8.earthbounds.registry.EarthboundDamageSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.PickaxeItem;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import software.bernie.geckolib3.core.IAnimatable;
 
@@ -20,16 +18,19 @@ public interface Earthen extends IAnimatable {
 
     void setLastDamageSourceName(String name);
 
-    static float handleDamage(DamageSource source, LivingEntity entity, float baseDamage) {
+    static float handleDamage(DamageSource source, LivingEntity entity, float damage) {
         if (entity instanceof Earthen) {
             if (isDamagePickaxe(source)
-                    || source.getName().equalsIgnoreCase(ShimmerDamageSource.SHIMMER_EXPLOSION_NAME)
-                    || source.getName().equalsIgnoreCase(ShimmerDamageSource.SHIMMER_EXPLOSION_PLAYER_NAME)
-                    || source.getName().equalsIgnoreCase(ShimmerDamageSource.SHIMMER_SHELL_NAME)) {
-                return baseDamage;
+                    || source.getName().equalsIgnoreCase(EarthboundDamageSource.SHIMMER_EXPLOSION_NAME)
+                    || source.getName().equalsIgnoreCase(EarthboundDamageSource.SHIMMER_EXPLOSION_PLAYER_NAME)
+                    || source.getName().equalsIgnoreCase(EarthboundDamageSource.COPPER_BUCK_NAME)
+                    || source.getName().equalsIgnoreCase(EarthboundDamageSource.COPPER_BUCK_PLAYER_NAME)) {
+                System.out.println(damage);
+                return damage;
             }
         }
-        return baseDamage / 2.5f;
+        damage /= 2.5f;
+        return damage;
     }
 
     /**
