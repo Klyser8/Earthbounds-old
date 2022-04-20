@@ -1,6 +1,5 @@
 package com.github.klyser8.earthbounds.registry.features;
 
-import com.github.klyser8.earthbounds.mixin.BiomeAccessor;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeature;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeatureConfig;
 import com.github.klyser8.earthbounds.world.features.glowgrease.GlowGreaseFeature;
@@ -15,7 +14,6 @@ import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.GlowLichenFeatureConfig;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
@@ -37,7 +35,7 @@ public class EarthboundFeatures {
         BiomeModifications.create(new Identifier(MOD_ID, "add_small_coal_den")).add(
                 ModificationPhase.ADDITIONS,
                 (context) -> {
-                    Biome.Category category = ((BiomeAccessor) (Object) context.getBiome()).invokeGetCategory();
+                    Biome.Category category = context.getBiome().getCategory();
                     return category == Biome.Category.MOUNTAIN || category == Biome.Category.EXTREME_HILLS ||
                             category == Biome.Category.SAVANNA ;
                 },

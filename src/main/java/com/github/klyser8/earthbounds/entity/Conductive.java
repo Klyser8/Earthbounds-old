@@ -1,6 +1,5 @@
 package com.github.klyser8.earthbounds.entity;
 
-import com.github.klyser8.earthbounds.mixin.BiomeAccessor;
 import net.minecraft.block.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -33,13 +32,12 @@ public interface Conductive {
         float change = 0;
         BlockPos blockOrigin = new BlockPos(origin);
         if (!ignoreEnvironment) {
-            Biome biome = world.getBiomeAccess().getBiome(blockOrigin).value();
-            BiomeAccessor accessedBiome = ((BiomeAccessor) (Object) biome);
+            Biome biome = world.getBiomeAccess().getBiome(blockOrigin);
             if (biome == null) {
                 change -= 0.5f;
             } else {
                 change += (biome.getTemperature() - 1.2) / 3.0f; //Lowest temperature is 0.15 (0.0015), highest is 2 (0.02).
-                if (accessedBiome.invokeGetCategory() == Biome.Category.NETHER) {
+                if (biome.getCategory() == Biome.Category.NETHER) {
                     change += 0.75;
                 }
             }

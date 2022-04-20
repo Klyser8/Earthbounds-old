@@ -9,7 +9,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
@@ -19,10 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-//TODO replace glow lichen feature config with its own feature config
 public class GlowGreaseFeature extends Feature<DefaultFeatureConfig> {
 
-    private final RegistryEntryList<Block> placeableList = RegistryEntryList.of(Block::getRegistryEntry, List.of(
+    private final List<Block> placeableList = List.of(
             Blocks.STONE,
             Blocks.ANDESITE,
             Blocks.DIORITE,
@@ -32,7 +30,7 @@ public class GlowGreaseFeature extends Feature<DefaultFeatureConfig> {
             Blocks.TUFF,
             Blocks.DEEPSLATE,
             Blocks.OAK_WOOD,
-            Blocks.MOSS_BLOCK));
+            Blocks.MOSS_BLOCK);
 
     public GlowGreaseFeature(Codec<DefaultFeatureConfig> codec) {
         super(codec);
@@ -65,7 +63,7 @@ public class GlowGreaseFeature extends Feature<DefaultFeatureConfig> {
             for (Direction dir : Direction.values()) {
                 //If the grease cant be placed on this block, then look for another direction
                 BlockPos supportingPos = origin.offset(dir, 1);
-                if (!placeableList.contains(world.getBlockState(supportingPos).getBlock().getRegistryEntry())) {
+                if (!placeableList.contains(world.getBlockState(supportingPos).getBlock())) {
                     continue;
                 }
                 BlockState currentState;

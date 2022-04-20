@@ -10,7 +10,6 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.tag.Tag;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +17,9 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(PickaxeItem.class)
 public abstract class AvoidCrumbleMiningMixin extends MiningToolItem {
 
+
     protected AvoidCrumbleMiningMixin(float attackDamage, float attackSpeed, ToolMaterial material,
-                                      TagKey<Block> effectiveBlocks, Settings settings) {
+                                      Tag<Block> effectiveBlocks, Settings settings) {
         super(attackDamage, attackSpeed, material, effectiveBlocks, settings);
     }
 

@@ -161,8 +161,8 @@ public class CoalChunkEntity extends MobEntity implements Conductive, IAnimatabl
     }
 
     @Override
-    public boolean canWalkOnFluid(FluidState fluidState) {
-        return fluidState.isIn(FluidTags.LAVA);
+    public boolean canWalkOnFluid(Fluid fluid) {
+        return fluid.isIn(FluidTags.LAVA);
     }
 
     @Override
