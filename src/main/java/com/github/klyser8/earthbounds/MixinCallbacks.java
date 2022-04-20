@@ -6,6 +6,7 @@ import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import com.github.klyser8.earthbounds.registry.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.dispenser.DispenserBehavior;
 import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.client.input.Input;
@@ -57,6 +58,9 @@ public class MixinCallbacks {
         if (world.isAir(blockPos)
                 || collisionShape.isEmpty()
                 || collisionShape.getBoundingBox().maxY > 0.2) {
+            if (world.getBlockState(blockPos.offset(Direction.UP, 1)).isOf(Blocks.SOUL_SAND)) {
+                return pos.y;
+            }
             return pos.y - (double)0.2f;
         } else {
             return pos.y;
@@ -65,11 +69,10 @@ public class MixinCallbacks {
 
     public static void calculateVelocityAffectingPos(Vec3d pos, Box box, World world,
                                                      CallbackInfoReturnable<BlockPos> cir) {
-        BlockPos blockPos = new BlockPos(pos.x, box.minY, pos.z);
-        if (world.getBlockState(blockPos).getBlock() instanceof GlowGreaseSplatBlock) {
-            cir.setReturnValue(blockPos);
+        if (world.getBlockState(new BlockPos(pos)).getBlock() instanceof GlowGreaseSplatBlock) {
+            cir.setReturnValue(new BlockPos(pos));
         } else {
-            cir.setReturnValue(blockPos.add(0, -0.5000001, 0));
+            cir.setReturnValue(new BlockPos(pos.x, box.minY - 0.50000001, pos.z));
         }
     }
 

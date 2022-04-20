@@ -60,8 +60,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
         super.onBreak(world, pos, state, player);
         ItemStack stack = player.getMainHandStack();
         if (EnchantmentHelper.getLevel(EarthboundEnchantments.CRUMBLE, stack) >= 5 || player.getAbilities().creativeMode) {
-            boolean goldSkull = state.getBlock().equals(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK) ||
-                    state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
+            RubroMaskType maskType = RubroMaskType.getFromFossilBlock(state);
             boolean deepslate = state.getBlock().equals(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK) ||
                     state.getBlock().equals(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK);
             RubroEntity rubro = EarthboundEntities.RUBRO.create(world);
@@ -69,7 +68,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
             rubro.refreshPositionAndAngles((double)pos.getX() + 0.5D, pos.getY(),
                     (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.spawnEntity(rubro);
-            rubro.initializeFossil(deepslate, RubroMaskType.CHARRED, -440 - world.random.nextInt(200), player);
+            rubro.initializeFossil(deepslate, maskType, -440 - world.random.nextInt(200), player);
             world.playSound(null, pos, EarthboundSounds.RUBRO_EAT,
                     SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5);
         }

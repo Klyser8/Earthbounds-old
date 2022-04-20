@@ -6,10 +6,8 @@ import com.github.klyser8.earthbounds.item.flingshot.ShimmerShellItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingingPotionItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -108,6 +106,7 @@ public class EarthboundItems {
     public static final Item EARTHBOUNDS_ICON = new Item(new FabricItemSettings().rarity(Rarity.EPIC));
 
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON), true);
+    public static final Item PRIMORDIAL_REDSTONE_TALC = new Item(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON));
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
     public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(3).group(EarthboundItemGroup.BREWING)));
@@ -129,6 +128,7 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "earthbounds_icon"), EARTHBOUNDS_ICON);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_rod"), PERTILYO_ROD);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone_talc"), PRIMORDIAL_REDSTONE_TALC);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
         Registry.register(Registry.ITEM,
@@ -157,11 +157,36 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.GILDED_REDSTONE_FOSSIL_BLOCK,
                         new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "crystalline_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.CRYSTALLINE_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "verdant_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.VERDANT_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "charred_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.CHARRED_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "crimson_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.CRIMSON_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK,
                         new FabricItemSettings().rarity(Rarity.UNCOMMON).group(EarthboundItemGroup.PLACEABLES)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_gilded_redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_GILDED_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_crystalline_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_CRYSTALLINE_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_verdant_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_VERDANT_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_charred_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_CHARRED_REDSTONE_FOSSIL_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_crimson_redstone_fossil"),
+                new RedstoneFossilBlockItem(EarthboundBlocks.DEEPSLATE_CRIMSON_REDSTONE_FOSSIL_BLOCK,
                         new FabricItemSettings().rarity(Rarity.RARE).group(EarthboundItemGroup.PLACEABLES)));
     }
 
