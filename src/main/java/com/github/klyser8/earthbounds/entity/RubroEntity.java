@@ -727,8 +727,10 @@ public class RubroEntity extends PathAwareEarthenEntity {
         public void start() {
             BlockPos destination = pathDestination;
             if (destination != null) {
-                Vec3d pos = new Vec3d(destination.getX() + 0.5, destination.getY() + 2, destination.getZ() + 0.5);
-                getNavigation().startMovingTo(pos, 1.00f);
+                double x = destination.getX() + 0.5;
+                double y = destination.getY() + 1
+                double z = destination.getZ() + 0.5
+                getNavigation().startMovingTo(x, y, z, 1.00f);
             }
         }
 
