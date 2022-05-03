@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:copper_buck"
+    },
+    "title": {
+      "translate": "advancement.earth.hit_pertilyo_with_copper_buck.title"
+    },
+    "description": {
+      "translate": "advancement.earth.hit_pertilyo_with_copper_buck.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/obtain_flingshot",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:hit_by_copper_buck",
+      "conditions": {
+        "entity": {
+          "type": "earth:pertilyo"
+        }
+      }
+    }
+  }
+}

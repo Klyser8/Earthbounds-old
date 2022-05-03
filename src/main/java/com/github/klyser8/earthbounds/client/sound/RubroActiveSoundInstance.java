@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.client.sound;
 
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

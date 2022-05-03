@@ -1,7 +1,7 @@
 package com.github.klyser8.earthbounds.entity.renderer.rubro;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;

@@ -8,7 +8,6 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.YOffset;
 import net.minecraft.world.gen.blockpredicate.BlockPredicate;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
 import net.minecraft.world.gen.placementmodifier.*;
@@ -19,37 +18,102 @@ import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
 public class EarthboundPlacedFeatures {
 
-    public static PlacedFeature OVERWORLD_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+    public static PlacedFeature REDSTONE_FOSSIL_CONFIGURED_FEATURE =
             new PlacedFeature(RegistryEntry.of(
-                    EarthboundConfiguredFeatures.OVERWORLD_REDSTONE_FOSSIL), List.of(
+                    EarthboundConfiguredFeatures.REDSTONE_FOSSIL), List.of(
                             CountPlacementModifier.of(1),
                             SquarePlacementModifier.of(),
-                            RarityFilterPlacementModifier.of(4),
+                            RarityFilterPlacementModifier.of(2),
                             HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))
             ));
-    public static PlacedFeature OVERWORLD_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+    public static PlacedFeature GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
             new PlacedFeature(RegistryEntry.of(
-                    EarthboundConfiguredFeatures.OVERWORLD_GILDED_REDSTONE_FOSSIL), List.of(
+                    EarthboundConfiguredFeatures.GILDED_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(18),
+                            HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))
+            ));
+    public static PlacedFeature CRYSTALLINE_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.CRYSTALLINE_REDSTONE_FOSSIL), List.of(
                             CountPlacementModifier.of(1),
                             SquarePlacementModifier.of(),
                             RarityFilterPlacementModifier.of(20),
                             HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))
             ));
-    public static PlacedFeature OVERWORLD_DEEPSLATE_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+    public static PlacedFeature CHARRED_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
             new PlacedFeature(RegistryEntry.of(
-                    EarthboundConfiguredFeatures.OVERWORLD_DEEPSLATE_REDSTONE_FOSSIL), List.of(
-                            CountPlacementModifier.of(1),
-                            SquarePlacementModifier.of(),
-                            RarityFilterPlacementModifier.of(4),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))
-            ));
-    public static PlacedFeature OVERWORLD_DEEPSLATE_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
-            new PlacedFeature(RegistryEntry.of(
-                    EarthboundConfiguredFeatures.OVERWORLD_DEEPSLATE_GILDED_REDSTONE_FOSSIL), List.of(
+                    EarthboundConfiguredFeatures.CHARRED_REDSTONE_FOSSIL), List.of(
                             CountPlacementModifier.of(1),
                             SquarePlacementModifier.of(),
                             RarityFilterPlacementModifier.of(20),
-                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))
+                            HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))
+            ));
+    public static PlacedFeature VERDANT_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.VERDANT_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))
+            ));
+    public static PlacedFeature CRIMSON_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.CRIMSON_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.aboveBottom(64), YOffset.belowTop(300))
+            ));
+
+    public static PlacedFeature DEEPSLATE_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.DEEPSLATE_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(2),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(64))
+            ));
+    public static PlacedFeature DEEPSLATE_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.DEEPSLATE_GILDED_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(64))
+            ));
+    public static PlacedFeature DEEPSLATE_CRYSTALLINE_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.DEEPSLATE_CRYSTALLINE_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(64))
+            ));
+    public static PlacedFeature DEEPSLATE_CHARRED_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.DEEPSLATE_CHARRED_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(64))
+            ));
+    public static PlacedFeature DEEPSLATE_VERDANT_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.DEEPSLATE_VERDANT_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(64))
+            ));
+    public static PlacedFeature DEEPSLATE_CRIMSON_REDSTONE_FOSSIL_CONFIGURED_FEATURE =
+            new PlacedFeature(RegistryEntry.of(
+                    EarthboundConfiguredFeatures.DEEPSLATE_CRIMSON_REDSTONE_FOSSIL), List.of(
+                            CountPlacementModifier.of(1),
+                            SquarePlacementModifier.of(),
+                            RarityFilterPlacementModifier.of(20),
+                            HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.aboveBottom(64))
             ));
 
     public static PlacedFeature SMALL_COAL_DEN =
@@ -79,22 +143,46 @@ public class EarthboundPlacedFeatures {
      */
     static void register() {
         Registry.register(BuiltinRegistries.PLACED_FEATURE,
-                new Identifier(MOD_ID, "small_coal_den"), SMALL_COAL_DEN);
+                 new Identifier(MOD_ID, "redstone_fossil"),
+                REDSTONE_FOSSIL_CONFIGURED_FEATURE);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,
-                 new Identifier(MOD_ID, "overworld_redstone_fossil"),
-                OVERWORLD_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+                new Identifier(MOD_ID, "gilded_redstone_fossil"),
+                GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,
-                new Identifier(MOD_ID, "overworld_gilded_redstone_fossil"),
-                OVERWORLD_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+                new Identifier(MOD_ID, "crystalline_redstone_fossil"),
+                CRYSTALLINE_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
         Registry.register(BuiltinRegistries.PLACED_FEATURE,
-                 new Identifier(MOD_ID, "overworld_deepslate_redstone_fossil"),
-                OVERWORLD_DEEPSLATE_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+                new Identifier(MOD_ID, "charred_redstone_fossil"),
+                CHARRED_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "verdant_redstone_fossil"),
+                VERDANT_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "crimson_redstone_fossil"),
+                CRIMSON_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
 
         Registry.register(BuiltinRegistries.PLACED_FEATURE,
-                new Identifier(MOD_ID, "overworld_deepslate_gilded_redstone_fossil"),
-                OVERWORLD_DEEPSLATE_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+                 new Identifier(MOD_ID, "deepslate_redstone_fossil"),
+                DEEPSLATE_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "deepslate_gilded_redstone_fossil"),
+                DEEPSLATE_GILDED_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "deepslate_crystalline_redstone_fossil"),
+                DEEPSLATE_CRYSTALLINE_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "deepslate_charred_redstone_fossil"),
+                DEEPSLATE_CHARRED_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "deepslate_verdant_redstone_fossil"),
+                DEEPSLATE_VERDANT_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "deepslate_crimson_redstone_fossil"),
+                DEEPSLATE_CRIMSON_REDSTONE_FOSSIL_CONFIGURED_FEATURE);
 
         Registry.register(BuiltinRegistries.PLACED_FEATURE,
                 new Identifier(MOD_ID, "glow_grease_splat"), GLOW_GREASE_SPLAT);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new Identifier(MOD_ID, "small_coal_den"), SMALL_COAL_DEN);
     }
 }

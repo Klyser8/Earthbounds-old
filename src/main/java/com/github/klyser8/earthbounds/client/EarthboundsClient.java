@@ -1,30 +1,19 @@
 package com.github.klyser8.earthbounds.client;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.GlowGreaseDropEntity;
 import com.github.klyser8.earthbounds.entity.renderer.GlowGreaseDropEntityRenderer;
 import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import com.github.klyser8.earthbounds.registry.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
-import net.fabricmc.fabric.impl.networking.ClientSidePacketRegistryImpl;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-
-import java.util.UUID;
 
 public class EarthboundsClient implements ClientModInitializer {
 

@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.entity.renderer;
 
-import com.github.klyser8.earthbounds.entity.GlowGreaseDropEntity;
+import com.github.klyser8.earthbounds.entity.misc.GlowGreaseDropEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;

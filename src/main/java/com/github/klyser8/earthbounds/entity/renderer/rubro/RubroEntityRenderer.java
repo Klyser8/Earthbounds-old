@@ -1,18 +1,15 @@
 package com.github.klyser8.earthbounds.entity.renderer.rubro;
 
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import com.github.klyser8.earthbounds.entity.model.RubroEntityModel;
 import com.github.klyser8.earthbounds.entity.renderer.EarthenMobRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 
 public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
@@ -37,6 +34,14 @@ public class RubroEntityRenderer extends EarthenMobRenderer<RubroEntity> {
     public void render(GeoModel model, RubroEntity rubro, float partialTicks, RenderLayer type,
                        MatrixStack matrixStackIn, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder,
                        int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if (rubro.isFromFossil() && model.getBone("lower").isPresent()) {
+            GeoBone lower = model.getBone("lower").get();
+            if (rubro.getHealth() < rubro.getMaxHealth() * 0.25) {
+                lower.setRotationX(-0.6f);
+            } else {
+                lower.setRotationX(rubro.getHealth() / rubro.getMaxHealth() - 0.5f);
+            }
+        }
         boolean shouldPop = false;
         renderMask(model, rubro);
         float scale = 1.0f + rubro.getPower() / 1000f;

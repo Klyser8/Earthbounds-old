@@ -18,6 +18,7 @@
     "RubroShadowRendererMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin",
+    "RubroAttackEntityInjector",
     "VelocityAffectingPosMixin",
     "VFXPosMixin"
   ],

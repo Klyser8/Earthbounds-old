@@ -5,6 +5,7 @@ import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
 import com.github.klyser8.earthbounds.block.RedstoneFossilBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -15,6 +16,7 @@ public class EarthboundBlocks {
 
     public static final Material ORGANIC = new Material.Builder(MapColor.ORANGE).replaceable().allowsMovement().build();
 
+    public static final Block PRIMORDIAL_REDSTONE_BLOCK = new Block(FabricBlockSettings.of(Material.AGGREGATE, MapColor.RED).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.TUFF));
     public static final Block REDSTONE_FOSSIL_BLOCK = new RedstoneFossilBlock(FabricBlockSettings
             .copyOf(Blocks.REDSTONE_ORE));
     public static final Block GILDED_REDSTONE_FOSSIL_BLOCK = new RedstoneFossilBlock(FabricBlockSettings
@@ -46,6 +48,8 @@ public class EarthboundBlocks {
             .slipperiness(1.0f));
 
     public static void register() {
+        Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "primordial_redstone_block"),
+                PRIMORDIAL_REDSTONE_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
                 REDSTONE_FOSSIL_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(Earthbounds.MOD_ID, "gilded_redstone_fossil"),

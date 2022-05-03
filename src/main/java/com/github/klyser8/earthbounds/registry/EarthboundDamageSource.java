@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.registry;
 
-import com.github.klyser8.earthbounds.entity.CopperBuckEntity;
+import com.github.klyser8.earthbounds.entity.misc.CopperBuckEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;

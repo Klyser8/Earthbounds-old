@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.entity.model;
 
-import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
+import com.github.klyser8.earthbounds.entity.mob.CarboraneaEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;

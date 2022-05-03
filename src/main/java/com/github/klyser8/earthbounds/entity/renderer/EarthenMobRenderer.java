@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.entity.renderer;
 
-import com.github.klyser8.earthbounds.entity.Earthen;
+import com.github.klyser8.earthbounds.entity.mob.Earthen;
 import com.github.klyser8.earthbounds.registry.EarthboundDamageSource;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -46,7 +46,8 @@ public class EarthenMobRenderer<T extends MobEntity & IAnimatable & Earthen> ext
         if (sourceName.equalsIgnoreCase(EarthboundDamageSource.SHIMMER_EXPLOSION_NAME)
                 || sourceName.equalsIgnoreCase(EarthboundDamageSource.SHIMMER_EXPLOSION_PLAYER_NAME)
                 || sourceName.equalsIgnoreCase(EarthboundDamageSource.COPPER_BUCK_NAME)
-                || sourceName.equalsIgnoreCase(EarthboundDamageSource.COPPER_BUCK_PLAYER_NAME)) {
+                || sourceName.equalsIgnoreCase(EarthboundDamageSource.COPPER_BUCK_PLAYER_NAME)
+                || earthen.getLastDamager() instanceof Earthen) {
             wasAttackValid = true;
         }
         return OverlayTexture.getUv(OverlayTexture.getU(uIn),

@@ -34,8 +34,8 @@ public class EarthboundItems {
             if (player == null) {
                 return ActionResult.FAIL;
             }
-            Earthbounds.LOGGER.log(Level.DEBUG, "Light level: " +
-                    context.getWorld().getLightLevel(context.getBlockPos().add(0, 1, 0)));
+//            Earthbounds.LOGGER.log(Level.DEBUG, "Light level: " +
+//                    context.getWorld().getLightLevel(context.getBlockPos().add(0, 1, 0)));
             World world = player.getWorld();
             ItemStack stack = player.getStackInHand(Hand.OFF_HAND);
             if (!world.isClient) {
@@ -43,9 +43,9 @@ public class EarthboundItems {
                 if (stack.getItem() instanceof BlockItem blockItem) {
                     Block matchBlock = blockItem.getBlock();
                     List<BlockPos> matchList = new ArrayList<>();
-                    for (int x = -16; x < 16; x++) {
-                        for (int y = -16; y < 16; y++) {
-                            for (int z = -16; z < 16; z++) {
+                    for (int x = -64; x < 64; x++) {
+                        for (int y = -32; y < 32; y++) {
+                            for (int z = -64; z < 64; z++) {
                                 BlockPos checkPos = context.getBlockPos().add(x, y, z);
                                 if (world.getBlockState(checkPos).getBlock().equals(matchBlock)) {
                                     matchList.add(checkPos);
@@ -58,6 +58,8 @@ public class EarthboundItems {
                     } else {
                         for (BlockPos pos : matchList) {
                             Earthbounds.LOGGER.log(Level.DEBUG, "Found at location: "
+                                    + pos.getX() + ", " + pos.getY() + ", " + pos.getZ());
+                            System.out.println("Found at location: "
                                     + pos.getX() + ", " + pos.getY() + ", " + pos.getZ());
                         }
                     }
@@ -106,7 +108,7 @@ public class EarthboundItems {
     public static final Item EARTHBOUNDS_ICON = new Item(new FabricItemSettings().rarity(Rarity.EPIC));
 
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON), true);
-    public static final Item PRIMORDIAL_REDSTONE_TALC = new Item(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON));
+    public static final Item PRIMORDIAL_REDSTONE = new Item(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON));
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
     public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(3).group(EarthboundItemGroup.BREWING)));
@@ -115,7 +117,8 @@ public class EarthboundItems {
     public static final Item FLINGSHOT = new FlingshotItem(EarthboundToolMaterials.COPPER,
             new Item.Settings().group(EarthboundItemGroup.COMBAT).rarity(Rarity.UNCOMMON).maxDamage(320));
     public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32));
-    public static final Item COPPER_BUCK = new CopperBuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32));
+    public static final Item COPPER_BUCK = new BuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32), EarthboundEntities.COPPER_BUCK);
+    public static final Item MADDER_BUCK = new BuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32), EarthboundEntities.MADDER_BUCK);
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(EarthboundItemGroup.MISC));
@@ -128,7 +131,7 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "earthbounds_icon"), EARTHBOUNDS_ICON);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_rod"), PERTILYO_ROD);
-        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone_talc"), PRIMORDIAL_REDSTONE_TALC);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone"), PRIMORDIAL_REDSTONE);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
         Registry.register(Registry.ITEM,
@@ -142,6 +145,8 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "copper_buck"), COPPER_BUCK);
         Registry.register(Registry.ITEM,
+                new Identifier(Earthbounds.MOD_ID, "madder_buck"), MADDER_BUCK);
+        Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "flingshot"), FLINGSHOT);
 
         Registry.register(Registry.ITEM,
@@ -151,6 +156,9 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "pertilyo_spawn_egg"), PERTILYO_SPAWN_EGG);
 
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone_block"),
+                new BlockItem(EarthboundBlocks.PRIMORDIAL_REDSTONE_BLOCK,
+                        new FabricItemSettings().rarity(Rarity.COMMON).group(EarthboundItemGroup.PLACEABLES)));
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "redstone_fossil"),
                 new RedstoneFossilBlockItem(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK,
                         new FabricItemSettings().rarity(Rarity.UNCOMMON).group(EarthboundItemGroup.PLACEABLES)));

@@ -1,25 +1,17 @@
 package com.github.klyser8.earthbounds.world.features.coalden;
 
-import com.github.klyser8.earthbounds.entity.CarboraneaEntity;
+import com.github.klyser8.earthbounds.entity.mob.CarboraneaEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
-import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.util.collection.Pool;
-import net.minecraft.util.collection.Weighted;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-import java.util.HashSet;
 import java.util.Random;
 
 public class CoalDenFeature extends Feature<CoalDenFeatureConfig> {

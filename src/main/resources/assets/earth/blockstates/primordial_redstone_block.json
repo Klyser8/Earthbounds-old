@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "earth:block/primordial_redstone_block" }
+  }
+}

@@ -119,7 +119,9 @@ public class FlingshotItem extends EarthboundItem implements Vanishable {
             float divergence = calculateDivergence(flingshot);
             if (projStack.getItem() instanceof Flingable flingable) {
                 ProjectileEntity projEntity = flingable.createFlingableEntity(world, projStack, user);
-                System.out.println(projEntity);
+                if (projEntity == null) {
+                    return;
+                }
                 world.spawnEntity(projEntity);
                 projEntity.setVelocity(player, player.getPitch(), player.getYaw(), 1.0f, force, divergence);
                 projEntity.velocityModified = true;
@@ -162,7 +164,7 @@ public class FlingshotItem extends EarthboundItem implements Vanishable {
     }
 
     private float calculateDivergence(ItemStack flingshot) {
-        float divergence = 10.0f;
+        float divergence = 5.0f;
         if (EnchantmentHelper.get(flingshot).get(EarthboundEnchantments.PRECISION) != null) {
             divergence -= EarthboundEnchantments.PRECISION.getDivergenceModifier(
                     EnchantmentHelper.get(flingshot).get(EarthboundEnchantments.PRECISION));

@@ -2,16 +2,20 @@ package com.github.klyser8.earthbounds.util;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.source.BiomeSource;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -180,6 +184,32 @@ public class EarthUtil {
             }
         }
         return connections;
+    }
+
+    /**
+     * Checks whether a given entity can fully see another entity, provided it's within the max provided distance.
+     * An entity is considered "fully seen" when both its eyes and feet are visible to the looker.
+     *
+     * @param looker the looking entity
+     * @param lookedAt the entity being looked at
+     * @param maxDistance the maximum distance which the entity cna be seen at
+     * @return true if the entity can be fully seen
+     */
+    public static boolean canEntityFullySee(Entity looker, Entity lookedAt, int maxDistance) {
+        if (looker.world != lookedAt.world) {
+            return false;
+        }
+        World world = looker.world;
+        Vec3d origin = new Vec3d(looker.getX(), looker.getEyeY(), looker.getZ());
+        Vec3d lookedAtEyes = lookedAt.getEyePos();
+        Vec3d lookedAtFeet = lookedAt.getPos();
+        if (origin.distanceTo(lookedAtEyes) > maxDistance || origin.distanceTo(lookedAtFeet) > maxDistance) {
+            return false;
+        }
+        return world.raycast(new RaycastContext(origin, lookedAtEyes, RaycastContext.ShapeType.COLLIDER,
+                RaycastContext.FluidHandling.NONE, looker)).getType() == HitResult.Type.MISS
+                && world.raycast(new RaycastContext(origin, lookedAtFeet, RaycastContext.ShapeType.COLLIDER,
+                RaycastContext.FluidHandling.NONE, looker)).getType() == HitResult.Type.MISS;
     }
 
 }

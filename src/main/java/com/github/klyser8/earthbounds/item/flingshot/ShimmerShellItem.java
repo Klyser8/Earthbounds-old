@@ -1,10 +1,6 @@
 package com.github.klyser8.earthbounds.item.flingshot;
 
-import com.github.klyser8.earthbounds.entity.GlowGreaseDropEntity;
-import com.github.klyser8.earthbounds.entity.ShimmerShellEntity;
-import com.github.klyser8.earthbounds.item.flingshot.Flingable;
-import com.github.klyser8.earthbounds.registry.EarthboundEntities;
-import com.github.klyser8.earthbounds.util.EarthMath;
+import com.github.klyser8.earthbounds.entity.misc.ShimmerShellEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;

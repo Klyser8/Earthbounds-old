@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:primordial_redstone"
+    },
+    "title": {
+      "translate": "advancement.earth.kill_rubro_with_rubro.title"
+    },
+    "description": {
+      "translate": "advancement.earth.kill_rubro_with_rubro.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/kill_with_rubro",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:killed_by_rubro",
+      "conditions": {
+        "entity": {
+          "type": "earth:rubro"
+        }
+      }
+    }
+  }
+}

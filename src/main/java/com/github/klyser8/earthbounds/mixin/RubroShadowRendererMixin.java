@@ -1,15 +1,12 @@
 package com.github.klyser8.earthbounds.mixin;
 
 import com.github.klyser8.earthbounds.MixinCallbacks;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
-import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
