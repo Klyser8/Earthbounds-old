@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PPP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "earth:primordial_redstone"
+    }
+  },
+  "result": {
+    "item": "earth:primordial_redstone_block",
+    "count": 1
+  }
+}

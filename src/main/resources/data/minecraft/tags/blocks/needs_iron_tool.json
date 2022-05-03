@@ -3,7 +3,15 @@
   "values": [
     "earth:redstone_fossil",
     "earth:gilded_redstone_fossil",
+    "earth:crystalline_redstone_fossil",
+    "earth:charred_redstone_fossil",
+    "earth:verdant_redstone_fossil",
+    "earth:crimson_redstone_fossil",
     "earth:deepslate_redstone_fossil",
-    "earth:deepslate_gilded_redstone_fossil"
+    "earth:deepslate_gilded_redstone_fossil",
+    "earth:deepslate_crystalline_redstone_fossil",
+    "earth:deepslate_charred_redstone_fossil",
+    "earth:deepslate_verdant_redstone_fossil",
+    "earth:deepslate_crimson_redstone_fossil"
   ]
 }

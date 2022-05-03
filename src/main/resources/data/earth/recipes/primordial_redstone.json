@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "earth:primordial_redstone_block"
+    }
+  ],
+  "result": {
+    "item": "earth:primordial_redstone",
+    "count": 9
+  }
+}

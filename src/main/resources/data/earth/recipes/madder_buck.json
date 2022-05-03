@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R ",
+    "RPR",
+    " R "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "earth:primordial_redstone"
+    }
+  },
+  "result": {
+    "item": "earth:madder_buck",
+    "count": 2
+  }
+}

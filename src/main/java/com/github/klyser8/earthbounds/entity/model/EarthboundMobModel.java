@@ -1,13 +1,10 @@
 package com.github.klyser8.earthbounds.entity.model;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.Earthen;
+import com.github.klyser8.earthbounds.entity.mob.Earthen;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
-
-import java.io.File;
 
 /**
  * Represents the model of a mob, who is an instance of Earthen.

@@ -22,7 +22,8 @@
         "item": {
           "items": [
             "minecraft:redstone",
-            "minecraft:redstone_block"
+            "minecraft:redstone_block",
+            "earth:primordial_redstone"
           ],
           "count": {
             "min": 1,

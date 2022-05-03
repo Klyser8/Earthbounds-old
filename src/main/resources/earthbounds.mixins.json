@@ -15,8 +15,10 @@
     "LightningResistanceMixin",
     "NauseaStatusEffectColorMixin",
     "RecipeBookGroupInjector",
+    "RubroShadowRendererMixin",
     "SpawnRestrictionsAccessor",
     "StopAttackSoundAgainstEarthenMixin",
+    "RubroAttackEntityInjector",
     "VelocityAffectingPosMixin",
     "VFXPosMixin"
   ],

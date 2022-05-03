@@ -46,7 +46,7 @@ public class PrecisionEnchantment extends Enchantment {
     }
 
     public float getDivergenceModifier(int level) {
-        return 1.5f * level;
+        return Math.max( 0.8f * level, 1);
     }
 
 }

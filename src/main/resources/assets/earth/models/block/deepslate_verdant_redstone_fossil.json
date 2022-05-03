@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "earth:block/deepslate_verdant_redstone_fossil"
+  }
+}

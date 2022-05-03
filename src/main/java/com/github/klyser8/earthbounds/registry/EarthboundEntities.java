@@ -1,8 +1,12 @@
 package com.github.klyser8.earthbounds.registry;
 
-import com.github.klyser8.earthbounds.entity.*;
+import com.github.klyser8.earthbounds.entity.misc.*;
+import com.github.klyser8.earthbounds.entity.mob.CarboraneaEntity;
+import com.github.klyser8.earthbounds.entity.mob.PertilyoEntity;
+import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import com.github.klyser8.earthbounds.entity.renderer.CarboraneaEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.CoalChunkEntityRenderer;
+import com.github.klyser8.earthbounds.entity.renderer.BuckEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.ShimmerShellEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.pertilyo.PertilyoEntityRenderer;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
@@ -18,7 +22,6 @@ import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
@@ -34,7 +37,7 @@ public class EarthboundEntities {
             FabricEntityTypeBuilder.createMob()
                     .spawnGroup(SpawnGroup.AMBIENT)
                     .entityFactory(RubroEntity::new)
-                    .dimensions(EntityDimensions.changing(0.95f, 0.8f))
+                    .dimensions(EntityDimensions.changing(0.85f, 0.8f))
                     .spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
                             RubroEntity::checkMobSpawn)
                     .build();
@@ -56,6 +59,16 @@ public class EarthboundEntities {
             new Identifier(MOD_ID, "shimmer_shell"),
             FabricEntityTypeBuilder.<ShimmerShellEntity>create(SpawnGroup.MISC, ShimmerShellEntity::new)
                     .dimensions(EntityDimensions.fixed(0.3f, 0.3f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
+    public static final EntityType<CopperBuckEntity> COPPER_BUCK = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "copper_buck"),
+            FabricEntityTypeBuilder.<CopperBuckEntity>create(SpawnGroup.MISC, CopperBuckEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.2f, 0.2f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
+    public static final EntityType<MadderBuckEntity> MADDER_BUCK = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "madder_buck"),
+            FabricEntityTypeBuilder.<MadderBuckEntity>create(SpawnGroup.MISC, MadderBuckEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.2f, 0.2f))
                     .trackRangeBlocks(256).trackedUpdateRate(1).build());
     public static final EntityType<GlowGreaseDropEntity> GLOW_GREASE = Registry.register(Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "glow_grease"),
@@ -89,6 +102,8 @@ public class EarthboundEntities {
         EntityRendererRegistry.register(PERTILYO, PertilyoEntityRenderer::new);
         EntityRendererRegistry.register(COAL_CHUNK, CoalChunkEntityRenderer::new);
         EntityRendererRegistry.register(SHIMMER_SHELL, ShimmerShellEntityRenderer::new);
+        EntityRendererRegistry.register(COPPER_BUCK, BuckEntityRenderer::new);
+        EntityRendererRegistry.register(MADDER_BUCK, BuckEntityRenderer::new);
     }
 
     @SuppressWarnings("ConstantConditions")

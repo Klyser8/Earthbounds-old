@@ -1,0 +1,123 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:deepslate_crystalline_redstone_fossil"
+    },
+    "title": {
+      "translate": "advancement.earth.find_all_fossils.title"
+    },
+    "description": {
+      "translate": "advancement.earth.find_all_fossils.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/break_rare_fossil",
+  "criteria": {
+    "stone": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:redstone_fossil"
+      }
+    },"gilded_stone": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:gilded_redstone_fossil"
+      }
+    },"crystalline_stone": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:crystalline_redstone_fossil"
+      }
+    },"charred_stone": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:charred_redstone_fossil"
+      }
+    },"verdant_stone": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:verdant_redstone_fossil"
+      }
+    },"crimson_stone": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:crimson_redstone_fossil"
+      }
+    },
+    "deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_redstone_fossil"
+      }
+    },"gilded_deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_gilded_redstone_fossil"
+      }
+    },"crystalline_deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_crystalline_redstone_fossil"
+      }
+    },"charred_deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_charred_redstone_fossil"
+      }
+    },"verdant_deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_verdant_redstone_fossil"
+      }
+    },"crimson_deepslate": {
+      "trigger": "earth:break_redstone_fossil",
+      "conditions": {
+        "block": "earth:deepslate_crimson_redstone_fossil"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "stone"
+    ],
+    [
+      "gilded_stone"
+    ],
+    [
+      "crystalline_stone"
+    ],
+    [
+      "charred_stone"
+    ],
+    [
+      "verdant_stone"
+    ],
+    [
+      "crimson_stone"
+    ],
+    [
+      "deepslate"
+    ],
+    [
+      "gilded_deepslate"
+    ],
+    [
+      "crystalline_deepslate"
+    ],
+    [
+      "charred_deepslate"
+    ],
+    [
+      "verdant_deepslate"
+    ],
+    [
+      "crimson_deepslate"
+    ]
+  ],
+  "rewards": {
+    "experience": 250
+  }
+}

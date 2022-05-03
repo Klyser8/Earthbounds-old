@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "earth:madder_buck"
+    },
+    "title": {
+      "translate": "advancement.earth.kill_with_rubro.title"
+    },
+    "description": {
+      "translate": "advancement.earth.kill_with_rubro.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/grow_up_rubro",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:killed_by_rubro"
+    }
+  }
+}
