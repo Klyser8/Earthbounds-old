@@ -91,10 +91,22 @@
       "earth:mob/rubro/rubro_hurt2",
       "earth:mob/rubro/rubro_hurt3"
     ]
+  },"entity.rubro.target": {
+    "sounds": [
+      "earth:mob/rubro/rubro_target"
+    ]
   },"entity.rubro.death": {
     "sounds": [
       "earth:mob/rubro/rubro_death"
     ]
+  },"block.redstone_fossil.creak": {
+  "sounds": [
+    "earth:mob/rubro/rubro_creak1",
+    "earth:mob/rubro/rubro_creak2",
+    "earth:mob/rubro/rubro_creak3",
+    "earth:mob/rubro/rubro_creak4"
+    ],
+  "subtitle": "subtitles.earth.block.redstone_fossil.creak"
   },"entity.pertilyo.fly_loop": {
     "sounds": [
       "earth:mob/pertilyo/pertilyo_fly_loop"
@@ -137,6 +149,10 @@
   },"entity.pertilyo.death": {
     "sounds": [
       "earth:mob/pertilyo/pertilyo_death"
+    ]
+  },"entity.madder_buck.land": {
+    "sounds": [
+      "earth:projectile/madder_buck/madder_buck_land1"
     ]
   },"item.flingshot.shoot": {
     "sounds": [

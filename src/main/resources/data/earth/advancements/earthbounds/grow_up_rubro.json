@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:redstone_block"
+    },
+    "title": {
+      "translate": "advancement.earth.grow_up_rubro.title"
+    },
+    "description": {
+      "translate": "advancement.earth.grow_up_rubro.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "earth:earthbounds/break_fossil",
+  "criteria": {
+    "requirement": {
+      "trigger": "earth:grow_up_rubro"
+    }
+  }
+}

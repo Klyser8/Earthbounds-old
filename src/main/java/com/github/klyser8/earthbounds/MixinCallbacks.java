@@ -1,7 +1,9 @@
 package com.github.klyser8.earthbounds;
 
 import com.github.klyser8.earthbounds.block.GlowGreaseSplatBlock;
-import com.github.klyser8.earthbounds.entity.Earthen;
+import com.github.klyser8.earthbounds.entity.mob.Earthen;
+import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
+import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import com.github.klyser8.earthbounds.registry.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,27 +14,21 @@ import net.minecraft.client.recipebook.RecipeBookGroup;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.recipe.Recipe;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class MixinCallbacks {
@@ -140,6 +136,13 @@ public class MixinCallbacks {
             dispenserBlockEntity.setStack(i, customBehavior.dispense(blockPointerImpl, itemStack));
             ci.cancel();
         }
+    }
+
+    public static float renderRubroShadow(Entity entity, float f) {
+        if (entity instanceof RubroEntity rubro && rubro.isBaby()) {
+            return Math.min(RubroEntityRenderer.MAX_SHADOW_RADIUS - (rubro.getPower() + 150f) / -1000f, RubroEntityRenderer.MAX_SHADOW_RADIUS) * 2;
+        }
+        return f;
     }
 
 }

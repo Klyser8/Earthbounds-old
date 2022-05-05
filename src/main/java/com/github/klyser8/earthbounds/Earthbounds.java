@@ -1,5 +1,6 @@
 package com.github.klyser8.earthbounds;
 
+import com.github.klyser8.earthbounds.event.LootTableLoadingEventHandler;
 import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
 import com.github.klyser8.earthbounds.mixin.BrewingRecipeRegistryAccessor;
 import com.github.klyser8.earthbounds.registry.*;
@@ -37,10 +38,13 @@ public class Earthbounds implements ModInitializer {
 
         EarthboundsAdvancementCriteria.register();
         EarthboundPotions.register();
+        EarthboundStatusEffects.register();
         initEvents();
     }
 
     private void initEvents() {
         PlayerBlockBreakEventHandler.init();
+        LootTableLoadingEventHandler.init();
+
     }
 }

@@ -1,18 +1,12 @@
 package com.github.klyser8.earthbounds.entity.goal;
 
-import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
 import com.github.klyser8.earthbounds.util.EarthUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.RedstoneOreBlock;
-import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Level;
 
 import java.util.EnumSet;
 import java.util.function.Predicate;

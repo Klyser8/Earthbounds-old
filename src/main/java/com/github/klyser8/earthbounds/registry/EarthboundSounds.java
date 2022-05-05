@@ -1,7 +1,5 @@
 package com.github.klyser8.earthbounds.registry;
 
-import com.github.klyser8.earthbounds.Earthbounds;
-import net.minecraft.client.gui.hud.SubtitlesHud;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -49,6 +47,8 @@ public class EarthboundSounds {
             new Identifier(MOD_ID, "entity.rubro.jump"));
     public static final SoundEvent RUBRO_HURT = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.hurt"));
+    public static final SoundEvent RUBRO_TARGET = new SoundEvent(
+            new Identifier(MOD_ID, "entity.rubro.target"));
     public static final SoundEvent RUBRO_DEATH = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.death"));
 
@@ -73,6 +73,8 @@ public class EarthboundSounds {
 
     public static final SoundEvent FLINGSHOT_SHOOT = new SoundEvent(
             new Identifier(MOD_ID, "item.flingshot.shoot"));
+    public static final SoundEvent MADDER_BUCK_LAND = new SoundEvent(
+            new Identifier(MOD_ID, "entity.madder_buck.land"));
 
     public static final SoundEvent GLOW_GREASE_PLACE = new SoundEvent(
             new Identifier(MOD_ID, "block.glow_grease.place"));
@@ -80,6 +82,8 @@ public class EarthboundSounds {
             new Identifier(MOD_ID, "block.glow_grease.break"));
     public static final SoundEvent GLOW_GREASE_STEP = new SoundEvent(
             new Identifier(MOD_ID, "block.glow_grease.step"));
+    public static final SoundEvent REDSTONE_FOSSIL_CREAK = new SoundEvent(
+            new Identifier(MOD_ID, "block.redstone_fossil.creak"));
 
     public static void register() {
         //Entities
@@ -103,6 +107,7 @@ public class EarthboundSounds {
         Registry.register(Registry.SOUND_EVENT, RUBRO_POUNCE_STRIKE.getId(), RUBRO_POUNCE_STRIKE);
         Registry.register(Registry.SOUND_EVENT, RUBRO_JUMP.getId(), RUBRO_JUMP);
         Registry.register(Registry.SOUND_EVENT, RUBRO_HURT.getId(), RUBRO_HURT);
+        Registry.register(Registry.SOUND_EVENT, RUBRO_TARGET.getId(), RUBRO_TARGET);
         Registry.register(Registry.SOUND_EVENT, RUBRO_DEATH.getId(), RUBRO_DEATH);
 
         Registry.register(Registry.SOUND_EVENT, PERTILYO_FLY_LOOP.getId(), PERTILYO_FLY_LOOP);
@@ -117,11 +122,13 @@ public class EarthboundSounds {
 
         //Items
         Registry.register(Registry.SOUND_EVENT, FLINGSHOT_SHOOT.getId(), FLINGSHOT_SHOOT);
+        Registry.register(Registry.SOUND_EVENT, MADDER_BUCK_LAND.getId(), MADDER_BUCK_LAND);
 
         //Blocks
         Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_PLACE.getId(), GLOW_GREASE_PLACE);
         Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_BREAK.getId(), GLOW_GREASE_BREAK);
         Registry.register(Registry.SOUND_EVENT, GLOW_GREASE_STEP.getId(), GLOW_GREASE_STEP);
+        Registry.register(Registry.SOUND_EVENT, REDSTONE_FOSSIL_CREAK.getId(), REDSTONE_FOSSIL_CREAK);
     }
 
     public class BlockSoundGroups {

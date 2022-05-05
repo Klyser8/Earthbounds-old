@@ -1,7 +1,7 @@
 package com.github.klyser8.earthbounds.entity.renderer.rubro;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -26,7 +26,7 @@ public class RubroRedstoneLayer extends GeoLayerRenderer<RubroEntity> {
     public void render(MatrixStack matrixStackIn, VertexConsumerProvider bufferIn, int packedLightIn,
                        RubroEntity rubro, float limbSwing, float limbSwingAmount, float partialTicks,
                        float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!rubro.isInvisible()) {
+        if (!rubro.isInvisible() && !rubro.isBaby()) {
             float strength = (float) rubro.getPower() / RubroEntity.POWER_LIMIT / 2.0f;
             this.getRenderer().render(getEntityModel().getModel(RUBRO_MODEL), rubro, partialTicks,
                     RenderLayer.getEyes(RUBRO_REDSTONE), matrixStackIn, bufferIn,

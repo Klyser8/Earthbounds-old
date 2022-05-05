@@ -14,7 +14,7 @@
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "earth:earthbounds/obtain_flingshot",
+  "parent": "earth:earthbounds/hit_pertilyo_with_copper_buck",
   "criteria": {
     "requirement": {
       "trigger": "earth:killed_by_shimmer_shell",

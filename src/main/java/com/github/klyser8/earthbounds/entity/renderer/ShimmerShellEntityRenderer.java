@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.entity.renderer;
 
-import com.github.klyser8.earthbounds.entity.ShimmerShellEntity;
+import com.github.klyser8.earthbounds.entity.misc.ShimmerShellEntity;
 import com.github.klyser8.earthbounds.entity.model.ShimmerShellEntityModel;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

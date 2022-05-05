@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.item.flingshot;
 
-import com.github.klyser8.earthbounds.entity.FlingingPotionEntity;
+import com.github.klyser8.earthbounds.entity.misc.FlingingPotionEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;

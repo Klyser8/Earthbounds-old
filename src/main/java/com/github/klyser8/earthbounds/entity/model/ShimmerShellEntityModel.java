@@ -1,10 +1,9 @@
 package com.github.klyser8.earthbounds.entity.model;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.ShimmerShellEntity;
+import com.github.klyser8.earthbounds.entity.misc.ShimmerShellEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.GeoModelProvider;
 
 public class ShimmerShellEntityModel extends AnimatedGeoModel<ShimmerShellEntity> {
 

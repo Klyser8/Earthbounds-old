@@ -1,7 +1,6 @@
 package com.github.klyser8.earthbounds.item.enchantment;
 
-import com.github.klyser8.earthbounds.entity.EarthboundEntityGroup;
-import com.github.klyser8.earthbounds.entity.Earthen;
+import com.github.klyser8.earthbounds.entity.mob.EarthboundEntityGroup;
 import net.minecraft.enchantment.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
@@ -13,11 +12,11 @@ import net.minecraft.item.PickaxeItem;
 
 public class CrumbleEnchantment extends Enchantment {
 
-    private final int BASE_POWER = 1;
-    private final int POWER_PER_LEVEl = 8;
+    private final int BASE_POWER = 12;
+    private final int POWER_PER_LEVEl = 16;
 
     public CrumbleEnchantment() {
-        super(Rarity.UNCOMMON, EnchantmentTarget.DIGGER, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
+        super(Rarity.RARE, EnchantmentTarget.DIGGER, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
     }
 
     @Override
@@ -32,7 +31,7 @@ public class CrumbleEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return 3;
     }
 
     @Override
@@ -66,14 +65,20 @@ public class CrumbleEnchantment extends Enchantment {
         return stack.getItem() instanceof PickaxeItem || stack.getItem() instanceof BookItem;
     }
 
-
-
     /**
-     * Extra damage to earthen entities is 2.5 * enchantment level
+     * Extra damage to earthen entities is:
+     * - 2.5 * ench level (If enchantment is above level 3)
+     * - 4.0 * ench level (Below level 3)
+     *
+     * Max ench level was decreased from 5 to 3 in 1.1.1, hence this formula.
      */
     @Override
     public float getAttackDamage(int level, EntityGroup group) {
-        return group == EarthboundEntityGroup.EARTHEN ? level * 2.5f : 0f;
+        if (level > 3) {
+            return group == EarthboundEntityGroup.EARTHEN ? level * 2.5f : 0f;
+        } else {
+            return group == EarthboundEntityGroup.EARTHEN ? level * 4.0f : 0f;
+        }
     }
 
 }

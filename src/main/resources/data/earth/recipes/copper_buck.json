@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "CFC",
+    " C "
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "earth:copper_buck",
+    "count": 4
+  }
+}

@@ -1,9 +1,7 @@
 package com.github.klyser8.earthbounds.entity.model;
 
 import com.github.klyser8.earthbounds.Earthbounds;
-import com.github.klyser8.earthbounds.entity.Earthen;
-import com.github.klyser8.earthbounds.entity.PertilyoEntity;
-import com.github.klyser8.earthbounds.entity.RubroEntity;
+import com.github.klyser8.earthbounds.entity.mob.PertilyoEntity;
 import com.github.klyser8.earthbounds.registry.EarthboundEntities;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;

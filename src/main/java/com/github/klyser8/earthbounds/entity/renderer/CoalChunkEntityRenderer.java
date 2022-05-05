@@ -1,6 +1,6 @@
 package com.github.klyser8.earthbounds.entity.renderer;
 
-import com.github.klyser8.earthbounds.entity.CoalChunkEntity;
+import com.github.klyser8.earthbounds.entity.misc.CoalChunkEntity;
 import com.github.klyser8.earthbounds.entity.Conductive;
 import com.github.klyser8.earthbounds.entity.model.CoalChunkEntityModel;
 import net.minecraft.client.render.RenderLayer;
