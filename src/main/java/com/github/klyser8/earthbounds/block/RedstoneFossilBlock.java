@@ -33,7 +33,15 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
     }
 
     @Override
-    protected void dropExperience(ServerWorld world, BlockPos pos, int size) {}
+    protected void dropExperience(ServerWorld world, BlockPos pos, int size) {
+        if (getDefaultState().isOf(EarthboundBlocks.REDSTONE_FOSSIL_BLOCK)
+                || getDefaultState().isOf(EarthboundBlocks.DEEPSLATE_REDSTONE_FOSSIL_BLOCK)) {
+            size = 5;
+        } else {
+            size = 15;
+        }
+        super.dropExperience(world, pos, size);
+    }
 
     @Override
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state,
