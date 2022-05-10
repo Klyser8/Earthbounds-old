@@ -1,0 +1,40 @@
+{
+  "type": "origins:multiple",
+  "shoot_buck": {
+    "type": "origins:fire_projectile",
+    "condition": {
+      "type": "origins:food_level",
+      "comparison": ">=",
+      "compare_to": 2
+    },
+    "entity_type": "earth:madder_buck",
+    "cooldown": 300,
+    "hud_render": {
+      "should_render": true,
+      "sprite_location": "earth:textures/gui/origins/earthen_resource_bar.png",
+      "bar_index": 0
+    },
+    "sound": "earth:item.flingshot.shoot",
+    "speed": 1,
+    "key": {
+      "key": "key.origins.primary_active"
+    }
+  },
+  "remove_redstone": {
+    "type": "origins:active_self",
+    "condition": {
+      "type": "origins:food_level",
+      "comparison": ">=",
+      "compare_to": 2
+    },
+    "cooldown": 300,
+    "key": {
+      "key": "key.origins.primary_active"
+    },
+    "entity_action": {
+      "type": "origins:feed",
+      "food": -2,
+      "saturation": 0
+    }
+  }
+}

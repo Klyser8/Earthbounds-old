@@ -1,0 +1,203 @@
+{
+  "type": "origins:multiple",
+  "hidden": true,
+  "modify_jump_height0": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": -0.05
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 0
+    }
+  },"modify_jump_height1": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": -0.04
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 1
+    }
+  },"modify_jump_height2": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": -0.03
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 2
+    }
+  },"modify_jump_height3": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": -0.02
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 3
+    }
+  },"modify_jump_height4": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": -0.01
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 4
+    }
+  },"modify_jump_height5": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 5
+    }
+  },"modify_jump_height6": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.018
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 6
+    }
+  },"modify_jump_height7": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.036
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 7
+    }
+  },"modify_jump_height8": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.054
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 8
+    }
+  },"modify_jump_height9": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.072
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 9
+    }
+  },"modify_jump_height10": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.090
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 10
+    }
+  },"modify_jump_height11": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.108
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 11
+    }
+  },"modify_jump_height12": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.126
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 12
+    }
+  },"modify_jump_height13": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.144
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 13
+    }
+  },"modify_jump_height14": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.162
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 14
+    }
+  },"modify_jump_height15": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.180
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 15
+    }
+  },"modify_jump_height16": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.198
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 16
+    }
+  },"modify_jump_height17": {
+    "type": "origins:modify_jump",
+    "modifier": {
+      "operation": "addition",
+      "value": 0.206
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": ">=",
+      "compare_to": 17
+    }
+  }
+}

@@ -5,6 +5,8 @@ import com.github.klyser8.earthbounds.entity.mob.Earthen;
 import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import com.github.klyser8.earthbounds.registry.*;
+import io.github.apace100.apoli.component.PowerHolderComponent;
+import io.github.apace100.apoli.power.Power;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -23,6 +25,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
@@ -143,6 +146,20 @@ public class MixinCallbacks {
             return Math.min(RubroEntityRenderer.MAX_SHADOW_RADIUS - (rubro.getPower() + 150f) / -1000f, RubroEntityRenderer.MAX_SHADOW_RADIUS) * 2;
         }
         return f;
+    }
+
+    public static boolean shouldRenderPowerOutline(PlayerEntity player) {
+        if (player == null || player.isSpectator()) {
+            return false;
+        }
+        PowerHolderComponent component = PowerHolderComponent.KEY.get(player);
+        for (Power power : component.getPowers()) {
+            if (power.getType().getIdentifier().equals(new Identifier(Earthbounds.MOD_ID, "power_food_replacement"))) {
+//                System.out.println("Saturation: " + player.getHungerManager().getSaturationLevel() + ", Alpha: " + player.getHungerManager().getSaturationLevel() / 20.0f);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

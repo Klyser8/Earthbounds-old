@@ -5,7 +5,7 @@ import com.github.klyser8.earthbounds.entity.goal.EscapeAttackerGoal;
 import com.github.klyser8.earthbounds.entity.goal.EscapeTargetGoal;
 import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
 import com.github.klyser8.earthbounds.registry.*;
-import com.github.klyser8.earthbounds.client.sound.RubroActiveSoundInstance;
+import com.github.klyser8.earthbounds.client.sound.PoweredOutsideSoundInstance;
 import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
 import com.github.klyser8.earthbounds.util.EarthMath;
 import com.github.klyser8.earthbounds.util.EarthUtil;
@@ -495,7 +495,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     @Override
     public void readFromPacket(MobSpawnS2CPacket packet) {
         super.readFromPacket(packet);
-        RubroActiveSoundInstance.playSound(this);
+        PoweredOutsideSoundInstance.playSound(this);
     }
 
     @Override
@@ -568,8 +568,8 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
                     if (wasBaby && !isBaby() && player instanceof ServerPlayerEntity serverPlayer && player.equals(getOwner())) {
                         EarthboundsAdvancementCriteria.GROW_UP_RUBRO.trigger(serverPlayer);
                     }
-                    playSound(EarthboundSounds.RUBRO_EAT,0.35f + powIncrease / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
-                    playSound(EarthboundSounds.RUBRO_CHARGE, 0.35f + powIncrease / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
+                    playSound(EarthboundSounds.ENTITY_EAT_REDSTONE,0.35f + powIncrease / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
+                    playSound(EarthboundSounds.ENTITY_CHARGE, 0.35f + powIncrease / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
                     playRedstoneParticles(powIncrease);
                     return ActionResult.success(true);
                 }
@@ -1183,7 +1183,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
                 }
             }
             if (digTicks % 15 == 0) {
-                playSound(EarthboundSounds.RUBRO_CHARGE,0.25f, 0.9f + random.nextFloat() / 5.0f);
+                playSound(EarthboundSounds.ENTITY_CHARGE,0.25f, 0.9f + random.nextFloat() / 5.0f);
                 playRedstoneParticles(10);
             }
             digTicks--;

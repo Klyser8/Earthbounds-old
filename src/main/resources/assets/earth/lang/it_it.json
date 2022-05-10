@@ -49,6 +49,17 @@
   "item.earth.rubro_spawn_egg": "Uovo Generatore di Rubro",
   "item.earth.pertilyo_spawn_egg": "Uovo Generatore di Pertilyo",
 
+  "item.earth.powered_beetroot": "Barbabietola Caricata",
+  "item.earth.cobbled_pebble": "Ciottolo di Pietrisco",
+  "item.earth.andesite_pebble": "Ciottolo di Andesite",
+  "item.earth.diorite_pebble": "Ciottolo di Diorite",
+  "item.earth.granite_pebble": "Ciottolo di Granito",
+  "item.earth.deepslate_pebble": "Ciottolo di Ardesia Profonda",
+  "item.earth.redstone_pebble": "Ciottolo di Redstone",
+  "item.earth.crimson_quartz": "Quarzo Cremisi",
+  "item.earth.blushed_flints": "Selce Arrossita",
+  "item.earth.red_brick": "Mattone Rosso",
+
   "entity.earth.carboranea": "Carboranea",
   "entity.earth.coal_chunk": "Tocco di Carbone",
   "entity.earth.rubro": "Rubro",
@@ -157,5 +168,8 @@
   "itemGroup.earth.placeables": "Piazzabili Earthbounds",
   "itemGroup.earth.combat": "Combattimento Earthbounds",
   "itemGroup.earth.misc": "Varie Earthbounds",
-  "itemGroup.earth.brewing": "Distillazione Earthbounds"
+  "itemGroup.earth.brewing": "Distillazione Earthbounds",
+
+  "origin.earth.rubian.name": "Rubian",
+  "origin.earth.rubian.description": "Individui caricati da redstone. Necessitano di caricarsi con Redstone regolarmente, senza dover consumar cibo. Inoltre, sono in buoni termini con altre creature Rubian."
 }

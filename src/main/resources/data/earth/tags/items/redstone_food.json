@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "earth:primordial_redstone",
+    "earth:powered_beetroot",
+    "earth:cobbled_pebble",
+    "earth:andesite_pebble",
+    "earth:diorite_pebble",
+    "earth:granite_pebble",
+    "earth:deepslate_pebble",
+    "earth:redstone_pebble",
+    "earth:red_brick",
+    "earth:crimson_quartz",
+    "earth:blushed_flints"
+  ]
+}

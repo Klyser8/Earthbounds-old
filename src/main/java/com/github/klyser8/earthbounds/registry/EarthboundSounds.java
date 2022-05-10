@@ -12,6 +12,18 @@ public class EarthboundSounds {
 
     public static final SoundEvent EARTHEN_HURT_WEAK = new SoundEvent(
             new Identifier(MOD_ID, "entity.earthen_hurt_weak"));
+
+    public static final SoundEvent ENTITY_ACTIVE_OUTSIDE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.generic.powered_outside"));
+    public static final SoundEvent ENTITY_ACTIVE_INSIDE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.generic.powered_inside"));
+    public static final SoundEvent ENTITY_CHARGE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.generic.charge"));
+    public static final SoundEvent ENTITY_POWER_ACTIVATE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.generic.power_activate"));
+    public static final SoundEvent ENTITY_EAT_REDSTONE = new SoundEvent(
+            new Identifier(MOD_ID, "entity.generic.eat_redstone"));
+
     public static final SoundEvent CARBORANEA_AMBIENT = new SoundEvent(
             new Identifier(MOD_ID, "entity.carboranea.ambient"));
     public static final SoundEvent CARBORANEA_SHAKE = new SoundEvent(
@@ -33,12 +45,6 @@ public class EarthboundSounds {
             new Identifier(MOD_ID, "entity.rubro.ambient"));
     public static final SoundEvent RUBRO_CREAK = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.creak"));
-    public static final SoundEvent RUBRO_ACTIVE = new SoundEvent(
-            new Identifier(MOD_ID, "entity.rubro.active"));
-    public static final SoundEvent RUBRO_CHARGE = new SoundEvent(
-            new Identifier(MOD_ID, "entity.rubro.charge"));
-    public static final SoundEvent RUBRO_EAT = new SoundEvent(
-            new Identifier(MOD_ID, "entity.rubro.eat"));
     public static final SoundEvent RUBRO_POUNCE = new SoundEvent(
             new Identifier(MOD_ID, "entity.rubro.pounce"));
     public static final SoundEvent RUBRO_POUNCE_STRIKE = new SoundEvent(
@@ -100,9 +106,11 @@ public class EarthboundSounds {
 
         Registry.register(Registry.SOUND_EVENT, RUBRO_AMBIENT.getId(), RUBRO_AMBIENT);
         Registry.register(Registry.SOUND_EVENT, RUBRO_CREAK.getId(), RUBRO_CREAK);
-        Registry.register(Registry.SOUND_EVENT, RUBRO_ACTIVE.getId(), RUBRO_ACTIVE);
-        Registry.register(Registry.SOUND_EVENT, RUBRO_CHARGE.getId(), RUBRO_CHARGE);
-        Registry.register(Registry.SOUND_EVENT, RUBRO_EAT.getId(), RUBRO_EAT);
+        Registry.register(Registry.SOUND_EVENT, ENTITY_ACTIVE_OUTSIDE.getId(), ENTITY_ACTIVE_OUTSIDE);
+        Registry.register(Registry.SOUND_EVENT, ENTITY_ACTIVE_INSIDE.getId(), ENTITY_ACTIVE_INSIDE);
+        Registry.register(Registry.SOUND_EVENT, ENTITY_CHARGE.getId(), ENTITY_CHARGE);
+        Registry.register(Registry.SOUND_EVENT, ENTITY_POWER_ACTIVATE.getId(), ENTITY_POWER_ACTIVATE);
+        Registry.register(Registry.SOUND_EVENT, ENTITY_EAT_REDSTONE.getId(), ENTITY_EAT_REDSTONE);
         Registry.register(Registry.SOUND_EVENT, RUBRO_POUNCE.getId(), RUBRO_POUNCE);
         Registry.register(Registry.SOUND_EVENT, RUBRO_POUNCE_STRIKE.getId(), RUBRO_POUNCE_STRIKE);
         Registry.register(Registry.SOUND_EVENT, RUBRO_JUMP.getId(), RUBRO_JUMP);

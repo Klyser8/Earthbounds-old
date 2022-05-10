@@ -1,0 +1,262 @@
+{
+  "type": "origins:multiple",
+  "replace_food_bar": {
+    "type": "origins:status_bar_texture",
+    "texture": "earth:textures/gui/origins/rubian_gui.png"
+  },
+  "modify_stats_0": {
+    "type": "origins:conditioned_attribute",
+    "modifiers": [
+      {
+        "attribute": "minecraft:generic.movement_speed",
+        "operation": "addition",
+        "value": -0.025,
+        "name": "Powered up speed bonus"
+      }
+    ],
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 0
+    }
+  },"modify_stats_1": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": -0.020,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 1
+    }
+  },"modify_stats_2": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": -0.015,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 2
+    }
+  },"modify_stats_3": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": -0.010,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 3
+    }
+  },"modify_stats_4": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": -0.005,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 4
+    }
+  },"modify_stats_5": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.00,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 5
+    }
+  },"modify_stats_6": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0025,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 6
+    }
+  },"modify_stats_7": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0050,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 7
+    }
+  },"modify_stats_8": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0075,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 8
+    }
+  },"modify_stats_9": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0100,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 9
+    }
+  },"modify_stats_10": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0125,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 10
+    }
+  },"modify_stats_11": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0150,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 11
+    }
+  },"modify_stats_12": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0175,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 12
+    }
+  },"modify_stats_13": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0200,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 13
+    }
+  },"modify_stats_14": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0225,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 14
+    }
+  },"modify_stats_15": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0250,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 15
+    }
+  },"modify_stats_16": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.0275,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 16
+    }
+  },"modify_stats_17": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "addition",
+      "value": 0.03,
+      "name": "Powered up speed bonus"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": ">=",
+      "compare_to": 17
+    }
+  }
+}

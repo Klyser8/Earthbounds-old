@@ -1,0 +1,257 @@
+{
+  "type": "origins:multiple",
+  "hidden": true,
+  "modify_attack_speed0": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": -0.5,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 0
+    }
+  },"modify_attack_speed1": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": -0.4,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 1
+    }
+  },"modify_attack_speed2": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": -0.3,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 2
+    }
+  },"modify_attack_speed3": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": -0.2,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 3
+    }
+  },"modify_attack_speed4": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": -0.1,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 4
+    }
+  },"modify_attack_speed5": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 5
+    }
+  },"modify_attack_speed6": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.03,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 6
+    }
+  },"modify_attack_speed7": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.06,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 7
+    }
+  },"modify_attack_speed8": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.09,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 8
+    }
+  },"modify_attack_speed9": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.12,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 9
+    }
+  },"modify_attack_speed10": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.15,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 10
+    }
+  },"modify_attack_speed11": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.18,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 11
+    }
+  },"modify_attack_speed12": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.21,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 12
+    }
+  },"modify_attack_speed13": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.24,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 13
+    }
+  },"modify_attack_speed14": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.27,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 14
+    }
+  },"modify_attack_speed15": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.30,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 15
+    }
+  },"modify_attack_speed16": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.33,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 16
+    }
+  },"modify_attack_speed17": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "addition",
+      "value": 0.36,
+      "name": "Modified attack speed"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": ">=",
+      "compare_to": 17
+    }
+  }
+}

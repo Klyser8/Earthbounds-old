@@ -7,14 +7,12 @@ import com.github.klyser8.earthbounds.util.EarthUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneOreBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -67,7 +65,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
                     (double)pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.spawnEntity(rubro);
             rubro.initializeFossil(isFossilOfDeepslate(state), maskType, -440 - world.random.nextInt(200), player);
-            world.playSound(null, pos, EarthboundSounds.RUBRO_EAT,
+            world.playSound(null, pos, EarthboundSounds.ENTITY_EAT_REDSTONE,
                     SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5);
         }
         if (player instanceof ServerPlayerEntity serverPlayer) {

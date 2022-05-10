@@ -1,5 +1,26 @@
 {
-  "entity.earthen_hurt_weak": {
+  "entity.generic.powered_outside": {
+    "sounds": [
+      "earth:generic/redstone_powered_outside"
+    ]
+  },"entity.generic.eat_redstone": {
+    "sounds": [
+      "earth:generic/redstone_eat1",
+      "earth:generic/redstone_eat2"
+    ]
+  },"entity.generic.charge": {
+    "sounds": [
+      "earth:generic/entity_charge"
+    ]
+  },"entity.generic.power_activate": {
+    "sounds": [
+      "earth:generic/power_activate"
+    ]
+  },"entity.generic.powered_inside": {
+    "sounds": [
+      "earth:generic/redstone_powered_inside"
+    ]
+  },"entity.earthen_hurt_weak": {
     "sounds": [
       "earth:mob/earthen_hurt_weak"
     ]
@@ -53,19 +74,6 @@
       "earth:mob/rubro/rubro_creak2",
       "earth:mob/rubro/rubro_creak3",
       "earth:mob/rubro/rubro_creak4"
-    ]
-  },"entity.rubro.active": {
-    "sounds": [
-      "earth:mob/rubro/rubro_active"
-    ]
-  },"entity.rubro.charge": {
-    "sounds": [
-      "earth:mob/rubro/rubro_charge"
-    ]
-  },"entity.rubro.eat": {
-    "sounds": [
-      "earth:mob/rubro/rubro_eat1",
-      "earth:mob/rubro/rubro_eat2"
     ]
   },"entity.rubro.pounce": {
     "sounds": [

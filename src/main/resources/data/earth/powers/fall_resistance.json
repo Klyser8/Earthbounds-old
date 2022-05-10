@@ -1,0 +1,12 @@
+{
+  "type": "origins:modify_damage_taken",
+  "damage_condition": {
+    "type": "origins:name",
+    "name": "fall"
+  },
+  "modifier": {
+    "name": "Fall damage resistance",
+    "operation": "multiply_total",
+    "value": -0.25
+  }
+}
