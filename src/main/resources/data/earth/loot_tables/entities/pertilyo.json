@@ -3,17 +3,18 @@
   "pools": [
     {
       "rolls": 1,
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "minecraft:string",
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 2.0
+                "min": 1,
+                "max": 2
               },
               "add": false
             },
@@ -21,21 +22,21 @@
               "function": "minecraft:looting_enchant",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 2.0
+                "min": 1,
+                "max": 2
               }
             }
-          ],
-          "name": "minecraft:string"
+          ]
         }
       ]
     },
     {
       "rolls": 1,
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "minecraft:copper_ingot",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -54,17 +55,17 @@
                 "max": 2
               }
             }
-          ],
-          "name": "minecraft:copper_ingot"
+          ]
         }
       ]
     },
     {
       "rolls": 1,
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "earth:glow_grease",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -83,13 +84,27 @@
                 "max": 1
               }
             }
-          ],
-          "name": "earth:glow_grease"
+          ]
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:killed_by_player"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "earth:pertilyo_rod",
+          "conditions": [
+            {
+              "condition": "minecraft:random_chance",
+              "chance": 0.1
+            }
+          ]
         }
       ]
     }

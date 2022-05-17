@@ -1,0 +1,19 @@
+{
+  "powers": [
+    "earth:hunger_immunity",
+    "earth:power_food_replacement",
+    "earth:modify_jump_height",
+    "earth:modify_attack_speed",
+    "earth:modify_attack_damage",
+    "earth:modify_dig_speed",
+    "earth:rubian_start",
+    "earth:only_redstone_food",
+    "earth:rubian_cuisine",
+    "earth:fall_resistance",
+    "earth:spawn_rubro",
+    "earth:no_swimming",
+    "earth:shoot_madder_buck"
+  ],
+  "icon": "earth:primordial_redstone",
+  "impact": 3
+}

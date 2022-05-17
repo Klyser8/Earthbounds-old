@@ -6,6 +6,7 @@ import com.github.klyser8.earthbounds.item.flingshot.ShimmerShellItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingingPotionItem;
 import com.github.klyser8.earthbounds.item.flingshot.FlingshotItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.LivingEntity;
@@ -108,7 +109,6 @@ public class EarthboundItems {
     public static final Item EARTHBOUNDS_ICON = new Item(new FabricItemSettings().rarity(Rarity.EPIC));
 
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON), true);
-    public static final Item PRIMORDIAL_REDSTONE = new Item(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON));
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
     public static final Item FLINGING_POTION = new FlingingPotionItem((new Item.Settings().maxCount(3).group(EarthboundItemGroup.BREWING)));
@@ -119,6 +119,17 @@ public class EarthboundItems {
     public static final Item SHIMMER_SHELL = new ShimmerShellItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32));
     public static final Item COPPER_BUCK = new BuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32), EarthboundEntities.COPPER_BUCK);
     public static final Item MADDER_BUCK = new BuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32), EarthboundEntities.MADDER_BUCK);
+    public static final Item PRIMORDIAL_REDSTONE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON).food(EarthboundFoodComponents.PRIMORDIAL_REDSTONE), 32);
+    public static final Item POWERED_BEETROOT = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON).food(EarthboundFoodComponents.POWERED_BEETROOT), 32);
+    public static Item COBBLED_PEBBLE;
+    public static Item ANDESITE_PEBBLE;
+    public static Item DIORITE_PEBBLE;
+    public static Item GRANITE_PEBBLE;
+    public static Item DEEPSLATE_PEBBLE;
+    public static Item REDSTONE_PEBBLE;
+    public static Item RED_BRICK;
+    public static Item BLUSHED_FLINTS;
+    public static Item CRIMSON_QUARTZ;
 
     public static final Item CARBORANEA_SPAWN_EGG = new SpawnEggItem(EarthboundEntities.CARBORANEA, 4671303,
             13913600, new Item.Settings().group(EarthboundItemGroup.MISC));
@@ -131,7 +142,6 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "earthbounds_icon"), EARTHBOUNDS_ICON);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_rod"), PERTILYO_ROD);
-        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone"), PRIMORDIAL_REDSTONE);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
         Registry.register(Registry.ITEM,
@@ -155,7 +165,38 @@ public class EarthboundItems {
                 new Identifier(Earthbounds.MOD_ID, "rubro_spawn_egg"), RUBRO_SPAWN_EGG);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "pertilyo_spawn_egg"), PERTILYO_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone"), PRIMORDIAL_REDSTONE);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "powered_beetroot"), POWERED_BEETROOT);
+        if (FabricLoaderImpl.INSTANCE.isModLoaded("origins")) {
+            COBBLED_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.COBBLED_PEBBLE), 16);
+            ANDESITE_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.ANDESITE_PEBBLE), 16);
+            DIORITE_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.DIORITE_PEBBLE), 16);
+            GRANITE_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.GRANITE_PEBBLE), 16);
+            DEEPSLATE_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.DEEPSLATE_PEBBLE), 16);
+            REDSTONE_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.REDSTONE_PEBBLE), 16);
+            RED_BRICK = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.RED_BRICK), 48);
+            BLUSHED_FLINTS = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.BLUSHED_FLINTS), 48);
+            CRIMSON_QUARTZ = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)
+                    .food(EarthboundFoodComponents.CRIMSON_QUARTZ), 48);
 
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "cobbled_pebble"), COBBLED_PEBBLE);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "andesite_pebble"), ANDESITE_PEBBLE);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "diorite_pebble"), DIORITE_PEBBLE);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "granite_pebble"), GRANITE_PEBBLE);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "deepslate_pebble"), DEEPSLATE_PEBBLE);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "redstone_pebble"), REDSTONE_PEBBLE);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "crimson_quartz"), CRIMSON_QUARTZ);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "blushed_flints"), BLUSHED_FLINTS);
+            Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "red_brick"), RED_BRICK);
+        }
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone_block"),
                 new BlockItem(EarthboundBlocks.PRIMORDIAL_REDSTONE_BLOCK,
                         new FabricItemSettings().rarity(Rarity.COMMON).group(EarthboundItemGroup.PLACEABLES)));

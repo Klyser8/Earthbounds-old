@@ -49,6 +49,17 @@
   "item.earth.rubro_spawn_egg": "Rubro Spawn Egg",
   "item.earth.pertilyo_spawn_egg": "Pertilyo Spawn Egg",
 
+  "item.earth.powered_beetroot": "Powered Beetroot",
+  "item.earth.cobbled_pebble": "Cobbled Pebble",
+  "item.earth.andesite_pebble": "Andesite Pebble",
+  "item.earth.diorite_pebble": "Diorite Pebble",
+  "item.earth.granite_pebble": "Granite Pebble",
+  "item.earth.deepslate_pebble": "Deepslate Pebble",
+  "item.earth.redstone_pebble": "Redstone Pebble",
+  "item.earth.crimson_quartz": "Crimson Quartz",
+  "item.earth.blushed_flints": "Blushed Flints",
+  "item.earth.red_brick": "Red Brick",
+
   "entity.earth.carboranea": "Carboranea",
   "entity.earth.coal_chunk": "Chunk of Coal",
   "entity.earth.rubro": "Rubro",
@@ -158,5 +169,24 @@
   "itemGroup.earth.placeables": "Earthbounds Placeables",
   "itemGroup.earth.combat": "Earthbounds Combat",
   "itemGroup.earth.misc": "Earthbounds Miscellaneous",
-  "itemGroup.earth.brewing": "Earthbounds Brewing"
+  "itemGroup.earth.brewing": "Earthbounds Brewing",
+
+  "origin.earth.rubian.name": "Rubian",
+  "origin.earth.rubian.description": "Rubians are redstone powered creatures. As such they must consume redstone to survive, and do not require food. Additionally, they are in good terms with other Rubian creatures.",
+
+  "power.earth.power_food_replacement.name": "Redstone Powered",
+  "power.earth.power_food_replacement.description": "You are powered by Redstone Foods, changing your attributes based on your power level.",
+  "power.earth.fall_resistance.name": "Fall Resistance",
+  "power.earth.fall_resistance.description": "You take 25% reduced damage from falls",
+  "power.earth.rubian_start.name": "Rubian Heritage",
+  "power.earth.rubian_start.description": "You start your journey with a Fossilized Rubro, 64 Redstone and 8 Primordial Redstone.",
+  "power.earth.only_redstone_food.name": "Tough Stomach",
+  "power.earth.only_redstone_food.description": "You can only eat Redstone Foods.",
+  "power.earth.rubian_cuisine.name": "Rubian Cuisine",
+  "power.earth.rubian_cuisine.description": "You've got access to special Redstone Food recipes.",
+  "power.earth.no_swimming.name": "Dense Body",
+  "power.earth.no_swimming.description": "Due to your weight, you are unable to swim.",
+  "power.earth.shoot_madder_buck.name": "Madder Buck",
+  "power.earth.shoot_madder_buck.description": "Using 2 redstone (hunger) points, you can shoot a Madder Buck."
+
 }

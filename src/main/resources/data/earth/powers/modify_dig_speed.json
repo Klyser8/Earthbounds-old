@@ -1,0 +1,203 @@
+{
+  "type": "origins:multiple",
+  "hidden": true,
+  "modify_dig_speed0": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.25
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 0
+    }
+  },"modify_dig_speed1": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.220
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 1
+    }
+  },"modify_dig_speed2": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.190
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 2
+    }
+  },"modify_dig_speed3": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.160
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 3
+    }
+  },"modify_dig_speed4": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.130
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 4
+    }
+  },"modify_dig_speed5": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 5
+    }
+  },"modify_dig_speed6": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.100
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 6
+    }
+  },"modify_dig_speed7": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.066
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 7
+    }
+  },"modify_dig_speed8": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": -0.033
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 8
+    }
+  },"modify_dig_speed9": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 9
+    }
+  },"modify_dig_speed10": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.033
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 10
+    }
+  },"modify_dig_speed11": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 11
+    }
+  },"modify_dig_speed12": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.066
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 12
+    }
+  },"modify_dig_speed13": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.1
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 13
+    }
+  },"modify_dig_speed14": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.133
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 14
+    }
+  },"modify_dig_speed15": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.175
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 15
+    }
+  },"modify_dig_speed16": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.21
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 16
+    }
+  },"modify_dig_speed17": {
+    "type": "origins:modify_break_speed",
+    "modifier": {
+      "operation": "multiply_total",
+      "value": 0.25
+    },
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": ">=",
+      "compare_to": 17
+    }
+  }
+}

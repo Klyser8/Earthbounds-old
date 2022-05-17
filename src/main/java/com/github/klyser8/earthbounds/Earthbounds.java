@@ -4,7 +4,6 @@ import com.github.klyser8.earthbounds.event.LootTableLoadingEventHandler;
 import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
 import com.github.klyser8.earthbounds.mixin.BrewingRecipeRegistryAccessor;
 import com.github.klyser8.earthbounds.registry.*;
-import com.github.klyser8.earthbounds.registry.features.EarthboundConfiguredFeatures;
 import com.github.klyser8.earthbounds.registry.features.EarthboundFeatures;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Items;

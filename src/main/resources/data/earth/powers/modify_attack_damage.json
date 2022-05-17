@@ -1,0 +1,257 @@
+{
+  "type": "origins:multiple",
+  "hidden": true,
+  "modify_attack_damage0": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.5,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 0
+    }
+  },"modify_attack_damage1": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.45,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 1
+    }
+  },"modify_attack_damage2": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.40,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 2
+    }
+  },"modify_attack_damage3": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.35,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 3
+    }
+  },"modify_attack_damage4": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.30,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 4
+    }
+  },"modify_attack_damage5": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.25,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 5
+    }
+  },"modify_attack_damage6": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.20,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 6
+    }
+  },"modify_attack_damage7": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.15,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 7
+    }
+  },"modify_attack_damage8": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.10,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 8
+    }
+  },"modify_attack_damage9": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": -0.05,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 9
+    }
+  },"modify_attack_damage10": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.0,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 10
+    }
+  },"modify_attack_damage11": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.04,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 11
+    }
+  },"modify_attack_damage12": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.08,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 12
+    }
+  },"modify_attack_damage13": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.12,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 13
+    }
+  },"modify_attack_damage14": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.16,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 14
+    }
+  },"modify_attack_damage15": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.20,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 15
+    }
+  },"modify_attack_damage16": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.24,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": "==",
+      "compare_to": 16
+    }
+  },"modify_attack_damage17": {
+    "type": "origins:conditioned_attribute",
+    "modifier": {
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_total",
+      "value": 0.28,
+      "name": "Modified attack damage"
+    },
+    "tick_rate": 10,
+    "condition": {
+      "type": "origins:saturation_level",
+      "comparison": ">=",
+      "compare_to": 17
+    }
+  }
+}

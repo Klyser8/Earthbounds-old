@@ -1,0 +1,48 @@
+{
+  "type": "origins:multiple",
+  "ignore_water": {
+    "type": "origins:ignore_water"
+  },
+  "slow_in_water": {
+    "type": "origins:modify_falling",
+    "velocity": 0.01,
+    "take_fall_damage": false,
+    "condition": {
+      "type": "origins:fluid_height",
+      "fluid": "minecraft:water",
+      "comparison": ">",
+      "compare_to": 0
+    }
+  },
+  "modify_speed": {
+  "type": "origins:conditioned_attribute",
+  "modifiers": [
+    {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "multiply_total",
+      "value": -0.5,
+      "name": "Water slowness"
+    }
+  ],
+  "tick_rate": 2,
+    "condition": {
+      "type": "origins:fluid_height",
+      "fluid": "minecraft:water",
+      "comparison": ">",
+      "compare_to": 0
+    }
+  },
+  "modify_jump": {
+  "type": "origins:modify_jump",
+  "modifier": {
+    "operation": "multiply_total",
+    "value": -0.25
+  },
+  "condition": {
+    "type": "origins:fluid_height",
+    "fluid": "minecraft:water",
+    "comparison": ">",
+    "compare_to": 0
+  }
+}
+}

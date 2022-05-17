@@ -1,0 +1,28 @@
+{
+  "type": "origins:multiple",
+  "prevent_food": {
+    "type": "origins:prevent_item_use",
+    "item_condition": {
+      "type": "origins:and",
+      "conditions": [
+        {
+          "type": "origins:food"
+        },
+        {
+          "type": "origins:ingredient",
+          "ingredient": {
+            "tag": "earth:redstone_food"
+          },
+          "inverted": true
+        }
+      ]
+    }
+  },
+  "prevent_cake": {
+    "type": "origins:prevent_block_use",
+    "block_condition": {
+      "type": "origins:block",
+      "block": "minecraft:cake"
+    }
+  }
+}

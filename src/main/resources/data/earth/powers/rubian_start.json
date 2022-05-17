@@ -1,0 +1,13 @@
+{
+  "type": "origins:starting_equipment",
+  "stacks": [
+    {
+      "item": "earth:primordial_redstone",
+      "amount": 8
+    },
+    {
+      "item": "minecraft:redstone",
+      "amount": 64
+    }
+  ]
+}

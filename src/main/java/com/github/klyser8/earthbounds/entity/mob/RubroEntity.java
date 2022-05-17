@@ -1,14 +1,16 @@
 package com.github.klyser8.earthbounds.entity.mob;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.OriginsCallbacks;
 import com.github.klyser8.earthbounds.entity.goal.EscapeAttackerGoal;
 import com.github.klyser8.earthbounds.entity.goal.EscapeTargetGoal;
 import com.github.klyser8.earthbounds.event.PlayerBlockBreakEventHandler;
 import com.github.klyser8.earthbounds.registry.*;
-import com.github.klyser8.earthbounds.client.sound.RubroActiveSoundInstance;
+import com.github.klyser8.earthbounds.client.sound.PoweredOutsideSoundInstance;
 import com.github.klyser8.earthbounds.util.AdvancedBlockPos;
 import com.github.klyser8.earthbounds.util.EarthMath;
 import com.github.klyser8.earthbounds.util.EarthUtil;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -45,6 +47,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -495,7 +498,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     @Override
     public void readFromPacket(MobSpawnS2CPacket packet) {
         super.readFromPacket(packet);
-        RubroActiveSoundInstance.playSound(this);
+        PoweredOutsideSoundInstance.playSound(this);
     }
 
     @Override
@@ -529,23 +532,42 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
             return result;
         }
         ItemStack stack = player.getStackInHand(hand);
-        boolean isStackRedstone = stack.isOf(Items.REDSTONE)
-                || stack.isOf(Items.REDSTONE_BLOCK)
-                || stack.isOf(EarthboundItems.PRIMORDIAL_REDSTONE);
+        boolean isStackRedstone = false;
         int powIncrease = 0;
+        float healAmount = 0;
         if (stack.isOf(Items.REDSTONE)) {
             powIncrease = 1;
+            isStackRedstone = true;
         } else if (stack.isOf(Items.REDSTONE_BLOCK)) {
             powIncrease = 9;
+            isStackRedstone = true;
         } else if (stack.isOf(EarthboundItems.PRIMORDIAL_REDSTONE)) {
-            powIncrease = 32;
+            powIncrease = 40;
+            isStackRedstone = true;
+            healAmount = 10;
+        } else if (stack.isOf(EarthboundItems.COBBLED_PEBBLE) || stack.isOf(EarthboundItems.ANDESITE_PEBBLE)
+                || stack.isOf(EarthboundItems.DIORITE_PEBBLE) || stack.isOf(EarthboundItems.GRANITE_PEBBLE)
+                || stack.isOf(EarthboundItems.DEEPSLATE_PEBBLE)) {
+            powIncrease = 5;
+            isStackRedstone = true;
+            healAmount = 2;
+        } else if (stack.isOf(EarthboundItems.REDSTONE_PEBBLE)) {
+            powIncrease = 25;
+            isStackRedstone = true;
+            healAmount = 4;
+        } else if (stack.isOf(EarthboundItems.BLUSHED_FLINTS)
+                || stack.isOf(EarthboundItems.CRIMSON_QUARTZ) || stack.isOf(EarthboundItems.RED_BRICK)) {
+            powIncrease = 50;
+            isStackRedstone = true;
+            healAmount = 6;
+        } else if (stack.isOf(EarthboundItems.POWERED_BEETROOT)) {
+            powIncrease = 25;
+            isStackRedstone = true;
+            healAmount = 5;
         }
-        //How much to heal entity by
-        float healAmount = 0;
-        //Maximum hp that can be restored
-        float maxHeal = 10;
-        if (stack.isOf(EarthboundItems.PRIMORDIAL_REDSTONE) && getHealth() != getMaxHealth()) {
-            healAmount = getHealth() + maxHeal <= getMaxHealth() ? maxHeal : getMaxHealth() - getHealth();
+        //If health + heal > max health, heal until max health. Otherwise, heal by heal amount.
+        healAmount = Math.min(healAmount, getMaxHealth() - getHealth());
+        if (healAmount > 0 && getHealth() < getMaxHealth()) {
             heal(healAmount);
             if (!player.getAbilities().creativeMode) {
                 stack.decrement(1);
@@ -557,22 +579,19 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
             return boolResult ? ActionResult.CONSUME : ActionResult.PASS;
         }
         if (isStackRedstone) {
-            powIncrease = (int) Math.max(0, powIncrease - healAmount * 5);
             if (getPower() + powIncrease / 2 < getMaxPower()) {
-                if (powIncrease > 0) {
-                    if (!player.getAbilities().creativeMode) {
-                        stack.decrement(1);
-                    }
-                    updatePower(getPower() + powIncrease, false);
-                    //Advancement gets triggered if the rubro was a baby before being fed, and is now an adult.
-                    if (wasBaby && !isBaby() && player instanceof ServerPlayerEntity serverPlayer && player.equals(getOwner())) {
-                        EarthboundsAdvancementCriteria.GROW_UP_RUBRO.trigger(serverPlayer);
-                    }
-                    playSound(EarthboundSounds.RUBRO_EAT,0.35f + powIncrease / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
-                    playSound(EarthboundSounds.RUBRO_CHARGE, 0.35f + powIncrease / 20f, getSoundPitch() + random.nextFloat() / 5.0f);
-                    playRedstoneParticles(powIncrease);
-                    return ActionResult.success(true);
+                if (!player.getAbilities().creativeMode) {
+                    stack.decrement(1);
                 }
+                updatePower(getPower() + powIncrease, false);
+                //Advancement gets triggered if the rubro was a baby before being fed, and is now an adult.
+                if (wasBaby && !isBaby() && player instanceof ServerPlayerEntity serverPlayer && player.equals(getOwner())) {
+                    EarthboundsAdvancementCriteria.GROW_UP_RUBRO.trigger(serverPlayer);
+                }
+                playSound(EarthboundSounds.ENTITY_EAT_REDSTONE,0.35f + powIncrease / 50f, getSoundPitch() + random.nextFloat() / 5.0f);
+                playSound(EarthboundSounds.ENTITY_CHARGE, 0.35f + powIncrease / 50f, getSoundPitch() + random.nextFloat() / 5.0f);
+                playRedstoneParticles(powIncrease);
+                return ActionResult.success(true);
             }
         }
         if (!result.isAccepted() && isFromFossil() && isOwner(player) && !isStackRedstone) {
@@ -606,6 +625,11 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     @Override
     public boolean cannotDespawn() {
         return getOwner() != null;
+    }
+
+    @Override
+    public boolean canImmediatelyDespawn(double distanceSquared) {
+        return getOwner() == null;
     }
 
     @Nullable
@@ -1176,7 +1200,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
                 }
             }
             if (digTicks % 15 == 0) {
-                playSound(EarthboundSounds.RUBRO_CHARGE,0.25f, 0.9f + random.nextFloat() / 5.0f);
+                playSound(EarthboundSounds.ENTITY_CHARGE,0.25f, 0.9f + random.nextFloat() / 5.0f);
                 playRedstoneParticles(10);
             }
             digTicks--;
@@ -1844,8 +1868,10 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     class RedstoneTargetGoal extends ActiveTargetGoal<PlayerEntity> {
 
         public RedstoneTargetGoal() {
+
             super(RubroEntity.this, PlayerEntity.class, 10, false, true,
-                    entity -> (!entity.isHolding(Items.REDSTONE) && !entity.isHolding(Items.REDSTONE_BLOCK))
+                    entity -> (!entity.isHolding(Items.REDSTONE) && !entity.isHolding(Items.REDSTONE_BLOCK)
+                            && !entity.isHolding(EarthboundItems.PRIMORDIAL_REDSTONE))
                             || (entity instanceof PlayerEntity player
                             && PlayerBlockBreakEventHandler.getRedstoneBreakTimes().containsKey(player)
                             && world.getTime() - PlayerBlockBreakEventHandler.getRedstoneBreakTimes().get(player)<3600));
@@ -1856,9 +1882,16 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
             if (isBaby() || isActive() || isFromFossil()) {
                 return false;
             }
-            return super.canStart() && getPower() > getMaxPower() * 0.4;
+            boolean canStart = super.canStart() && getPower() > getMaxPower() * 0.4;
+            if (targetEntity instanceof PlayerEntity player) {
+                if (FabricLoaderImpl.INSTANCE.isModLoaded("origins")) {
+                    if (OriginsCallbacks.isPlayerRubian(player)) {
+                        return false;
+                    }
+                }
+            }
+            return canStart;
         }
-
     }
 
     class RubiaTargetGoal extends ActiveTargetGoal<LivingEntity> {

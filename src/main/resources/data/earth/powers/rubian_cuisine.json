@@ -1,0 +1,225 @@
+{
+  "type": "origins:multiple",
+  "cobbled_pebble": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/cobbled_pebble",
+      "type": "minecraft:crafting_shapeless",
+      "group": "pebble",
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:cobblestone"
+        },
+        {
+          "item": "minecraft:cobblestone"
+        }
+      ],
+      "result": {
+        "item": "earth:cobbled_pebble"
+      }
+    }
+  },
+  "andesite_pebble": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/andesite_pebble",
+      "type": "minecraft:crafting_shapeless",
+      "group": "pebble",
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:andesite"
+        },
+        {
+          "item": "minecraft:andesite"
+        }
+      ],
+      "result": {
+        "item": "earth:andesite_pebble"
+      }
+    }
+  },
+  "diorite_pebble": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/diorite_pebble",
+      "type": "minecraft:crafting_shapeless",
+      "group": "pebble",
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:diorite"
+        },
+        {
+          "item": "minecraft:diorite"
+        }
+      ],
+      "result": {
+        "item": "earth:diorite_pebble"
+      }
+    }
+  },
+  "granite_pebble": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/granite_pebble",
+      "type": "minecraft:crafting_shapeless",
+      "group": "pebble",
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:granite"
+        },
+        {
+          "item": "minecraft:granite"
+        }
+      ],
+      "result": {
+        "item": "earth:granite_pebble"
+      }
+    }
+  },
+  "deepslate_pebble": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/deepslate_pebble",
+      "type": "minecraft:crafting_shapeless",
+      "group": "pebble",
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:cobbled_deepslate"
+        },
+        {
+          "item": "minecraft:cobbled_deepslate"
+        }
+      ],
+      "result": {
+        "item": "earth:deepslate_pebble"
+      }
+    }
+  },
+  "redstone_pebble": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/redstone_pebble",
+      "type": "minecraft:crafting_shapeless",
+      "group": "pebble",
+      "ingredients": [
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone"
+        },
+        {
+          "item": "minecraft:redstone_block"
+        }
+      ],
+      "result": {
+        "item": "earth:redstone_pebble"
+      }
+    }
+  },
+  "red_brick": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/red_brick",
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "RRR",
+        "BBB",
+        "RRR"
+      ],
+      "key": {
+        "R": {
+          "item": "minecraft:redstone"
+        },
+        "B": {
+          "item": "minecraft:brick"
+        }
+      },
+      "result": {
+        "item": "earth:red_brick",
+        "count": 1
+      }
+    }
+  },
+  "blushed_flints": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/blushed_flints",
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "RRR",
+        "FRF",
+        "RRR"
+      ],
+      "key": {
+        "R": {
+          "item": "minecraft:redstone"
+        },
+        "F": {
+          "item": "minecraft:flint"
+        }
+      },
+      "result": {
+        "item": "earth:blushed_flints",
+        "count": 1
+      }
+    }
+  },
+  "crimson_quartz": {
+    "type": "origins:recipe",
+    "recipe": {
+      "id": "earth:rubian/crimson_quartz",
+      "type": "minecraft:crafting_shaped",
+      "pattern": [
+        "RRR",
+        "QRQ",
+        "RRR"
+      ],
+      "key": {
+        "R": {
+          "item": "minecraft:redstone"
+        },
+        "Q": {
+          "item": "minecraft:quartz"
+        }
+      },
+      "result": {
+        "item": "earth:crimson_quartz",
+        "count": 1
+      }
+    }
+  }
+}

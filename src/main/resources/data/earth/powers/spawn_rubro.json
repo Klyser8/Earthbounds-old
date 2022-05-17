@@ -1,0 +1,25 @@
+{
+  "type": "origins:multiple",
+  "hidden": true,
+  "spawn_rubro": {
+    "type": "origins:action_on_callback",
+    "entity_action_chosen": {
+      "type": "origins:spawn_entity",
+      "entity_type": "earth:rubro",
+      "tag": "{FromFossil:1,MinPower:-600,IsAsleep:0b,MaskType:0,Deepslate:0b,MaxPower:150,Power:-600}"
+    },
+    "execute_chosen_when_orb": true
+  },
+  "set_owner": {
+    "type": "origins:action_on_callback",
+    "entity_action_chosen": {
+      "type": "origins:delay",
+      "ticks": 5,
+      "action": {
+        "type": "origins:execute_command",
+        "command": "data modify entity @e[type=earth:rubro,sort=nearest,limit=1] Owner set from entity @s UUID"
+      }
+    },
+    "execute_chosen_when_orb": true
+  }
+}

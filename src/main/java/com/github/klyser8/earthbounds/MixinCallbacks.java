@@ -5,6 +5,7 @@ import com.github.klyser8.earthbounds.entity.mob.Earthen;
 import com.github.klyser8.earthbounds.entity.mob.RubroEntity;
 import com.github.klyser8.earthbounds.entity.renderer.rubro.RubroEntityRenderer;
 import com.github.klyser8.earthbounds.registry.*;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -143,6 +144,13 @@ public class MixinCallbacks {
             return Math.min(RubroEntityRenderer.MAX_SHADOW_RADIUS - (rubro.getPower() + 150f) / -1000f, RubroEntityRenderer.MAX_SHADOW_RADIUS) * 2;
         }
         return f;
+    }
+
+    public static boolean shouldRenderPowerOutline(PlayerEntity player) {
+        if (player == null || player.isSpectator() || !FabricLoaderImpl.INSTANCE.isModLoaded("origins")) {
+            return false;
+        }
+        return OriginsCallbacks.shouldRenderPowerOutline(player);
     }
 
 }
