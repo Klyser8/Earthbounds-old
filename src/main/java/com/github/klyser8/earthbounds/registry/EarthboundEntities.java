@@ -93,7 +93,7 @@ public class EarthboundEntities {
         BiomeModifications.addSpawn(BiomeSelectors.all(),
                 SpawnGroup.AMBIENT, EarthboundEntities.RUBRO, 36, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DRIPSTONE_CAVES),
-                SpawnGroup.AMBIENT, EarthboundEntities.PERTILYO, 10, 1, 1);
+                SpawnGroup.AMBIENT, EarthboundEntities.PERTILYO, 20, 1, 1);
     }
 
     public static void registerRenderers() {

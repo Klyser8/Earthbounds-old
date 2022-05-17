@@ -13,8 +13,12 @@
   "set_owner": {
     "type": "origins:action_on_callback",
     "entity_action_chosen": {
-      "type": "origins:execute_command",
-      "command": "data modify entity @e[type=earth:rubro,sort=nearest,limit=1] Owner set from entity @s UUID"
+      "type": "origins:delay",
+      "ticks": 5,
+      "action": {
+        "type": "origins:execute_command",
+        "command": "data modify entity @e[type=earth:rubro,sort=nearest,limit=1] Owner set from entity @s UUID"
+      }
     },
     "execute_chosen_when_orb": true
   }

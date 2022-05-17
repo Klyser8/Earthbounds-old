@@ -1,13 +1,14 @@
 package com.github.klyser8.earthbounds.item;
 
 import com.github.klyser8.earthbounds.Earthbounds;
+import com.github.klyser8.earthbounds.OriginsCallbacks;
 import com.github.klyser8.earthbounds.client.ClientCallbacks;
+import com.github.klyser8.earthbounds.registry.EarthboundItems;
 import com.github.klyser8.earthbounds.registry.EarthboundSounds;
-import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.apace100.apoli.power.Power;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DustParticleEffect;
@@ -34,10 +35,15 @@ public class RedstoneFoodItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        PowerHolderComponent component = PowerHolderComponent.KEY.get(user);
-        for (Power power : component.getPowers()) {
-            if (power.getType().getIdentifier().equals(new Identifier(Earthbounds.MOD_ID, "only_redstone_food"))) {
-                return super.use(world, user, hand);
+        if (FabricLoaderImpl.INSTANCE.isModLoaded("origins")) {
+            if (OriginsCallbacks.doesPlayerHaveRedstoneFoodPower(user)) {
+                FoodComponent component = user.getStackInHand(hand).getItem().getFoodComponent();
+                if (component == null || user.getHungerManager().getSaturationLevel() + component.getSaturationModifier() >
+                        getMaxSaturationModifier(user.getStackInHand(hand))) {
+                    return TypedActionResult.fail(user.getStackInHand(hand));
+                } else {
+                    return super.use(world, user, hand);
+                }
             }
         }
         return TypedActionResult.fail(user.getStackInHand(hand));
@@ -52,7 +58,7 @@ public class RedstoneFoodItem extends Item {
                         user.getParticleX(0.5), user.getRandomBodyY(), user.getParticleZ(0.5),
                         0, 0, 0);
             }
-            if (player.getHungerManager().getSaturationLevel() == 0) {
+            if (player.getHungerManager().getSaturationLevel() <= 8) {
                 ClientCallbacks.startPoweredSoundInstance(player);
             }
         }
@@ -69,5 +75,11 @@ public class RedstoneFoodItem extends Item {
         return EarthboundSounds.RUBRO_CREAK;
     }
 
+    public float getMaxSaturationModifier(ItemStack stack) {
+        if (stack.getItem().getFoodComponent() == null) {
+            return 0;
+        }
+        return stack.getItem().getFoodComponent().getSaturationModifier() * 3;
+    }
 
 }

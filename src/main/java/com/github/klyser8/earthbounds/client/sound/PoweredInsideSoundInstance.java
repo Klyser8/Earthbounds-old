@@ -50,8 +50,8 @@ public class PoweredInsideSoundInstance extends MovingSoundInstance {
             setDone();
             return;
         }
-        this.volume = player.getHungerManager().getSaturationLevel() / 40;
-        if (player.getHungerManager().getSaturationLevel() == 0) {
+        this.volume = player.getHungerManager().getSaturationLevel() / 60;
+        if (player.getHungerManager().getSaturationLevel() <= 8) {
             setDone();
         }
         this.x = player.getX();

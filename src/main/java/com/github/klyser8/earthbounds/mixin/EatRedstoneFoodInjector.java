@@ -30,20 +30,11 @@ public class EatRedstoneFoodInjector {
             if (foodComponent == null) {
                 return;
             }
+            if (foodLevel == 20) {
+                saturationLevel = Math.min(foodComponent.getSaturationModifier() + saturationLevel, (float) this.foodLevel);
+            }
             foodLevel = Math.min(foodComponent.getHunger() + foodLevel, 20);
-/*            if (earthPlayer.world.isClient && saturationLevel == 0 && foodComponent.getSaturationModifier() > 0) {
-                System.out.println("GO");
-                MinecraftClient.getInstance().getSoundManager().play(new PoweredOutsideSoundInstance(earthPlayer));
-            }*/
-            saturationLevel = Math.min(foodComponent.getSaturationModifier() + saturationLevel, (float)this.foodLevel);
             ci.cancel();
         }
-    }
-
-    @Inject(method = "update", at = @At("TAIL"))
-    public void updateInject(PlayerEntity player, CallbackInfo ci) {
-/*        if (earthPlayer == null) {
-            earthPlayer = player;
-        }*/
     }
 }

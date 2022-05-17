@@ -22,16 +22,14 @@ public abstract class BurpSoundInjector extends LivingEntity {
 
     @Shadow protected HungerManager hungerManager;
 
-    @Shadow public abstract HungerManager getHungerManager();
-
     protected BurpSoundInjector(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    @Inject(method = "eatFood", at = @At(value = "TAIL"))
+    @Inject(method = "eatFood", at = @At(value = "HEAD"))
     public void eatRedstoneInjector(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (stack.getItem() instanceof RedstoneFoodItem redstone && redstone.getFoodComponent() != null
-                && redstone.getFoodComponent().getSaturationModifier() > 0) {
+                && redstone.getFoodComponent().getSaturationModifier() > 0 && hungerManager.getFoodLevel() == 20) {
             world.playSound(null, getX(), getY(), getZ(), EarthboundSounds.ENTITY_CHARGE, SoundCategory.PLAYERS, 0.5f, world.random.nextFloat() * 0.1f + 0.9f);
         }
     }

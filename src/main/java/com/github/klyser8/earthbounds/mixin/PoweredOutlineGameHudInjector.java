@@ -2,8 +2,6 @@ package com.github.klyser8.earthbounds.mixin;
 
 import com.github.klyser8.earthbounds.Earthbounds;
 import com.github.klyser8.earthbounds.MixinCallbacks;
-import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.apace100.apoli.power.Power;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;

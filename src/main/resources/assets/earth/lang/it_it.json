@@ -171,5 +171,20 @@
   "itemGroup.earth.brewing": "Distillazione Earthbounds",
 
   "origin.earth.rubian.name": "Rubian",
-  "origin.earth.rubian.description": "Individui caricati da redstone. Necessitano di caricarsi con Redstone regolarmente, senza dover consumar cibo. Inoltre, sono in buoni termini con altre creature Rubian."
+  "origin.earth.rubian.description": "Individui caricati da redstone. Necessitano di caricarsi con Redstone regolarmente, senza dover consumar cibo. Inoltre, sono in buoni termini con altre creature Rubian.",
+
+  "power.earth.power_food_replacement.name": "Alimentato",
+  "power.earth.power_food_replacement.description": "Sei alimentato da cibi di Redstone, modificando i tuoi attributi in base al tuo livello di potenza.",
+  "power.earth.fall_resistance.name": "Resistenza alle Cadute",
+  "power.earth.fall_resistance.description": "Prendi 25% dei danni in meno da cadute.",
+  "power.earth.rubian_start.name": "Eredità Rubiana",
+  "power.earth.rubian_start.description": "Inizia l'avventura accompagnato da un Rubro Fossilizzato, 64 Redstone e 8 Redstone Primordiale.",
+  "power.earth.only_redstone_food.name": "Stomaco di Ferro",
+  "power.earth.only_redstone_food.description": "Puoi mangiare soltanto Cibo di Redstone.",
+  "power.earth.rubian_cuisine.name": "Cucina Rubiana",
+  "power.earth.rubian_cuisine.description": "Conosci ricette speciali per Cibo di Redstone.",
+  "power.earth.no_swimming.name": "Peso Massimo",
+  "power.earth.no_swimming.description": "Dato il tuo peso, non puoi nuotare in acqua.",
+  "power.earth.shoot_madder_buck.name": "Cartuccia Robbia",
+  "power.earth.shoot_madder_buck.description": "Al costo di 2 punti Redstone (Punti fame), puoi sparare una Cartuccia Robbia."
 }

@@ -1,6 +1,8 @@
 package com.github.klyser8.earthbounds.mixin;
 
+import com.github.klyser8.earthbounds.OriginsCallbacks;
 import com.github.klyser8.earthbounds.registry.EarthboundParticles;
+import net.fabricmc.loader.impl.FabricLoaderImpl;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.HungerManager;
@@ -23,12 +25,16 @@ public abstract class PlayerEntityInjector extends LivingEntity {
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void injectTick(CallbackInfo ci) {
-        if (world.isClient && getHungerManager().getSaturationLevel() >= 8
-                && age % (25 - ((int) getHungerManager().getSaturationLevel())) == 0) {
-            for (int i = 0; i < 5; i++) {
-                world.addParticle(EarthboundParticles.REDSTONE_CRACKLE,
-                        getParticleX(0.5), getRandomBodyY(), getParticleZ(0.5),
-                        0, 0, 0);
+        if (FabricLoaderImpl.INSTANCE.isModLoaded("origins")) {
+            if (OriginsCallbacks.isPlayerRubian((PlayerEntity) (Object) this)) {
+                if (world.isClient && getHungerManager().getSaturationLevel() >= 8
+                        && age % (25 - ((int) getHungerManager().getSaturationLevel())) == 0) {
+                    for (int i = 0; i < 5; i++) {
+                        world.addParticle(EarthboundParticles.REDSTONE_CRACKLE,
+                                getParticleX(0.5), getRandomBodyY(), getParticleZ(0.5),
+                                0, 0, 0);
+                    }
+                }
             }
         }
     }
