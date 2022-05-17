@@ -1058,13 +1058,6 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         @Override
         public void start() {
             BlockPos destination = pathDestination;
-            /*Entity entity = EntityType.MARKER.create(world);
-            if (entity != null) {
-                Vec3d pos = new Vec3d(destination.getX() + 0.5, destination.getY() + 1, destination.getZ() + 0.5);
-                entity.setPos(pos.x, pos.y, pos.z);
-                world.spawnEntity(entity);
-                getNavigation().startMovingTo(entity, 1.00f);
-            }*/
             if (destination != null) {
                 double x = destination.getX() + 0.5;
                 double y = destination.getY() + 2;
