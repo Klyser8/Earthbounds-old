@@ -186,6 +186,8 @@
   "power.earth.rubian_cuisine.description": "You've got access to special Redstone Food recipes.",
   "power.earth.no_swimming.name": "Dense Body",
   "power.earth.no_swimming.description": "Due to your weight, you are unable to swim.",
+  "power.earth.bound_to_earth.name": "Bound to Earth",
+  "power.earth.bound_to_earth.description": "You are weak to the Crumble Enchantment",
   "power.earth.shoot_madder_buck.name": "Madder Buck",
   "power.earth.shoot_madder_buck.description": "Using 2 redstone (hunger) points, you can shoot a Madder Buck."
 

@@ -1,0 +1,66 @@
+{
+  "type": "origins:multiple",
+  "increase_crumble_dmg1": {
+    "type": "origins:modify_damage_taken",
+    "damage_condition": {
+      "type": "origins:attacker",
+      "entity_condition": {
+        "type": "origins:equipped_item",
+        "equipment_slot": "mainhand",
+        "item_condition": {
+          "type": "origins:enchantment",
+          "enchantment": "earth:crumble",
+          "comparison": "==",
+          "compare_to": 1
+        }
+      }
+    },
+    "modifier": {
+      "name": "Vulnerable to Crumble",
+      "operation": "addition",
+      "value": 4.0
+    }
+  },
+  "increase_crumble_dmg2": {
+    "type": "origins:modify_damage_taken",
+    "damage_condition": {
+      "type": "origins:attacker",
+      "entity_condition": {
+        "type": "origins:equipped_item",
+        "equipment_slot": "mainhand",
+        "item_condition": {
+          "type": "origins:enchantment",
+          "enchantment": "earth:crumble",
+          "comparison": "==",
+          "compare_to": 2
+        }
+      }
+    },
+    "modifier": {
+      "name": "Vulnerable to Crumble",
+      "operation": "addition",
+      "value": 7.0
+    }
+  },
+  "increase_crumble_dmg3": {
+    "type": "origins:modify_damage_taken",
+    "damage_condition": {
+      "type": "origins:attacker",
+      "entity_condition": {
+        "type": "origins:equipped_item",
+        "equipment_slot": "mainhand",
+        "item_condition": {
+          "type": "origins:enchantment",
+          "enchantment": "earth:crumble",
+          "comparison": ">=",
+          "compare_to": 3
+        }
+      }
+    },
+    "modifier": {
+      "name": "Vulnerable to Crumble",
+      "operation": "addition",
+      "value": 9.0
+    }
+  }
+}

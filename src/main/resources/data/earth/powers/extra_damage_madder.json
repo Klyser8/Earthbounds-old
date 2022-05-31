@@ -1,0 +1,14 @@
+{
+  "type": "origins:modify_damage_dealt",
+  "hidden": true,
+  "target_condition": {
+    "type": "origins:status_effect",
+    "effect": "earth:rubia",
+    "min_amplifier": 0
+  },
+  "modifier": {
+    "name": "Extra damage by hitting mob with Rubia",
+    "operation": "multiply_total",
+    "value": 0.3
+  }
+}

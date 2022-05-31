@@ -20,7 +20,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.45,
+      "value": -0.46,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -34,7 +34,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.40,
+      "value": -0.42,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -48,7 +48,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.35,
+      "value": -0.38,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -62,7 +62,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.30,
+      "value": -0.34,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -76,7 +76,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.25,
+      "value": -0.30,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -90,7 +90,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.20,
+      "value": -0.26,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -104,7 +104,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.15,
+      "value": -0.22,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -118,7 +118,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.10,
+      "value": -0.18,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -132,7 +132,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": -0.05,
+      "value": -0.14,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -146,7 +146,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.0,
+      "value": -0.10,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -160,7 +160,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.04,
+      "value": -0.05,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -174,7 +174,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.08,
+      "value": 0.0,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -188,7 +188,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.12,
+      "value": 0.04,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -202,7 +202,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.16,
+      "value": 0.08,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -216,7 +216,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.20,
+      "value": 0.12,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -230,7 +230,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.24,
+      "value": 0.16,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,
@@ -244,7 +244,7 @@
     "modifier": {
       "attribute": "minecraft:generic.attack_damage",
       "operation": "multiply_total",
-      "value": 0.28,
+      "value": 0.20,
       "name": "Modified attack damage"
     },
     "tick_rate": 10,

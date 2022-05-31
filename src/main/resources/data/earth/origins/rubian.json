@@ -10,9 +10,11 @@
     "earth:only_redstone_food",
     "earth:rubian_cuisine",
     "earth:fall_resistance",
+    "earth:bound_to_earth",
     "earth:spawn_rubro",
     "earth:no_swimming",
-    "earth:shoot_madder_buck"
+    "earth:shoot_madder_buck",
+    "earth:extra_damage_madder"
   ],
   "icon": "earth:primordial_redstone",
   "impact": 3

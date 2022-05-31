@@ -3,6 +3,7 @@
   "hidden": true,
   "effects": [
     "minecraft:hunger",
-    "minecraft:saturation"
+    "minecraft:saturation",
+    "earth:rubia"
   ]
 }

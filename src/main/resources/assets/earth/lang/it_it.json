@@ -186,6 +186,8 @@
   "power.earth.rubian_cuisine.description": "Conosci ricette speciali per Cibo di Redstone.",
   "power.earth.no_swimming.name": "Peso Massimo",
   "power.earth.no_swimming.description": "Dato il tuo peso, non puoi nuotare in acqua.",
+  "power.earth.bound_to_earth.name": "Terrestre",
+  "power.earth.bound_to_earth.description": "Sei debole all'incantesimo Crollo",
   "power.earth.shoot_madder_buck.name": "Cartuccia Robbia",
-  "power.earth.shoot_madder_buck.description": "Al costo di 2 punti Redstone (Punti fame), puoi sparare una Cartuccia Robbia."
+  "power.earth.shoot_madder_buck.description": "Al costo di 2 punti Redstone (Punti fame), puoi sparare una Cartuccia Robbia. Creature colpite da essa prendono piu' danni da Rubian."
 }
