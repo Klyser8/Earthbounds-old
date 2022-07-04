@@ -150,6 +150,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         setMinPower(startPower);
         updatePower(startPower, true);
         setDeepslate(deepslate);
+        setPersistent();
         if (isDeepslate()) {
             createDeepslateAttributes();
         }
@@ -620,16 +621,6 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     @Override
     public int getSafeFallDistance() {
         return super.getSafeFallDistance() * 3;
-    }
-
-    @Override
-    public boolean cannotDespawn() {
-        return getOwner() != null;
-    }
-
-    @Override
-    public boolean canImmediatelyDespawn(double distanceSquared) {
-        return getOwner() == null;
     }
 
     @Nullable
