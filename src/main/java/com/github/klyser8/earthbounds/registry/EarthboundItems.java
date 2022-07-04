@@ -108,6 +108,7 @@ public class EarthboundItems {
     };
     public static final Item EARTHBOUNDS_ICON = new Item(new FabricItemSettings().rarity(Rarity.EPIC));
 
+
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON).fireproof(), true);
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
