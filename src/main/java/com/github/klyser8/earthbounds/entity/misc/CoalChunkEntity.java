@@ -41,7 +41,7 @@ public class CoalChunkEntity extends MobEntity implements Conductive, IAnimatabl
 
     private AnimationFactory factory = new AnimationFactory(this);
 
-    private static final TrackedData<Float> HEAT = DataTracker.registerData(CarboraneaEntity.class,
+    private static final TrackedData<Float> HEAT = DataTracker.registerData(CoalChunkEntity.class,
             TrackedDataHandlerRegistry.FLOAT);
     public static final int MAX_AGE = 1200;
     private final float scale;

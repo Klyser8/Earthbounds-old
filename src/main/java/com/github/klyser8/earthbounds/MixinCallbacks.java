@@ -47,18 +47,18 @@ public class MixinCallbacks {
         instance.playSound(null, posX, posY, posZ, soundEvent, soundCategory, volume, pitch);
     }
 
-    public static double calculatePosOffset(World world, BlockPos blockPos, Vec3d pos) {
+    public static float calculatePosOffset(World world, BlockPos blockPos, Vec3d pos) {
         BlockState state = world.getBlockState(blockPos);
         VoxelShape collisionShape = state.getOutlineShape(world, blockPos);
         if (world.isAir(blockPos)
                 || collisionShape.isEmpty()
                 || collisionShape.getBoundingBox().maxY > 0.2) {
             if (world.getBlockState(blockPos.offset(Direction.UP, 1)).isOf(Blocks.SOUL_SAND)) {
-                return pos.y;
+                return (float) pos.y;
             }
-            return pos.y - (double)0.2f;
+            return (float) (pos.y - 0.2f);
         } else {
-            return pos.y;
+            return (float) pos.y;
         }
     }
 

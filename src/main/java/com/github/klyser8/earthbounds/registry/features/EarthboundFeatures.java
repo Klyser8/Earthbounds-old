@@ -1,21 +1,24 @@
 package com.github.klyser8.earthbounds.registry.features;
 
-import com.github.klyser8.earthbounds.mixin.BiomeAccessor;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeature;
 import com.github.klyser8.earthbounds.world.features.coalden.CoalDenFeatureConfig;
 import com.github.klyser8.earthbounds.world.features.glowgrease.GlowGreaseFeature;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.minecraft.data.server.BiomeTagProvider;
+import net.minecraft.tag.BiomeTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.GlowLichenFeatureConfig;
 
 import static com.github.klyser8.earthbounds.Earthbounds.MOD_ID;
 
@@ -36,11 +39,7 @@ public class EarthboundFeatures {
     private static void handleBiomeModifications() {
         BiomeModifications.create(new Identifier(MOD_ID, "add_small_coal_den")).add(
                 ModificationPhase.ADDITIONS,
-                (context) -> {
-                    Biome.Category category = ((BiomeAccessor) (Object) context.getBiome()).invokeGetCategory();
-                    return category == Biome.Category.MOUNTAIN || category == Biome.Category.EXTREME_HILLS ||
-                            category == Biome.Category.SAVANNA ;
-                },
+                (context) -> context.hasTag(BiomeTags.IS_SAVANNA) || context.hasTag(BiomeTags.IS_MOUNTAIN),
                 (biomeSelectionContext, biomeModificationContext) -> biomeModificationContext.getGenerationSettings().
                         addBuiltInFeature(GenerationStep.Feature.LOCAL_MODIFICATIONS, EarthboundPlacedFeatures.SMALL_COAL_DEN));
 

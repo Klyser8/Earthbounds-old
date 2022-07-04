@@ -72,7 +72,7 @@ public class EarthboundConfiguredFeatures {
 
 
     //Discard on air chance = Chance that if the block is exposed to air, it is discarded.
-    static void register() {
+    public static void register() {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(Earthbounds.MOD_ID,
                 "redstone_fossil"), REDSTONE_FOSSIL);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier(Earthbounds.MOD_ID,

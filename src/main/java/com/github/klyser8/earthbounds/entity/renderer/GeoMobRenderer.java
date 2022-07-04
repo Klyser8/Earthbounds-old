@@ -32,7 +32,7 @@ public class GeoMobRenderer<T extends MobEntity & IAnimatable> extends GeoEntity
 
     @Override
     public Identifier getTexture(T entity) {
-        return this.getTextureLocation(entity);
+        return this.getTextureResource(entity);
     }
 
     @Override

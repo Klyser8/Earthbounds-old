@@ -17,9 +17,8 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class AmethystDust extends Item {
     public AmethystDust(Settings settings) {
@@ -64,7 +63,7 @@ public class AmethystDust extends Item {
             world.playSound(origin.x, origin.y, origin.z, SoundEvents.BLOCK_AMETHYST_CLUSTER_HIT,
                     SoundCategory.AMBIENT, 0.7f, 1.25f, true);
         } else if (isServer) {
-            ((ServerWorld) world).playSound(null, origin.x, origin.y, origin.z,
+            world.playSound(null, origin.x, origin.y, origin.z,
                     SoundEvents.BLOCK_AMETHYST_CLUSTER_HIT, SoundCategory.AMBIENT, 0.7f, 1.25f);
         }
     }

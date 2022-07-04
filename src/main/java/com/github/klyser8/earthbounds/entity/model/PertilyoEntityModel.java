@@ -18,7 +18,7 @@ public class PertilyoEntityModel extends EarthboundMobModel<PertilyoEntity> {
      * Pertilyo oxidizes further and further every 5 minutes
      */
     @Override
-    public Identifier getTextureLocation(PertilyoEntity entity) {
+    public Identifier getTextureResource(PertilyoEntity entity) {
         String suffix = "";
         switch (entity.getOxidizationLevel()) {
             case UNAFFECTED -> suffix = "_0";

@@ -8,23 +8,20 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 @Environment(value= EnvType.CLIENT)
 public class PertilyoFlyLoopSoundInstance extends MovingSoundInstance {
 
     private final PertilyoEntity pertilyo;
-    private final Random random;
     private float distance = 0.0f;
 
     public PertilyoFlyLoopSoundInstance(PertilyoEntity pertilyo) {
-        super(EarthboundSounds.PERTILYO_FLY_LOOP, SoundCategory.NEUTRAL);
-        this.random = new Random();
+        super(EarthboundSounds.PERTILYO_FLY_LOOP, SoundCategory.NEUTRAL, Random.create());
         this.repeat = true;
         this.repeatDelay = 0;
         this.volume = 0.1f;
-        this.pitch = 0.8f + random.nextFloat() / 5;
+        this.pitch = 0.8f + field_38800.nextFloat() / 5;
         this.pertilyo = pertilyo;
         this.x = pertilyo.getX();
         this.y = pertilyo.getY();

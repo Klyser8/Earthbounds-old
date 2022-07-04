@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
@@ -17,7 +18,6 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 //TODO replace glow lichen feature config with its own feature config
 public class GlowGreaseFeature extends Feature<DefaultFeatureConfig> {

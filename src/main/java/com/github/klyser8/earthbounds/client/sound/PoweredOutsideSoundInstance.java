@@ -10,23 +10,20 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 @Environment(value= EnvType.CLIENT)
 public class PoweredOutsideSoundInstance extends MovingSoundInstance {
 
     private final LivingEntity entity;
-    private final Random random;
     private float distance = 0.0f;
 
     public PoweredOutsideSoundInstance(LivingEntity entity) {
-        super(EarthboundSounds.ENTITY_ACTIVE_OUTSIDE, SoundCategory.HOSTILE);
-        this.random = new Random();
+        super(EarthboundSounds.ENTITY_ACTIVE_OUTSIDE, SoundCategory.HOSTILE, Random.create());
         this.repeat = true;
         this.repeatDelay = 200;
         this.volume = 1.25f;
-        this.pitch = 0.8f + random.nextFloat() / 5;
+        this.pitch = 0.8f + field_38800.nextFloat() / 5;
         this.entity = entity;
         this.x = entity.getX();
         this.y = entity.getY();

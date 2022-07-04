@@ -119,7 +119,7 @@ public class EarthboundPlacedFeatures {
     public static PlacedFeature SMALL_COAL_DEN =
             new PlacedFeature(RegistryEntry.of(
                     EarthboundConfiguredFeatures.SMALL_COAL_DEN), List.of(
-                    RarityFilterPlacementModifier.of(248),
+                    RarityFilterPlacementModifier.of(192),
                     SquarePlacementModifier.of(),
                     HeightmapPlacementModifier.of(Heightmap.Type.WORLD_SURFACE_WG),
                     EnvironmentScanPlacementModifier.of(Direction.DOWN, BlockPredicate.solid(), 1),
@@ -133,7 +133,7 @@ public class EarthboundPlacedFeatures {
                     SquarePlacementModifier.of(),
                     SurfaceThresholdFilterPlacementModifier.of(
                             Heightmap.Type.OCEAN_FLOOR_WG, Integer.MIN_VALUE, -13),
-                    RarityFilterPlacementModifier.of(3),
+                    RarityFilterPlacementModifier.of(2),
                     BiomePlacementModifier.of()
     ));
 

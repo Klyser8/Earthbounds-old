@@ -11,19 +11,16 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 @Environment(value= EnvType.CLIENT)
 public class PoweredInsideSoundInstance extends MovingSoundInstance {
 
     private final ClientPlayerEntity player;
-    private final Random random;
     private float distance = 0.0f;
 
     public PoweredInsideSoundInstance(ClientPlayerEntity entity) {
-        super(EarthboundSounds.ENTITY_ACTIVE_INSIDE, SoundCategory.AMBIENT);
-        this.random = new Random();
+        super(EarthboundSounds.ENTITY_ACTIVE_INSIDE, SoundCategory.AMBIENT, Random.create());
         this.repeat = true;
         this.repeatDelay = 0;
         this.volume = 0.75f;

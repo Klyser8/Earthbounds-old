@@ -8,17 +8,17 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 public class CoalChunkEntityModel extends AnimatedGeoModel<CoalChunkEntity> {
 
     @Override
-    public Identifier getModelLocation(CoalChunkEntity object) {
+    public Identifier getModelResource(CoalChunkEntity object) {
         return new Identifier(Earthbounds.MOD_ID, "geo/misc/coal.geo.json");
     }
 
     @Override
-    public Identifier getTextureLocation(CoalChunkEntity object) {
+    public Identifier getTextureResource(CoalChunkEntity object) {
         return new Identifier(Earthbounds.MOD_ID, "textures/entity/misc/coal.png");
     }
 
     @Override
-    public Identifier getAnimationFileLocation(CoalChunkEntity animatable) {
+    public Identifier getAnimationResource(CoalChunkEntity animatable) {
         return new Identifier(Earthbounds.MOD_ID, "animations/earth.coal_chunk.json");
     }
 

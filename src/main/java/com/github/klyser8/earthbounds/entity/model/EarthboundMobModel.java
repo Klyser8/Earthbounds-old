@@ -20,17 +20,17 @@ public class EarthboundMobModel<T extends Earthen> extends AnimatedGeoModel<T> {
     }
 
     @Override
-    public Identifier getModelLocation(Earthen object) {
+    public Identifier getModelResource(Earthen object) {
         return new Identifier(Earthbounds.MOD_ID, "geo/mob/" + entityKey + ".geo.json");
     }
 
     @Override
-    public Identifier getTextureLocation(Earthen object) {
+    public Identifier getTextureResource(Earthen object) {
         return new Identifier(Earthbounds.MOD_ID, "textures/entity/" + entityKey + "/" + entityKey + ".png");
     }
 
     @Override
-    public Identifier getAnimationFileLocation(Earthen animatable) {
+    public Identifier getAnimationResource(Earthen animatable) {
         return new Identifier(Earthbounds.MOD_ID, "animations/" + Earthbounds.MOD_ID + "." + entityKey + ".json");
     }
 

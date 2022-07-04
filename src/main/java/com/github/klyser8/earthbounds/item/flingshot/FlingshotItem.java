@@ -145,9 +145,9 @@ public class FlingshotItem extends EarthboundItem implements Vanishable {
                 projStack.setCount(0);
             }
         }
-        world.playSound(null, player.getX(), player.getY(), player.getZ(),
+        world.playSound(player.getX(), player.getY(), player.getZ(),
                 EarthboundSounds.FLINGSHOT_SHOOT, SoundCategory.PLAYERS,
-                1.0f, 1 + world.random.nextFloat() / 4.0f);
+                1.0f, 1 + world.random.nextFloat() / 4.0f, true);
         player.incrementStat(Stats.USED.getOrCreateStat(this));
     }
 

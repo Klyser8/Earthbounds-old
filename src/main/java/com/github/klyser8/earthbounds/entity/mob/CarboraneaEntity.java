@@ -450,7 +450,7 @@ public class CarboraneaEntity extends AnimalEarthenEntity implements Conductive,
     }
 
     @Override
-    public SoundEvent getBucketedSound() {
+    public SoundEvent getBucketFillSound() {
         return EarthboundSounds.CARBORANEA_BUCKET_FILL;
     }
 
@@ -501,7 +501,7 @@ public class CarboraneaEntity extends AnimalEarthenEntity implements Conductive,
             player.setStackInHand(hand, itemStack3);
             World world = carboranea.world;
             if (!world.isClient) {
-                world.playSound(null, carboranea.getBlockPos(), ((Bucketable) carboranea).getBucketedSound(),
+                world.playSound(null, carboranea.getBlockPos(), ((Bucketable) carboranea).getBucketFillSound(),
                         SoundCategory.NEUTRAL, 1.0f, 1.0f);
                 Criteria.FILLED_BUCKET.trigger((ServerPlayerEntity)player, itemStack2);
             }
@@ -570,7 +570,7 @@ public class CarboraneaEntity extends AnimalEarthenEntity implements Conductive,
          */
         @Override
         public boolean canStart() {
-            if (getRandom().nextInt(120) != 0 || isBaby()
+            if (random.nextInt(120) != 0 || isBaby()
                     || getCurrentHeat() > MAX_HEAT * 0.75
                     || Conductive.calculateHeatChangePerPeriod(world, getEyePos(), true) > 2.0f
                     || getNavigation().isFollowingPath()) {

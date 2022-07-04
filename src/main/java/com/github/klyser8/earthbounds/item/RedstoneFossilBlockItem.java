@@ -6,7 +6,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +25,6 @@ public class RedstoneFossilBlockItem extends BlockItem {
     }
 
     public MutableText getFlavorText() {
-        return new TranslatableText("block.earth.redstone_fossil.desc");
+        return MutableText.of(new TranslatableTextContent("block.earth.redstone_fossil.desc"));
     }
 }

@@ -18,7 +18,7 @@ public class RubroEntityModel extends EarthboundMobModel<RubroEntity> {
      * Rubros may have a deepslate variant.
      */
     @Override
-    public Identifier getTextureLocation(RubroEntity entity) {
+    public Identifier getTextureResource(RubroEntity entity) {
         String prefix = "";
         if (entity.isDeepslate()) {
             prefix = "deepslate_";

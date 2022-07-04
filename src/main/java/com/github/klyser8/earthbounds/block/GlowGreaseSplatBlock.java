@@ -1,22 +1,23 @@
 package com.github.klyser8.earthbounds.block;
 
 import com.github.klyser8.earthbounds.registry.EarthboundParticles;
-import net.minecraft.block.AbstractLichenBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LichenGrower;
+import net.minecraft.block.MultifaceGrowthBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.function.ToIntFunction;
 
-public class GlowGreaseSplatBlock extends AbstractLichenBlock {
+public class GlowGreaseSplatBlock extends MultifaceGrowthBlock {
 
     public GlowGreaseSplatBlock(Settings settings) {
         super(settings);
@@ -28,7 +29,6 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
      *
      * @param luminance luminance supplied when the lichen has at least one visible side
      * @apiNote The return value is meant to be passed to
-     * {@link AbstractBlock.Settings#luminance} builder method.
      */
     public static ToIntFunction<BlockState> getLuminanceSupplier(int luminance) {
         return state -> GlowGreaseSplatBlock.hasAnyDirection(state) ? luminance : 0;
@@ -53,6 +53,7 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
         }
     }
 
+
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         for (Direction dir : getDirections(state)) {
@@ -68,9 +69,14 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
         }
     }
 
-    private static boolean hasDirection(BlockState state, Direction direction) {
-        BooleanProperty booleanProperty = AbstractLichenBlock.getProperty(direction);
+    public static boolean hasDirection(BlockState state, Direction direction) {
+        BooleanProperty booleanProperty = MultifaceGrowthBlock.getProperty(direction);
         return state.contains(booleanProperty) && state.get(booleanProperty);
+    }
+
+    @Override
+    public LichenGrower getGrower() {
+        return null;
     }
 
     private List<Direction> getDirections(BlockState state) {

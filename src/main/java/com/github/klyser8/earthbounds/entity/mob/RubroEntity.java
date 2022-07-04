@@ -31,7 +31,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -43,8 +43,10 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TextContent;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -52,6 +54,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -150,6 +153,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         setMinPower(startPower);
         updatePower(startPower, true);
         setDeepslate(deepslate);
+        setPersistent();
         if (isDeepslate()) {
             createDeepslateAttributes();
         }
@@ -493,11 +497,12 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     }
 
     /**
+     * PROBABLY readSpawnPacket from 1.18
      * Plays a moving sound constantly from the moment the mob spawns, until it dies.
      */
     @Override
-    public void readFromPacket(MobSpawnS2CPacket packet) {
-        super.readFromPacket(packet);
+    public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+        super.onSpawnPacket(packet);
         PoweredOutsideSoundInstance.playSound(this);
     }
 
@@ -620,16 +625,6 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     @Override
     public int getSafeFallDistance() {
         return super.getSafeFallDistance() * 3;
-    }
-
-    @Override
-    public boolean cannotDespawn() {
-        return getOwner() != null;
-    }
-
-    @Override
-    public boolean canImmediatelyDespawn(double distanceSquared) {
-        return getOwner() == null;
     }
 
     @Nullable
@@ -957,7 +952,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
     public void onDeath(DamageSource source) {
         if (!this.world.isClient && this.world.getGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES)
                 && this.getOwner() instanceof ServerPlayerEntity) {
-            this.getOwner().sendSystemMessage(this.getDamageTracker().getDeathMessage(), Util.NIL_UUID);
+            this.getOwner().sendMessage(this.getDamageTracker().getDeathMessage(), false);
         }
         super.onDeath(source);
     }
@@ -1555,7 +1550,8 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
                 @Override
                 public Text getDeathMessage(LivingEntity entity) {
                     String string = "death.attack." + this.name + ".pounce";
-                    return new TranslatableText(string, entity.getDisplayName(), this.source.getDisplayName());
+                    return MutableText.of(
+                            new TranslatableTextContent(string, entity.getDisplayName(), this.source.getDisplayName()));
                 }
             };
             float damage = (float) getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
@@ -1625,7 +1621,8 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
                             @Override
                             public Text getDeathMessage(LivingEntity entity) {
                                 String string = "death.attack." + this.name + ".tail_spin";
-                                return new TranslatableText(string, entity.getDisplayName(), this.source.getDisplayName());
+                                return MutableText.of(new TranslatableTextContent(
+                                        string, entity.getDisplayName(), this.source.getDisplayName()));
                             }
                         };
                         float damage = (float) (getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE) * 0.5f);

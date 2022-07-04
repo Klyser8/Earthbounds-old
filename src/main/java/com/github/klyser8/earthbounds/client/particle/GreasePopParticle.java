@@ -20,7 +20,7 @@ public class GreasePopParticle extends AnimatedParticle {
         this.scale = 0.15f;
         this.setSpriteForAge(spriteProvider);
         this.collidesWithWorld = false;
-        this.maxAge = 14 + this.random.nextInt(2);
+        this.maxAge = 14 + random.nextInt(2);
         alpha = 0.55f;
     }
 

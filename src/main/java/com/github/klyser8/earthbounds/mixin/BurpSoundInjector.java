@@ -30,12 +30,12 @@ public abstract class BurpSoundInjector extends LivingEntity {
     public void eatRedstoneInjector(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (stack.getItem() instanceof RedstoneFoodItem redstone && redstone.getFoodComponent() != null
                 && redstone.getFoodComponent().getSaturationModifier() > 0 && hungerManager.getFoodLevel() == 20) {
-            world.playSound(null, getX(), getY(), getZ(), EarthboundSounds.ENTITY_CHARGE, SoundCategory.PLAYERS, 0.5f, world.random.nextFloat() * 0.1f + 0.9f);
+            world.playSound(null, getX(), getY(), getZ(), EarthboundSounds.ENTITY_CHARGE, SoundCategory.PLAYERS,
+                    0.5f, world.random.nextFloat() * 0.1f + 0.9f);
         }
     }
 
-    @ModifyArgs(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;" +
-            "DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"))
+    @ModifyArgs(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"))
     public void eatRedstoneArgModifier(Args args, World world, ItemStack stack) {
         if (stack.getItem() instanceof RedstoneFoodItem) {
             args.set(4, EarthboundSounds.ENTITY_EAT_REDSTONE);

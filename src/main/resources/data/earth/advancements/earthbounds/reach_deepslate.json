@@ -19,14 +19,15 @@
     "requirement": {
       "trigger": "minecraft:location",
       "conditions": {
-        "location": {
-          "position": {
-            "y": {
-              "min": -64,
-              "max": 4
+        "player": {
+          "location": {
+            "position": {
+              "y": {
+                "min": -64,
+                "max": 2
+              }
             }
-          },
-          "dimension": "minecraft:overworld"
+          }
         }
       }
     }

@@ -20,7 +20,7 @@ public class RedstoneCrackleParticle extends AnimatedParticle {
         this.scale = 0.15f;
         this.setSpriteForAge(spriteProvider);
         this.collidesWithWorld = false;
-        this.maxAge = 10 + this.random.nextInt(2);
+        this.maxAge = 10 + random.nextInt(2);
         green = 0;
         blue = 0;
         red = 0.8f;

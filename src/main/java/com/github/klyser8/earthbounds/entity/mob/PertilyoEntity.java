@@ -30,7 +30,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -38,6 +38,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -50,7 +51,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
 
@@ -244,11 +244,13 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
     }
 
     /**
+     * MIGHT BE readSpawnPacket() from 1.18
+     *
      * Plays a moving sound constantly from the moment the mob spawns, until it dies.
      */
     @Override
-    public void readFromPacket(MobSpawnS2CPacket packet) {
-        super.readFromPacket(packet);
+    public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+        super.onSpawnPacket(packet);
         PertilyoFlyLoopSoundInstance.playSound(this);
     }
 
@@ -428,6 +430,8 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
         }
         return false;
     }
+
+
 
     @Override
     protected EntityNavigation createNavigation(World world) {

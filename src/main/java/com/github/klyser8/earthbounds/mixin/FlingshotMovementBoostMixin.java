@@ -7,6 +7,8 @@ import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.network.encryption.PlayerPublicKey;
+import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,8 +21,8 @@ public abstract class FlingshotMovementBoostMixin extends AbstractClientPlayerEn
 
     @Shadow public Input input;
 
-    public FlingshotMovementBoostMixin(ClientWorld world, GameProfile profile) {
-        super(world, profile);
+    public FlingshotMovementBoostMixin(ClientWorld world, GameProfile profile, @Nullable PlayerPublicKey publicKey) {
+        super(world, profile, publicKey);
     }
 
     @Inject(method = "tickMovement", at = @At(value = "FIELD", target =

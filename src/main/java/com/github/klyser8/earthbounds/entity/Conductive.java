@@ -1,11 +1,15 @@
 package com.github.klyser8.earthbounds.entity;
 
-import com.github.klyser8.earthbounds.mixin.BiomeAccessor;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
 import net.minecraft.block.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 
 /**
  * A conductive entity is one which may have a varying temperature based on its environment and state.
@@ -33,13 +37,13 @@ public interface Conductive {
         float change = 0;
         BlockPos blockOrigin = new BlockPos(origin);
         if (!ignoreEnvironment) {
+            RegistryEntry<Biome> biomeEntry = world.getBiomeAccess().getBiome(blockOrigin);
             Biome biome = world.getBiomeAccess().getBiome(blockOrigin).value();
-            BiomeAccessor accessedBiome = ((BiomeAccessor) (Object) biome);
             if (biome == null) {
                 change -= 0.5f;
             } else {
                 change += (biome.getTemperature() - 1.2) / 3.0f; //Lowest temperature is 0.15 (0.0015), highest is 2 (0.02).
-                if (accessedBiome.invokeGetCategory() == Biome.Category.NETHER) {
+                if (NetherBiomes.canGenerateInNether(biomeEntry.getKey().orElseThrow())) {
                     change += 0.75;
                 }
             }

@@ -15,19 +15,16 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class RedstoneFossilBlock extends RedstoneOreBlock {
 
     protected long lastSoundTime = 0;
-    private final Random random;
 
     public RedstoneFossilBlock(Settings settings) {
         super(settings);
-        this.random = new Random();
     }
 
     @Override
@@ -74,7 +71,7 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
             world.spawnEntity(rubro);
             rubro.initializeFossil(isFossilOfDeepslate(state), maskType, -440 - world.random.nextInt(200), player);
             world.playSound(null, pos, EarthboundSounds.ENTITY_EAT_REDSTONE,
-                    SoundCategory.NEUTRAL, 0.5f, 1.4f + random.nextFloat() / 5);
+                    SoundCategory.NEUTRAL, 0.5f, 1.4f + world.random.nextFloat() / 5);
         }
         if (player instanceof ServerPlayerEntity serverPlayer) {
             EarthboundsAdvancementCriteria.BREAK_REDSTONE_FOSSIL.trigger(serverPlayer, world.getBlockState(pos));
@@ -86,6 +83,13 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
         return true;
     }
 
+    /**
+     * MIGHT BE randomDisplayTick (1.18)
+     * @param state
+     * @param world
+     * @param pos
+     * @param random
+     */
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
@@ -99,19 +103,21 @@ public class RedstoneFossilBlock extends RedstoneOreBlock {
         }
     }
 
+
+
     private void playCrackleParticles(BlockPos pos, World world) {
-        int amount = random.nextInt(3) + 2;
+        int amount = world.random.nextInt(3) + 2;
         for (int i = 0; i < amount; i++) {
             for (Direction direction : Direction.values()) {
                 BlockPos blockPos = pos.offset(direction);
                 if (world.getBlockState(blockPos).isOpaqueFullCube(world, blockPos)) continue;
                 Direction.Axis axis = direction.getAxis();
                 double e = axis == Direction.Axis.X ? 0.5 + 0.5625 *
-                        (double) direction.getOffsetX() : (double) random.nextFloat();
+                        direction.getOffsetX() : world.random.nextDouble();
                 double f = axis == Direction.Axis.Y ? 0.5 + 0.5625 *
-                        (double) direction.getOffsetY() : (double) random.nextFloat();
+                        direction.getOffsetY() : world.random.nextDouble();
                 double g = axis == Direction.Axis.Z ? 0.5 + 0.5625 *
-                        (double) direction.getOffsetZ() : (double) random.nextFloat();
+                        direction.getOffsetZ() : world.random.nextDouble();
                 world.addParticle(EarthboundParticles.REDSTONE_CRACKLE,
                         (double) pos.getX() + e,
                         (double) pos.getY() + f,
