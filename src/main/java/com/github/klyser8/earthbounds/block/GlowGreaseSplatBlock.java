@@ -28,7 +28,7 @@ public class GlowGreaseSplatBlock extends AbstractLichenBlock {
      *
      * @param luminance luminance supplied when the lichen has at least one visible side
      * @apiNote The return value is meant to be passed to
-     * {@link AbstractBlock.Settings#luminance} builder method.
+     * {@link net.minecraft.block.AbstractBlock.Settings#luminance} builder method.
      */
     public static ToIntFunction<BlockState> getLuminanceSupplier(int luminance) {
         return state -> GlowGreaseSplatBlock.hasAnyDirection(state) ? luminance : 0;

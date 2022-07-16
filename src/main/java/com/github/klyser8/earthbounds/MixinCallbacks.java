@@ -47,20 +47,30 @@ public class MixinCallbacks {
         instance.playSound(null, posX, posY, posZ, soundEvent, soundCategory, volume, pitch);
     }
 
-    public static double calculatePosOffset(World world, BlockPos blockPos, Vec3d pos) {
-        BlockState state = world.getBlockState(blockPos);
-        VoxelShape collisionShape = state.getOutlineShape(world, blockPos);
-        if (world.isAir(blockPos)
-                || collisionShape.isEmpty()
-                || collisionShape.getBoundingBox().maxY > 0.2) {
-            if (world.getBlockState(blockPos.offset(Direction.UP, 1)).isOf(Blocks.SOUL_SAND)) {
-                return pos.y;
-            }
-            return pos.y - (double)0.2f;
-        } else {
-            return pos.y;
+    public static float calculateLandOffset(World world, Vec3d entityPos) {
+        BlockPos entityBlockPos = new BlockPos(entityPos);
+        BlockState state = world.getBlockState(entityBlockPos);
+        VoxelShape collisionShape = state.getOutlineShape(world, entityBlockPos);
+        if (!world.isAir(entityBlockPos)
+                && !collisionShape.isEmpty()
+                && collisionShape.getBoundingBox().maxY < 0.2) {
+            return 0;
         }
+        return 0.2f;
     }
+
+    public static float calculateSprintOffset(World world, Vec3d entityPos) {
+        BlockPos entityBlockPos = new BlockPos(entityPos);
+        BlockState state = world.getBlockState(entityBlockPos);
+        VoxelShape collisionShape = state.getOutlineShape(world, entityBlockPos);
+        if (!world.isAir(entityBlockPos)
+                && !collisionShape.isEmpty()
+                && collisionShape.getBoundingBox().maxY < 0.2) {
+            return (float) entityPos.y;
+        }
+        return (float) (entityPos.y - 0.2f);
+    }
+
 
     public static void calculateVelocityAffectingPos(Vec3d pos, Box box, World world,
                                                      CallbackInfoReturnable<BlockPos> cir) {
