@@ -9,12 +9,12 @@
     "description": {
       "translate": "advancement.earth.pertilyo_struck_by_lightning.desc"
     },
-    "frame": "goal",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "earth:earthbounds/enter_grease_splat",
+  "parent": "earth:earthbounds/obtain_pertilyo_fragment",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:lightning_strike",
@@ -32,5 +32,8 @@
         }
       }
     }
+  },
+  "rewards": {
+    "experience": 75
   }
 }

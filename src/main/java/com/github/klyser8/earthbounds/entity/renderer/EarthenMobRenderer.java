@@ -15,7 +15,7 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class EarthenMobRenderer<T extends MobEntity & IAnimatable & Earthen> extends GeoMobRenderer<T>{
+public class EarthenMobRenderer<T extends MobEntity & Earthen> extends GeoMobRenderer<T>{
 
     protected EarthenMobRenderer(EntityRendererFactory.Context ctx, AnimatedGeoModel<T> modelProvider) {
         super(ctx, modelProvider);

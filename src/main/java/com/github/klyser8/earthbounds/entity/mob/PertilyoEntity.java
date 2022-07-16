@@ -87,6 +87,7 @@ public class PertilyoEntity extends PathAwareEarthenEntity implements Earthen {
         super(entityType, world);
         moveControl = new FlightMoveControl(this, 20, true);
         navigation = createNavigation(world);
+        experiencePoints = 5;
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {

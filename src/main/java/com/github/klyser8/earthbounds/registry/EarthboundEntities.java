@@ -80,6 +80,11 @@ public class EarthboundEntities {
             FabricEntityTypeBuilder.<FlingingPotionEntity>create(SpawnGroup.MISC, FlingingPotionEntity::new)
                     .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
                     .trackRangeBlocks(256).trackedUpdateRate(1).build());
+    public static final EntityType<BottledRubiaEntity> BOTTLED_RUBIA = Registry.register(Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "bottled_rubia"),
+            FabricEntityTypeBuilder.<BottledRubiaEntity>create(SpawnGroup.MISC, BottledRubiaEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.25f, 0.25f))
+                    .trackRangeBlocks(256).trackedUpdateRate(1).build());
 
     public static void register() {
         Registry.register(Registry.ENTITY_TYPE,
@@ -93,7 +98,7 @@ public class EarthboundEntities {
         BiomeModifications.addSpawn(BiomeSelectors.all(),
                 SpawnGroup.AMBIENT, EarthboundEntities.RUBRO, 36, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.includeByKey(BiomeKeys.DRIPSTONE_CAVES),
-                SpawnGroup.AMBIENT, EarthboundEntities.PERTILYO, 20, 1, 1);
+                SpawnGroup.AMBIENT, EarthboundEntities.PERTILYO, 28, 1, 1);
     }
 
     public static void registerRenderers() {

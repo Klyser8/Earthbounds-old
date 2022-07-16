@@ -82,7 +82,7 @@ public class CarboraneaEntity extends AnimalEarthenEntity implements Conductive,
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0F);
         maxCoals = random.nextBoolean() ? 3 : random.nextBoolean() ? 6 : 9;
-
+        experiencePoints = 3;
     }
 
     @Override

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " CP",
+    "CPC",
+    "PC "
+  ],
+  "key": {
+    "P": {
+      "item": "earth:pertilyo_fragment"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "earth:pertilyo_rod",
+    "count": 1
+  }
+}

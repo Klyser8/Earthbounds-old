@@ -15,6 +15,7 @@ import net.minecraft.client.recipebook.RecipeBookGroup;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -29,6 +30,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.List;
 
@@ -47,19 +49,28 @@ public class MixinCallbacks {
         instance.playSound(null, posX, posY, posZ, soundEvent, soundCategory, volume, pitch);
     }
 
-    public static float calculatePosOffset(World world, BlockPos blockPos, Vec3d pos) {
-        BlockState state = world.getBlockState(blockPos);
-        VoxelShape collisionShape = state.getOutlineShape(world, blockPos);
-        if (world.isAir(blockPos)
-                || collisionShape.isEmpty()
-                || collisionShape.getBoundingBox().maxY > 0.2) {
-            if (world.getBlockState(blockPos.offset(Direction.UP, 1)).isOf(Blocks.SOUL_SAND)) {
-                return (float) pos.y;
-            }
-            return (float) (pos.y - 0.2f);
-        } else {
-            return (float) pos.y;
+    public static float calculateLandOffset(World world, Vec3d entityPos) {
+        BlockPos entityBlockPos = new BlockPos(entityPos);
+        BlockState state = world.getBlockState(entityBlockPos);
+        VoxelShape collisionShape = state.getOutlineShape(world, entityBlockPos);
+        if (!world.isAir(entityBlockPos)
+                && !collisionShape.isEmpty()
+                && collisionShape.getBoundingBox().maxY < 0.2) {
+            return 0;
         }
+        return 0.2f;
+    }
+
+    public static float calculateSprintOffset(World world, Vec3d entityPos) {
+        BlockPos entityBlockPos = new BlockPos(entityPos);
+        BlockState state = world.getBlockState(entityBlockPos);
+        VoxelShape collisionShape = state.getOutlineShape(world, entityBlockPos);
+        if (!world.isAir(entityBlockPos)
+                && !collisionShape.isEmpty()
+                && collisionShape.getBoundingBox().maxY < 0.2) {
+            return (float) entityPos.y;
+        }
+        return (float) (entityPos.y - 0.2f);
     }
 
     public static void calculateVelocityAffectingPos(Vec3d pos, Box box, World world,
@@ -151,6 +162,14 @@ public class MixinCallbacks {
             return false;
         }
         return OriginsCallbacks.shouldRenderPowerOutline(player);
+    }
+
+    public static void calculatePickaxeDamage(Args args, ItemStack stack, LivingEntity target) {
+        if (stack.getItem() instanceof PickaxeItem) {
+            if (target instanceof Earthen) {
+                args.set(0, 1);
+            }
+        }
     }
 
 }

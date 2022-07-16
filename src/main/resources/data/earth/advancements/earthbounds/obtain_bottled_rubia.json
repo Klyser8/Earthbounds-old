@@ -1,19 +1,20 @@
 {
   "display": {
     "icon": {
-      "item": "earth:flingshot"
+      "item": "earth:bottled_rubia"
     },
     "title": {
-      "translate": "advancement.earth.obtain_flingshot.title"
+      "translate": "advancement.earth.obtain_bottled_rubia.title"
     },
     "description": {
-      "translate": "advancement.earth.obtain_flingshot.desc"
+      "translate": "advancement.earth.obtain_bottled_rubia.desc"
     },
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": true
+    "announce_to_chat": true,
+    "hidden": false
   },
-  "parent": "earth:earthbounds/obtain_pertilyo_fragment",
+  "parent": "earth:earthbounds/feed_rubro",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
@@ -21,7 +22,7 @@
         "items": [
           {
             "items": [
-              "earth:flingshot"
+              "earth:bottled_rubia"
             ]
           }
         ]

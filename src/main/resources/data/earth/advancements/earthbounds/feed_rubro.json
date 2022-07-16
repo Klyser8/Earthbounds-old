@@ -24,16 +24,7 @@
             "minecraft:redstone",
             "minecraft:redstone_block",
             "earth:primordial_redstone",
-            "earth:cobbled_pebble",
-            "earth:andesite_pebble",
-            "earth:diorite_pebble",
-            "earth:granite_pebble",
-            "earth:deepslate_pebble",
-            "earth:redstone_pebble",
-            "earth:powered_beetroot",
-            "earth:red_brick",
-            "earth:blushed_flints",
-            "earth:crimson_quartz"
+            "earth:powered_beetroot"
           ],
           "count": {
             "min": 1,

@@ -105,7 +105,7 @@ public class MadderBuckEntity extends BuckEntity {
                 if (entity == hitEntity) {
                     durationMultiplier = 1.0;
                 }
-                int duration = (int) (durationMultiplier * 600 + 0.5);
+                int duration = (int) (durationMultiplier * 1800 + 0.5);
                 if (duration <= 20) continue;
                 StatusEffectInstance statusEffect = new StatusEffectInstance(EarthboundStatusEffects.RUBIA, duration, 0);
                 if (!entity.canHaveStatusEffect(statusEffect)) {

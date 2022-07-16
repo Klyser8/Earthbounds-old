@@ -34,9 +34,9 @@ public class LootTableLoadingEventHandler {
             if (id.equals(LootTables.ABANDONED_MINESHAFT_CHEST)) {
                 LootPool poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .with(ItemEntry.builder(EarthboundItems.PERTILYO_ROD))
+                        .with(ItemEntry.builder(EarthboundItems.PERTILYO_FRAGMENT))
                         .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1)).build())
-                        .conditionally(RandomChanceLootCondition.builder(0.066f).build()).build();
+                        .conditionally(RandomChanceLootCondition.builder(0.2f).build()).build();
                 supplier.pool(poolBuilder);
             }
         });

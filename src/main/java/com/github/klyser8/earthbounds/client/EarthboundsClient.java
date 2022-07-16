@@ -35,6 +35,7 @@ public class EarthboundsClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(EarthboundEntities.GLOW_GREASE, GlowGreaseDropEntityRenderer::new);
         EntityRendererRegistry.register(EarthboundEntities.FLINGING_POTION, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(EarthboundEntities.BOTTLED_RUBIA, FlyingItemEntityRenderer::new);
         registerModelPredicates();
     }
 
