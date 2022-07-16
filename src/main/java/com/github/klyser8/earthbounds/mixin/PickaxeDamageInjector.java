@@ -23,5 +23,4 @@ public abstract class PickaxeDamageInjector extends ToolItem {
     public void calculateToolDamage(Args args, ItemStack stack, LivingEntity target, LivingEntity attacker) {
         MixinCallbacks.calculatePickaxeDamage(args, stack, target);
     }
-
 }
