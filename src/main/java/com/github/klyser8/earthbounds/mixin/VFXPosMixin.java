@@ -24,12 +24,12 @@ public abstract class VFXPosMixin {
     @ModifyArg(method = "spawnSprintingParticles", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;floor(D)I", ordinal = 1))
     private double spawnCorrectSprintingParticles(double y) {
-        return MixinCallbacks.calculateSprintOffset(world, getPos());
+        return MixinCallbacks.calculatePosOffset(world, getPos());
     }
 
     @ModifyArg(method = "getLandingPos", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;floor(D)I", ordinal = 1))
     private double getLandingPos(double value) {
-        return MixinCallbacks.calculateLandOffset(world, getPos());
+        return MixinCallbacks.calculatePosOffset(world, getPos());
     }
 }

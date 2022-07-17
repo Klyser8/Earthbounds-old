@@ -43,9 +43,9 @@ public class LootTableLoadingEventHandler {
             if (id.equals(LootTables.ABANDONED_MINESHAFT_CHEST)) {
                 FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder()
                         .rolls(ConstantLootNumberProvider.create(1))
-                        .with(ItemEntry.builder(EarthboundItems.PERTILYO_ROD))
+                        .with(ItemEntry.builder(EarthboundItems.PERTILYO_FRAGMENT))
                         .withFunction(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1)).build())
-                        .withCondition(RandomChanceLootCondition.builder(0.066f).build());
+                        .withCondition(RandomChanceLootCondition.builder(0.2f).build());
                 supplier.pool(poolBuilder);
             }
         });

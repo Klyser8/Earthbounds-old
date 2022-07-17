@@ -20,7 +20,8 @@
       "trigger": "minecraft:tick",
       "conditions": {
         "player": {
-          "player": {
+          "type_specific": {
+            "type": "player",
             "looking_at": {
               "type": "earth:carboranea"
             }

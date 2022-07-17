@@ -16,6 +16,7 @@
     "FlingshotMovementBoostMixin",
     "LightningResistanceMixin",
     "NauseaStatusEffectColorMixin",
+    "PickaxeDamageInjector",
     "PlayerEntityInjector",
     "PoweredOutlineGameHudInjector",
     "RecipeBookGroupInjector",

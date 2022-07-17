@@ -108,7 +108,7 @@ public class EarthboundItems {
     };
     public static final Item EARTHBOUNDS_ICON = new Item(new FabricItemSettings().rarity(Rarity.EPIC));
 
-
+    public static final Item PERTILYO_FRAGMENT = new EarthboundItem(new FabricItemSettings().group(EarthboundItemGroup.MISC).fireproof(), true);
     public static final Item PERTILYO_ROD = new EarthboundItem((new Item.Settings()).group(EarthboundItemGroup.MISC).rarity(Rarity.UNCOMMON).fireproof(), true);
     public static final Item CARBORANEA_BUCKET = new EntityBucketItem(EarthboundEntities.CARBORANEA,
             Fluids.LAVA, EarthboundSounds.CARBORANEA_BUCKET_EMPTY, new Item.Settings().maxCount(1).group(EarthboundItemGroup.MISC));
@@ -121,6 +121,7 @@ public class EarthboundItems {
     public static final Item COPPER_BUCK = new BuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32), EarthboundEntities.COPPER_BUCK);
     public static final Item MADDER_BUCK = new BuckItem(new Item.Settings().group(EarthboundItemGroup.COMBAT).maxCount(32), EarthboundEntities.MADDER_BUCK);
     public static final Item PRIMORDIAL_REDSTONE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON).food(EarthboundFoodComponents.PRIMORDIAL_REDSTONE), 32);
+    public static final Item BOTTLED_RUBIA = new BottledRubiaItem(new Item.Settings().group(EarthboundItemGroup.MISC).maxCount(4));
     public static final Item POWERED_BEETROOT = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON).food(EarthboundFoodComponents.POWERED_BEETROOT), 32);
     public static Item COBBLED_PEBBLE;
     public static Item ANDESITE_PEBBLE;
@@ -142,6 +143,7 @@ public class EarthboundItems {
     public static void register() {
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "debug_item"), DEBUG_ITEM);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "earthbounds_icon"), EARTHBOUNDS_ICON);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_fragment"), PERTILYO_FRAGMENT);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "pertilyo_rod"), PERTILYO_ROD);
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "carboranea_bucket"), CARBORANEA_BUCKET);
@@ -167,6 +169,7 @@ public class EarthboundItems {
         Registry.register(Registry.ITEM,
                 new Identifier(Earthbounds.MOD_ID, "pertilyo_spawn_egg"), PERTILYO_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "primordial_redstone"), PRIMORDIAL_REDSTONE);
+        Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "bottled_rubia"), BOTTLED_RUBIA);
         Registry.register(Registry.ITEM, new Identifier(Earthbounds.MOD_ID, "powered_beetroot"), POWERED_BEETROOT);
         if (FabricLoaderImpl.INSTANCE.isModLoaded("origins")) {
             COBBLED_PEBBLE = new RedstoneFoodItem(new Item.Settings().group(EarthboundItemGroup.MISC).rarity(Rarity.COMMON)

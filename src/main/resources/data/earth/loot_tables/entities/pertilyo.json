@@ -98,11 +98,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "earth:pertilyo_rod",
+          "name": "earth:pertilyo_fragment",
           "conditions": [
             {
               "condition": "minecraft:random_chance",
-              "chance": 0.1
+              "chance": 0.5
             }
           ]
         }

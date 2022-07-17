@@ -123,6 +123,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
         this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
         this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0F);
+        experiencePoints = 12;
     }
 
     @Nullable
@@ -253,7 +254,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
 
     public static DefaultAttributeContainer.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.5D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25D)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK)
@@ -327,7 +328,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
      */
     @SuppressWarnings("ConstantConditions")
     private void createDeepslateAttributes() {
-        getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(4.5);
+        getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
         getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(25);
         getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.23);
         getAttributeInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(15);
@@ -536,6 +537,15 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         boolean isStackRedstone = false;
         int powIncrease = 0;
         float healAmount = 0;
+        if (stack.isOf(Items.GLASS_BOTTLE) && getPower() > 40) {
+            updatePower(getPower() - 40, false);
+            if (!player.getAbilities().creativeMode) {
+                stack.decrement(1);
+            }
+            playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 0.5f, 1.5f);
+            player.giveItemStack(new ItemStack(EarthboundItems.BOTTLED_RUBIA));
+            return ActionResult.success(true);
+        }
         if (stack.isOf(Items.REDSTONE)) {
             powIncrease = 1;
             isStackRedstone = true;
@@ -838,7 +848,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         instance.removeModifier(POWER_DAMAGE_BOOST_ID);
         instance.addTemporaryModifier(
                 new EntityAttributeModifier(POWER_DAMAGE_BOOST_ID, "power_damage_boost",
-                        Math.max(1, (1 + getPower() / 150.0)), EntityAttributeModifier.Operation.MULTIPLY_BASE));
+                        Math.max(1, (1 + getPower() / 200.0)), EntityAttributeModifier.Operation.MULTIPLY_BASE));
 
         instance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         instance.removeModifier(POWER_SPEED_BOOST_ID);
@@ -850,7 +860,7 @@ public class RubroEntity extends PathAwareEarthenEntity implements Tameable {
         instance.removeModifier(POWER_FOLLOW_RANGE_ID);
         instance.addTemporaryModifier(
                 new EntityAttributeModifier(POWER_FOLLOW_RANGE_ID, "power_follow_range",
-                        getPower() / 80.0, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+                        getPower() / 110.0, EntityAttributeModifier.Operation.MULTIPLY_BASE));
 
     }
 

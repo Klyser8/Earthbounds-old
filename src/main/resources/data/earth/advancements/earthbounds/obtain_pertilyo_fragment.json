@@ -1,19 +1,19 @@
 {
   "display": {
     "icon": {
-      "item": "earth:flingshot"
+      "item": "earth:pertilyo_fragment"
     },
     "title": {
-      "translate": "advancement.earth.obtain_flingshot.title"
+      "translate": "advancement.earth.obtain_pertilyo_fragment.title"
     },
     "description": {
-      "translate": "advancement.earth.obtain_flingshot.desc"
+      "translate": "advancement.earth.obtain_pertilyo_fragment.desc"
     },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true
   },
-  "parent": "earth:earthbounds/obtain_pertilyo_fragment",
+  "parent": "earth:earthbounds/enter_grease_splat",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:inventory_changed",
@@ -21,7 +21,7 @@
         "items": [
           {
             "items": [
-              "earth:flingshot"
+              "earth:pertilyo_fragment"
             ]
           }
         ]
